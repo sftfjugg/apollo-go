@@ -1,0 +1,15 @@
+app:
+  name: admin-service
+db:
+  url:   "root:980207@tcp(47.100.13.76:3306)/ApolloConfigDB?charset=utf8mb4&parseTime=True&loc=Local"
+  debug: true
+log:
+  filename:  logs/server.log
+  maxSize: 500
+  maxBackups: 3
+  maxAge: 3
+  level: "debug"
+  stdout: true
+http:
+  port: 9100
+  mode: release

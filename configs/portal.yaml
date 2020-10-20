@@ -1,0 +1,20 @@
+app:
+  name: portal
+db:
+  url:   "root:980207@tcp(47.100.13.76:3306)/ApolloConfigDB?charset=utf8mb4&parseTime=True&loc=Local"
+  debug: true
+log:
+  filename:  logs/server.log
+  maxSize: 500
+  maxBackups: 3
+  maxAge: 3
+  level: "debug"
+  stdout: true
+http:
+  port: 9200
+  mode: release
+meta:
+  TEST: http://10.10.30.74:9090
+  ALIYUN: http://10.10.30.74:9090
+  ONLINE: http://10.10.30.74:9090
+  M6V: http://10.10.30.74:9090
