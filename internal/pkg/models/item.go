@@ -13,7 +13,7 @@ type Item struct {
 	Status                    uint64    `gorm:"column:Status" json:"status" from:"status"`
 	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
 	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"`
-	IsDeleted                 bool      `gorm:"column:IsDeleted" json:"-" form:"is_deleted"`
+	IsDeleted                 bool      `gorm:"column:IsDeleted" json:"-"`
 	DataChange_CreatedBy      string    `gorm:"column:DataChange_CreatedBy" json:"data_change_created_by" form:"data_change_created_by"`
 	DataChange_LastModifiedBy string    `gorm:"column:DataChange_LastModifiedBy" json:"data_change_last_modified_by" form:"data_change_last_modified_by"`
 	DataChange_CreatedTime    time.Time `gorm:"column:DataChange_CreatedTime" json:"data_change_created_time" form:"data_change_created_time"`

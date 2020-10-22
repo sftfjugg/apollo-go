@@ -58,5 +58,9 @@ func (s AddressService) GetAddress(name string, metas []string) {
 	}
 	m := single_queue.GetV()
 	m[name] = address
-	fmt.Println("ip list update" + name)
+	add, err := json.Marshal(address)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("ip list update" + name + string(add))
 }

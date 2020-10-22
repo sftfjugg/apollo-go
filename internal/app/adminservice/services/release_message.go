@@ -43,7 +43,7 @@ func (s releaseMessageService) Create(name, appId, clusterName, comment, namespa
 	release.AppId = appId
 	release.Comment = comment
 	release.ClusterName = clusterName
-	release.Name = time.Now().String() + name
+	release.ReleaseKey = time.Now().String() + name
 	release.DataChange_CreatedTime = time.Now()
 	release.DataChange_LastTime = time.Now()
 	configurations, err := s.FindConfig(namespaceId)

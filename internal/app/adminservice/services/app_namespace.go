@@ -10,14 +10,18 @@ import (
 
 type AppNamespaceService interface {
 	Create(appNamespace *models.AppNamespace) error
+	CreateByRelated(appNamespace *models.AppNamespace, items []*models.Item, clusterName, appId string) error
 	DeleteById(id string) error
 	Update(appNamespace *models.AppNamespace) error
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
+	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
 }
 
 type appNamespaceService struct {
-	db         *gorm.DB
-	repository repositories.AppNamespaceRepository
+	db             *gorm.DB
+	repository     repositories.AppNamespaceRepository
+	itemRepository repositories.ItemRepisitory
+	itemService    ItemService
 }
 
 func NewAppNamespaceService(
@@ -31,12 +35,44 @@ func NewAppNamespaceService(
 }
 
 func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
+	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName(appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name)
+	if err != nil {
+		return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+	}
+	if app.Name != "" {
+		return errors.New("name alrealy exists")
+	}
 	db := s.db.Begin()
-	appNamespace.DataChange_LastTime = time.Now()
-	appNamespace.DataChange_CreatedTime = time.Now()
 	if err := s.repository.Create(db, appNamespace); err != nil {
 		db.Rollback()
-		return errors.Wrap(err, "call appNamespaceService.Create() error")
+		return errors.Wrap(err, "call AppNamespaceRepository.Create() error")
+	}
+	db.Commit()
+	return nil
+}
+func (s appNamespaceService) CreateByRelated(appNamespace *models.AppNamespace, items []*models.Item, clusterName, appId string) error {
+	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName(appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name)
+	if err != nil {
+		return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+	}
+	if app.Name != "" {
+		return errors.New("name alrealy exists")
+	}
+	appNamespace.ClusterName = clusterName
+	appNamespace.AppId = appId
+	db := s.db.Begin()
+	if err := s.repository.Create(db, appNamespace); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call AppNamespaceRepository.Create() error")
+	}
+	for _, item := range items {
+		item.NamespaceId = appNamespace.Id
+		item.DataChange_LastTime = time.Now()
+		item.DataChange_CreatedTime = time.Now()
+	}
+	if err := s.itemRepository.Creates(db, items); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call ItemRepository.Creates() error")
 	}
 	db.Commit()
 	return nil
@@ -44,30 +80,47 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 
 func (s appNamespaceService) DeleteById(id string) error {
 	db := s.db.Begin()
+	if err := s.itemRepository.DeleteById(db, id); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRepository.DeleteById() error")
+	}
 	if err := s.repository.DeleteById(db, id); err != nil {
 		db.Rollback()
-		return errors.Wrap(err, "call appNamespaceService.Delete() error")
+		return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
 	}
 	db.Commit()
 	return nil
 }
 
 func (s appNamespaceService) Update(appNamespace *models.AppNamespace) error {
-	appNamespace.DataChange_LastTime = time.Now()
+	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName(appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name)
+	if err != nil {
+		return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+	}
+	if app.Name != "" && app.Name != appNamespace.Name {
+		return errors.New("name alrealy exists")
+	}
 	db := s.db.Begin()
 	if err := s.repository.Update(db, appNamespace); err != nil {
 		db.Rollback()
-		return errors.Wrap(err, "call appNamespaceService.Update() error")
+		return errors.Wrap(err, "call AppNamespaceRepository.Update() error")
 	}
 	db.Commit()
 	return nil
 }
 
 func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error) {
-	appNamespaces := make([]*models.AppNamespace, 0)
 	appNamespaces, err := s.repository.FindAppNamespaceByAppIdAndClusterName(appId, clusterName)
 	if err != nil {
-		return nil, errors.Wrap(err, "call appNamespaceService.FindAppNamespaceByAppIdAndClusterName() error")
+		return nil, errors.Wrap(err, "call AppNamespaceRepository.FindAppNamespaceByAppIdAndClusterName() error")
 	}
 	return appNamespaces, nil
+}
+
+func (s appNamespaceService) FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error) {
+	appNamespace, err := s.repository.FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name)
+	if err != nil {
+		return nil, errors.Wrap(err, "call AppNamespaceRepository.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+	}
+	return appNamespace, nil
 }

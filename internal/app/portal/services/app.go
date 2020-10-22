@@ -1,8 +1,8 @@
 package services
 
 import (
+	"apollo-adminserivce/internal/app/portal/models"
 	"apollo-adminserivce/internal/app/portal/repositories"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"github.com/uber/tchannel-go"
@@ -18,9 +18,7 @@ import (
 type AppService interface {
 	Create(app *models.App) error
 	Update(app *models.App) error
-	FindAllForPage(pageSize, pageNum int) ([]*models.App, error)
-	FindByNameOrAppIdForPage(name, appId string, pageSize, pageNum int) ([]*models.App, error)
-	FindByNameForPage(name string, pageSize, pageNum int) ([]*models.App, error)
+	FindByName(name string) (*models.App, error)
 	FindByAppId(appId string) (*models.App, error)
 	DeleteByAppId(appId string) error
 	FindGroupsOfDevelopment() (*uic_service_api.Node, error)
@@ -31,29 +29,36 @@ type AppService interface {
 }
 
 type appService struct {
-	repository   repositories.AppRepository
 	db           *gorm.DB
+	repository   repositories.AppdRepository
 	limosService plat_limos_rpc.TChanLimosService
 	uicService   uic_service_api.TChanUicService
 }
 
 func NewAppService(
-	repository repositories.AppRepository,
 	db *gorm.DB,
 	limosService plat_limos_rpc.TChanLimosService,
 	uicService uic_service_api.TChanUicService,
+	repository repositories.AppdRepository,
 ) AppService {
 	return &appService{
-		repository:   repository,
 		db:           db,
+		repository:   repository,
 		limosService: limosService,
 		uicService:   uicService,
 	}
 }
 
 func (s appService) Create(app *models.App) error {
+	apps, err := s.FindByAppId(app.AppId)
+	if err != nil {
+		return errors.Wrap(err, "call AppRepository.FindByName() error")
+	}
+	if apps.AppId != "" {
+		return errors.New("Appid already exists")
+	}
 	db := s.db.Begin()
-	if err := s.repository.Create(db, app); err != nil {
+	if err := s.repository.Create(s.db, app); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppRepository.Create() error")
 	}
@@ -62,8 +67,15 @@ func (s appService) Create(app *models.App) error {
 }
 
 func (s appService) Update(app *models.App) error {
+	apps, err := s.FindByAppId(app.AppId)
+	if err != nil {
+		return errors.Wrap(err, "call AppRepository.FindByName() error")
+	}
+	if apps.AppId != "" || apps.AppId != app.AppId {
+		return errors.New("Appid already exists")
+	}
 	db := s.db.Begin()
-	if err := s.repository.Update(db, app); err != nil {
+	if err := s.repository.Update(s.db, app); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppRepository.Update() error")
 	}
@@ -71,28 +83,22 @@ func (s appService) Update(app *models.App) error {
 	return nil
 }
 
-func (s appService) FindAllForPage(pageSize, pageNum int) ([]*models.App, error) {
-	apps, err := s.repository.FindAllForPage(pageSize, pageNum)
-	if err != nil {
-		return nil, errors.Wrap(err, "call AppRepository.Update() error")
+func (s appService) DeleteByAppId(appId string) error {
+	db := s.db.Begin()
+	if err := s.repository.DeleteByAppId(s.db, appId); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call AppRepository.DeleteByAppId() error")
 	}
-	return apps, err
+	db.Commit()
+	return nil
 }
 
-func (s appService) FindByNameOrAppIdForPage(name, appId string, pageSize, pageNum int) ([]*models.App, error) {
-	apps, err := s.repository.FindByNameOrAppIdForPage(name, appId, pageSize, pageNum)
+func (s appService) FindByName(name string) (*models.App, error) {
+	app, err := s.repository.FindByName(name)
 	if err != nil {
-		return nil, errors.Wrap(err, "call AppRepository.FindByNameOrAppIdForPage() error")
+		return nil, errors.Wrap(err, "call AppRepository.FindByName() error")
 	}
-	return apps, err
-}
-
-func (s appService) FindByNameForPage(name string, pageSize, pageNum int) ([]*models.App, error) {
-	apps, err := s.repository.FindByNameForPage(name, pageSize, pageNum)
-	if err != nil {
-		return nil, errors.Wrap(err, "call AppRepository.FindByNameForPage() error")
-	}
-	return apps, err
+	return app, nil
 }
 
 func (s appService) FindByAppId(appId string) (*models.App, error) {
@@ -103,15 +109,6 @@ func (s appService) FindByAppId(appId string) (*models.App, error) {
 	return app, nil
 }
 
-func (s appService) DeleteByAppId(appId string) error {
-	db := s.db.Begin()
-	if err := s.repository.DeleteByAppId(db, appId); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call DeleteByAppId.Update() error")
-	}
-	db.Commit()
-	return nil
-}
 func (s appService) FindGroupsOfDevelopment() (*uic_service_api.Node, error) {
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	groups, err := s.uicService.FindGroupsOfDevelopment(ctx)

@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"apollo-adminserivce/internal/app/portal/models"
 	"apollo-adminserivce/internal/app/portal/services"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -16,6 +16,7 @@ func NewAppController(appService services.AppService) *AppController {
 }
 
 func (ctl AppController) Create(c *gin.Context) {
+
 	app := new(models.App)
 	if err := c.Bind(app); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
@@ -25,9 +26,11 @@ func (ctl AppController) Create(c *gin.Context) {
 		c.String(http.StatusInternalServerError, "call AppService.Create() error:%v", err)
 		return
 	}
+	c.JSON(http.StatusOK, app)
 }
 
 func (ctl AppController) Update(c *gin.Context) {
+
 	app := new(models.App)
 	if err := c.Bind(app); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
@@ -37,92 +40,39 @@ func (ctl AppController) Update(c *gin.Context) {
 		c.String(http.StatusInternalServerError, "call AppService.Update() error:%v", err)
 		return
 	}
-}
-
-func (ctl AppController) FindAllForPage(c *gin.Context) {
-	param := new(struct {
-		pageNum  int `form:"page_num"`
-		PageSize int `form:"page_size"`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	apps, err := ctl.service.FindAllForPage(param.PageSize, param.pageNum)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindAllForPage() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, apps)
-}
-
-func (ctl AppController) FindByNameOrAppIdForPage(c *gin.Context) {
-	param := new(struct {
-		name     string `from:"name"`
-		appId    string `app_id`
-		pageNum  int    `form:"page_num"`
-		PageSize int    `form:"page_size"`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	apps, err := ctl.service.FindByNameOrAppIdForPage(param.name, param.appId, param.PageSize, param.pageNum)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindByNameOrAppIdForPage() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, apps)
-}
-
-func (ctl AppController) FindByNameForPage(c *gin.Context) {
-	param := new(struct {
-		name     string `from:"name"`
-		pageNum  int    `form:"page_num"`
-		PageSize int    `form:"page_size"`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	apps, err := ctl.service.FindByNameForPage(param.name, param.PageSize, param.pageNum)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindByNameForPage() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, apps)
-}
-
-func (ctl AppController) FindByAppId(c *gin.Context) {
-	param := new(struct {
-		appId string `uic:"app_id" binding:"required"`
-	})
-	if err := c.ShouldBindUri(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	apps, err := ctl.service.FindByAppId(param.appId)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindByAppId() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, apps)
+	c.JSON(http.StatusOK, app)
 }
 
 func (ctl AppController) DeleteByAppId(c *gin.Context) {
-	param := new(struct {
-		appId string `app_id`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	err := ctl.service.DeleteByAppId(param.appId)
-	if err != nil {
+
+	appId := c.Query("app_id")
+	if err := ctl.service.DeleteByAppId(appId); err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.DeleteByAppId() error:%v", err)
 		return
 	}
-	c.String(http.StatusOK, "delete app successed")
+	c.JSON(http.StatusOK, appId)
+}
+
+func (ctl AppController) FindByName(c *gin.Context) {
+
+	name := c.Query("name")
+	app, err := ctl.service.FindByName(name)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call AppService.FindByName() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, app)
+}
+
+func (ctl AppController) FindByAppId(c *gin.Context) {
+
+	appId := c.Query("app_id")
+	app, err := ctl.service.FindByAppId(appId)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call AppService.FindByName() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, app)
 }
 
 func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {
@@ -137,15 +87,15 @@ func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {
 
 func (ctl AppController) FindLimosAppForPage(c *gin.Context) {
 	param := new(struct {
-		name     string `from:"name"`
-		pageNum  int32  `form:"page_num"`
+		Name     string `form:"name"`
+		PageNum  int32  `form:"page_num"`
 		PageSize int32  `form:"page_size"`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	apps, err := ctl.service.FindLimosAppForPage(param.name, param.PageSize, param.pageNum)
+	apps, err := ctl.service.FindLimosAppForPage(param.Name, param.PageSize, param.PageNum)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppForPage() error:%v", err)
 		return
@@ -155,13 +105,13 @@ func (ctl AppController) FindLimosAppForPage(c *gin.Context) {
 
 func (ctl AppController) GetAllUsers(c *gin.Context) {
 	param := new(struct {
-		name string `from:"name"`
+		Name string `form:"name"`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	names, err := ctl.service.GetAllUsers(param.name)
+	names, err := ctl.service.GetAllUsers(param.Name)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.GetAllUsers() error:%v", err)
 		return
@@ -171,13 +121,13 @@ func (ctl AppController) GetAllUsers(c *gin.Context) {
 
 func (ctl AppController) FindLimosAppById(c *gin.Context) {
 	param := new(struct {
-		appId int64 `app_id`
+		AppId int64 `form:"app_id""`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	app, err := ctl.service.FindLimosAppById(param.appId)
+	app, err := ctl.service.FindLimosAppById(param.AppId)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v", err)
 		return
@@ -187,16 +137,20 @@ func (ctl AppController) FindLimosAppById(c *gin.Context) {
 
 func (ctl AppController) FindAuth(c *gin.Context) {
 	param := new(struct {
-		appId int64  `app_id`
-		name  string `name`
+		AppId int64  `app_id`
+		Name  string `name`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	auth, err := ctl.service.FindAuth(param.appId, param.name)
+	auth, err := ctl.service.FindAuth(param.AppId, param.Name)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v", err)
+		return
+	}
+	if auth {
+		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v")
 		return
 	}
 	c.JSON(http.StatusOK, auth)

@@ -4,6 +4,7 @@ import (
 	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/time"
 )
 
 type AppNamespaceRepository interface {
@@ -11,6 +12,7 @@ type AppNamespaceRepository interface {
 	DeleteById(db *gorm.DB, id string) error
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
+	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
 	FindAppNamespaceByIsPublic(appId string) ([]*models.AppNamespace, error)
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 }
@@ -26,20 +28,23 @@ func NewAppNamespaceRepository(db *gorm.DB) AppNamespaceRepository {
 }
 
 func (r appNamespaceRepository) Create(db *gorm.DB, appNamespace *models.AppNamespace) error {
-	if err := db.Create(appNamespace).Error; err != nil {
+	appNamespace.DataChange_LastTime = time.Now()
+	appNamespace.DataChange_CreatedTime = time.Now()
+	if err := db.Create(&appNamespace).Error; err != nil {
 		return errors.Wrap(err, "create appNamespace error")
 	}
 	return nil
 }
 
 func (r appNamespaceRepository) DeleteById(db *gorm.DB, id string) error {
-	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", id).Update("IsDeleted=?", true).Error; err != nil {
+	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", id).Update("IsDeleted=1").Error; err != nil {
 		return errors.Wrap(err, "delete appNamespace error")
 	}
 	return nil
 }
 
 func (r appNamespaceRepository) Update(db *gorm.DB, appNamespace *models.AppNamespace) error {
+	appNamespace.DataChange_LastTime = time.Now()
 	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", appNamespace.Id).Update(appNamespace).Error; err != nil {
 		return errors.Wrap(err, "update appNamespace error")
 	}
@@ -52,6 +57,14 @@ func (r appNamespaceRepository) FindAppNamespaceByAppIdAndClusterName(appId, clu
 		return nil, errors.Wrap(err, "FindAppNamespaceByAppIdAndClusterName appNamespace error")
 	}
 	return appNamespaces, nil
+}
+
+func (r appNamespaceRepository) FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error) {
+	appNamespace := new(models.AppNamespace)
+	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "AppId=? and ClusterName=? and name=?  and IsDeleted=0", appId, clusterName, name).Error; err != nil {
+		return nil, errors.Wrap(err, "FindOneAppNamespaceByAppIdAndClusterName appNamespace error")
+	}
+	return appNamespace, nil
 }
 
 //查询appId下的公共配置的名字和集群名字

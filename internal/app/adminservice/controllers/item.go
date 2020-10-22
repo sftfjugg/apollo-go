@@ -27,6 +27,18 @@ func (ctl ItemController) Create(c *gin.Context) {
 	}
 }
 
+func (ctl ItemController) Creates(c *gin.Context) {
+	item := make([]*models.Item, 0)
+	if err := c.ShouldBind(item); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if err := ctl.service.Creates(item); err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.Creates() error:%v", err)
+		return
+	}
+}
+
 func (ctl ItemController) Update(c *gin.Context) {
 	item := new(models.Item)
 	if err := c.ShouldBind(item); err != nil {
@@ -39,17 +51,10 @@ func (ctl ItemController) Update(c *gin.Context) {
 	}
 }
 
-func (ctl ItemController) DeleteByNamespaceIdAndKey(c *gin.Context) {
-	param := new(struct {
-		NamespaceId string `form:"namespace_id",json:"namespace_id"`
-		Key         string `form:"key",json:"key"`
-	})
-	if err := c.ShouldBind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	if err := ctl.service.DeleteByNamespaceIdAndKey(param.NamespaceId, param.Key); err != nil {
-		c.String(http.StatusInternalServerError, "call ItemService.DeleteByNamespaceIdAndKey() error:%v", err)
+func (ctl ItemController) DeleteById(c *gin.Context) {
+	id := c.Query("id")
+	if err := ctl.service.DeleteById(id); err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.DeleteById() error:%v", err)
 		return
 	}
 }
@@ -76,8 +81,8 @@ func (ctl ItemController) FindItemByNamespaceId(c *gin.Context) {
 func (ctl ItemController) FindItemByNamespaceIdAndKey(c *gin.Context) {
 
 	param := new(struct {
-		NamespaceId string `form:"Namespace_id" json:"namespace_id"`
-		Key         string `form:"Key" json:"key"`
+		NamespaceId string `form:"namespace_id" json:"namespace_id"`
+		Key         string `form:"key" json:"key"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)

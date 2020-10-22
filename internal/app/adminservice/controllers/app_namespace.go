@@ -28,6 +28,23 @@ func (ctl AppNamespaceController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, appNamespace)
 }
 
+func (ctl AppNamespaceController) CreateByRelated(c *gin.Context) {
+	param := new(struct {
+		AppNamespace *models.AppNamespace `json:"app_namespace"`
+		Items        []*models.Item       `json:"items"`
+		ClusterName  string               `json:"cluster_name"`
+		AppId        string               `json:"app_id"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if err := ctl.service.CreateByRelated(param.AppNamespace, param.Items, param.ClusterName, param.AppId); err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v", err)
+		return
+	}
+}
+
 func (ctl AppNamespaceController) Update(c *gin.Context) {
 	appNamespace := new(models.AppNamespace)
 	if err := c.Bind(appNamespace); err != nil {
@@ -52,8 +69,8 @@ func (ctl AppNamespaceController) DeleteById(c *gin.Context) {
 
 func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.Context) {
 	param := new(struct {
-		AppId       string `form:"app_id" ,json:"app_id"`
-		ClusterName string `form:"cluster_name" ,json:"cluster_name"`
+		AppId       string `form:"app_id" json:"app_id"`
+		ClusterName string `form:"cluster_name" json:"cluster_name"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
@@ -61,8 +78,26 @@ func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.C
 	}
 	appNamespaces, err := ctl.service.FindAppNamespaceByAppIdAndClusterName(param.AppId, param.ClusterName)
 	if err != nil {
-		c.String(http.StatusBadRequest, "AppNamespaceService.Update error:%v", err)
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppIdAndClusterName error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, appNamespaces)
+}
+
+func (ctl AppNamespaceController) FindOneAppNamespaceByAppIdAndClusterNameAndName(c *gin.Context) {
+	param := new(struct {
+		Name        string `json:"name" form:"name"`
+		AppId       string `form:"app_id" json:"app_id"`
+		ClusterName string `form:"cluster_name" json:"cluster_name"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	appNamespace, err := ctl.service.FindOneAppNamespaceByAppIdAndClusterNameAndName(param.AppId, param.ClusterName, param.Name)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, appNamespace)
 }

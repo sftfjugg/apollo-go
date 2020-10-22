@@ -53,7 +53,6 @@ func CreateApps(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	appRepository := repositories.NewApplicationRepository(gormDB)
 	zeusZeus, err := zeus.New(viper)
 	if err != nil {
 		return nil, err
@@ -66,7 +65,8 @@ func CreateApps(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	appService := services.NewAppService(appRepository, gormDB, tChanLimosService, tChanUicService)
+	appdRepository := repositories.NewAppRepository(gormDB)
+	appService := services.NewAppService(gormDB, tChanLimosService, tChanUicService, appdRepository)
 	appController := controllers.NewAppController(appService)
 	client := httpclient.New()
 	httpClient := clients.NewHttpClient(client)
@@ -74,9 +74,15 @@ func CreateApps(cf string) (*app.Application, error) {
 	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemService := services.NewItemService(httpClient)
 	itemController := controllers.NewItemController(itemService)
+	itemRelatedRepisitory := repositories.NewItemRelatedRepisitory(gormDB)
+	itemRelatedService := services.NewItemRelatedService(gormDB, itemRelatedRepisitory)
+	itemRelatedController := controllers.NewItemRelatedControllerr(itemRelatedService)
 	releaseService := services.NewReleaseService(httpClient)
 	releaseController := controllers.NewReleaseController(releaseService)
-	initControllers := controllers.InitControllersFn(appController, appNamespaceController, itemController, releaseController)
+	appNamespaceRelatedRepository := repositories.NewAppNamespaceRelatedRepository(gormDB)
+	appNamespaceRelatedService := services.NewAppNamespaceRelatedService(gormDB, appNamespaceRelatedRepository)
+	appNamespaceRelatedController := controllers.NewAppNamespaceRelatedController(appNamespaceRelatedService)
+	initControllers := controllers.InitControllersFn(appController, appNamespaceController, itemController, itemRelatedController, releaseController, appNamespaceRelatedController)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err

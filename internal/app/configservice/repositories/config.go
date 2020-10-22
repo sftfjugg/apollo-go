@@ -31,7 +31,7 @@ func (r configRepository) FindPublicConfigName(appId string) ([]*models2.AppName
 
 func (r configRepository) FindPublicConfig(appId, name string) ([]*models.Config, error) {
 	var configurations = make([]*models.Config, 0)
-	if err := r.db.Raw("select Configurations from ApolloConfigDB.Release where AppId=? and NamespaceName=? order by Id desc limit 1", appId, name).Scan(&configurations).Error; err != nil {
+	if err := r.db.Raw("select Configurations from `Release` where AppId=? and NamespaceName=? order by Id desc limit 1", appId, name).Scan(&configurations).Error; err != nil {
 		return nil, errors.Wrap(err, "find config publish  error")
 	}
 	return configurations, nil
@@ -39,7 +39,7 @@ func (r configRepository) FindPublicConfig(appId, name string) ([]*models.Config
 
 func (r configRepository) FindPrivateConfig(appId, cluster string) ([]*models.Config, error) {
 	var configurations = make([]*models.Config, 0)
-	if err := r.db.Raw("select  AppId,ReleaseKey,ClusterName,NamespaceName,Configurations from ApolloConfigDB.Release where AppId=? and ClusterName=? order by Id desc limit 1", appId, cluster).Scan(&configurations).Error; err != nil {
+	if err := r.db.Raw("select  AppId,ReleaseKey,ClusterName,NamespaceName,Configurations from `Release` where AppId=? and ClusterName=? order by Id desc limit 1", appId, cluster).Scan(&configurations).Error; err != nil {
 		return nil, errors.Wrap(err, "find config private  error")
 	}
 	return configurations, nil

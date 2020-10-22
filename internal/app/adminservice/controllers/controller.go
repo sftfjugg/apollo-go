@@ -17,13 +17,15 @@ func InitControllersFn(
 			r.PUT("/app_namespace", appNamespaceController.Update)
 			r.GET("/app_namespace", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
 			r.DELETE("/app_namespace", appNamespaceController.DeleteById)
+			r.POST("/app_namespace_related,", appNamespaceController.CreateByRelated)
 		}
 		{
 			r.POST("/item", itemController.Create)
+			r.POST("/items", itemController.Creates)
 			r.PUT("/item", itemController.Update)
 			r.DELETE("/items", itemController.DeleteByNamespaceId)
 			r.GET("/items", itemController.FindItemByNamespaceId)
-			r.DELETE("/item", itemController.DeleteByNamespaceIdAndKey)
+			r.DELETE("/item", itemController.DeleteById)
 			r.GET("/item", itemController.FindItemByNamespaceIdAndKey)
 		}
 		{

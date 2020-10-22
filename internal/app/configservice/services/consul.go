@@ -2,9 +2,9 @@ package services
 
 import (
 	"apollo-adminserivce/internal/app/configservice/models"
-	"apollo-adminserivce/internal/pkg/utils/netutil"
 	consulapi "github.com/hashicorp/consul/api"
 	"github.com/pkg/errors"
+	"go.didapinche.com/juno-go/v2"
 	"strconv"
 	"strings"
 )
@@ -21,12 +21,12 @@ func NewConsulService() ConsulService {
 }
 
 func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
-	host := netutil.GetLocalIP4()
-	if host == "" {
+	consul := juno.GetConsulRegistry()
+	consulAddress := consul.ConsulAddress
+	if consulAddress == "" {
 		return nil, errors.New("get local ipv4 error")
 	}
-	addreee := host + ":7888"
-	c := consulapi.Config{Address: addreee}
+	c := consulapi.Config{Address: consulAddress}
 	client, err := consulapi.NewClient(&c)
 	if err != nil {
 		return nil, errors.Wrap(err, "create consul failed")
@@ -43,11 +43,16 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 		if strings.EqualFold(services[s].Service, name) {
 			consul := new(models.Consul)
 			consul.AppName = services[s].Service
-			if services[s].Address == "" {
-				services[s].Address = host
+			ip := services[s].Address
+			if ip == "" {
+				appJuno := juno.GetParams()
+				ip = appJuno.Addr + ":" + string(appJuno.Port)
 			}
-			consul.InstanceId = services[s].Address + ":" + strconv.Itoa(services[s].Port)
-			consul.HomepageUrl = "http://" + services[s].Address + ":" + strconv.Itoa(services[s].Port)
+			if strings.Contains(ip, ":") {
+				ip = string([]byte(ip)[0:strings.Index(ip, ":")])
+			}
+			consul.InstanceId = ip + ":" + strconv.Itoa(services[s].Port)
+			consul.HomepageUrl = "http://" + ip + ":" + strconv.Itoa(services[s].Port)
 			consuls = append(consuls, consul)
 		}
 	}
