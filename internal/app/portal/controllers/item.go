@@ -64,11 +64,31 @@ func (ctl ItemController) FindItemByNamespaceId(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
+func (ctl ItemController) FindItemByKeyForPage(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindItemByKeyForPage(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.FindItemByKeyForPage run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
 func (ctl ItemController) FindItemByNamespaceIdAndKey(c *gin.Context) {
 	env := c.Param("env")
 	r, err := ctl.service.FindItemByNamespaceIdAndKey(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "ItemController.FindItemByNamespaceIdAndKey run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
+func (ctl ItemController) FindItemByAppIdAndKey(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindItemByAppIdAndKey(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.FindItemByAppIdAndKey run failed:%v", err)
 		return
 	}
 	c.Data(r.Code, r.ContentType, r.Data)

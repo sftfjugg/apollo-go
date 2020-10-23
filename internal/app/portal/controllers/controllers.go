@@ -34,15 +34,18 @@ func InitControllersFn(
 			r.POST("/app_namespace/:env", appNamespaceController.Create)
 			r.DELETE("/app_namespace/:env", appNamespaceController.DeleteById)
 			r.PUT("/app_namespace/:env", appNamespaceController.Update)
-			r.POST("/app_namespace/related/:env", appNamespaceController.CreateByRelated)
+			r.POST("/app_namespace_by_related/:env", appNamespaceController.CreateByRelated)
+			r.GET("/app_namespace_all/:env", appNamespaceController.FindAppNamespaceByAppId)
 		}
 		{
 			r.GET("/items/:env", itemController.FindItemByNamespaceId)
+			r.GET("/items_by_key/:env", itemController.FindItemByKeyForPage)
 			r.POST("/item/:env", itemController.Create)
 			r.DELETE("/item/:env", itemController.DeleteByNamespaceIdAndKey)
 			r.PUT("/item/:env", itemController.Update)
 			r.DELETE("/items/:env", itemController.DeleteByNamespaceId)
 			r.GET("/item/:env", itemController.FindItemByNamespaceIdAndKey)
+			r.GET("/item_by_key_and_app_id/:env", itemController.FindItemByAppIdAndKey)
 		}
 		{
 			r.POST("/release/:env", releaseController.Create)
@@ -58,6 +61,7 @@ func InitControllersFn(
 			r.POST("/item_related", itemRelatedController.Create)
 			r.PUT("/item_related", itemRelatedController.Update)
 			r.DELETE("/item_related", itemRelatedController.DeleteById)
+			r.DELETE("/items_related", itemRelatedController.DeleteByNamespaceId)
 			r.GET("/item_related", itemRelatedController.FindItemByNamespaceIdAndKey)
 			r.GET("/items_related", itemRelatedController.FindItemByNamespaceId)
 			r.GET("/item_related/key", itemRelatedController.FindOneItemByNamespaceIdAndKey)

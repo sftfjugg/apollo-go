@@ -13,6 +13,8 @@ type ItemService interface {
 	DeleteByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error)
 	DeleteByNamespaceId(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceId(env string, r *http.Request) (*models2.Response, error)
+	FindItemByAppIdAndKey(env string, r *http.Request) (*models2.Response, error)
+	FindItemByKeyForPage(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error)
 }
 
@@ -58,6 +60,22 @@ func (s itemService) DeleteByNamespaceId(env string, r *http.Request) (*models2.
 
 func (s itemService) FindItemByNamespaceId(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/items", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s itemService) FindItemByAppIdAndKey(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/item_by_key_and_appId", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s itemService) FindItemByKeyForPage(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/items_by_key", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}

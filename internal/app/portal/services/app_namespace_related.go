@@ -17,17 +17,20 @@ type AppNamespaceRelatedService interface {
 }
 
 type appNamespaceRelatedService struct {
-	db         *gorm.DB
-	repository repositories.AppNamespaceRelatedRepository
+	db                    *gorm.DB
+	repository            repositories.AppNamespaceRelatedRepository
+	itemRelatedRepository repositories.ItemRelatedRepisitory
 }
 
 func NewAppNamespaceRelatedService(
 	db *gorm.DB,
 	repository repositories.AppNamespaceRelatedRepository,
+	itemRelatedRepository repositories.ItemRelatedRepisitory,
 ) AppNamespaceRelatedService {
 	return &appNamespaceRelatedService{
-		db:         db,
-		repository: repository,
+		db:                    db,
+		repository:            repository,
+		itemRelatedRepository: itemRelatedRepository,
 	}
 }
 
@@ -40,7 +43,7 @@ func (s appNamespaceRelatedService) Create(appNamespace *models.AppNamespace) er
 		return errors.New("appNamespace.Name already exists")
 	}
 	db := s.db.Begin()
-	if err := s.repository.Create(s.db, appNamespace); err != nil {
+	if err := s.repository.Create(db, appNamespace); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppNamespaceRelatedRepository.Create() error")
 	}
@@ -50,7 +53,11 @@ func (s appNamespaceRelatedService) Create(appNamespace *models.AppNamespace) er
 
 func (s appNamespaceRelatedService) Delete(id string) error {
 	db := s.db.Begin()
-	if err := s.repository.Delete(s.db, id); err != nil {
+	if err := s.itemRelatedRepository.DeleteByNamespaceId(db, id); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRelatedRepository.DeleteByNamespaceId() error")
+	}
+	if err := s.repository.Delete(db, id); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppNamespaceRelatedRepository.Delete() error")
 	}
@@ -63,11 +70,11 @@ func (s appNamespaceRelatedService) Update(appNamespace *models.AppNamespace) er
 	if err != nil {
 		return errors.Wrap(err, "call appNamespaceRelatedService.FindAppNamespaceByName() error")
 	}
-	if app.Name != appNamespace.Name && app.Name != "" {
+	if app.Id != appNamespace.Id && app.Name != "" {
 		return errors.New("appNamespace.Name already exists")
 	}
 	db := s.db.Begin()
-	if err := s.repository.Update(s.db, appNamespace); err != nil {
+	if err := s.repository.Update(db, appNamespace); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppNamespaceRelatedRepository.Update() error")
 	}

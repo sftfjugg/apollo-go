@@ -13,7 +13,7 @@ type AppNamespaceRepository interface {
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
-	FindAppNamespaceByIsPublic(appId string) ([]*models.AppNamespace, error)
+	FindAppNamespaceByAppId(appId string) ([]*models.AppNamespace, error)
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 }
 
@@ -37,7 +37,7 @@ func (r appNamespaceRepository) Create(db *gorm.DB, appNamespace *models.AppName
 }
 
 func (r appNamespaceRepository) DeleteById(db *gorm.DB, id string) error {
-	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", id).Update("IsDeleted=1").Error; err != nil {
+	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", id).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "delete appNamespace error")
 	}
 	return nil
@@ -61,17 +61,17 @@ func (r appNamespaceRepository) FindAppNamespaceByAppIdAndClusterName(appId, clu
 
 func (r appNamespaceRepository) FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error) {
 	appNamespace := new(models.AppNamespace)
-	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "AppId=? and ClusterName=? and name=?  and IsDeleted=0", appId, clusterName, name).Error; err != nil {
+	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "AppId=? and ClusterName=? and name=?  and IsDeleted=0", appId, clusterName, name).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		return nil, errors.Wrap(err, "FindOneAppNamespaceByAppIdAndClusterName appNamespace error")
 	}
 	return appNamespace, nil
 }
 
-//查询appId下的公共配置的名字和集群名字
-func (r appNamespaceRepository) FindAppNamespaceByIsPublic(appId string) ([]*models.AppNamespace, error) {
+//查询appId下的所有配置
+func (r appNamespaceRepository) FindAppNamespaceByAppId(appId string) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
-	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsPublic=1? and IsDeleted=0", appId).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppNamespaceIsPublic appNamespace error")
+	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0", appId).Error; err != nil {
+		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
 	}
 	return appNamespaces, nil
 }
@@ -79,7 +79,7 @@ func (r appNamespaceRepository) FindAppNamespaceByIsPublic(appId string) ([]*mod
 //查询appId下的所有集群名字
 func (r appNamespaceRepository) FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
-	if err := r.db.Table(models.AppNamespaceTableName).Select("ClusterName").Find(&appNamespaces, "AppId=? and IsDeleted=0", appId).Error; err != nil {
+	if err := r.db.Raw("select ClusterName from AppNamespace where AppId=? and IsDeleted=0 group by ClusterName order by null;", appId).Scan(&appNamespaces).Error; err != nil {
 		return nil, errors.Wrap(err, "FindAppNamespaceIsPublic appNamespace error")
 	}
 	return appNamespaces, nil

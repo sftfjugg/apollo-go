@@ -27,7 +27,7 @@ CREATE TABLE `App` (
   `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
   `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`Id`),
-  KEY `AppId` (`AppId`(191)),
+  Unique (`AppId`),
   KEY `DataChange_LastTime` (`DataChange_LastTime`),
   KEY `IX_Name` (`Name`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用表';
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `AppNamespace`;
 CREATE TABLE `AppNamespace` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `Name` varchar(32) NOT NULL DEFAULT '' COMMENT 'namespace名字',
-  `department` varchar(64) NOT NULL DEFAULT '' COMMENT '部门',
+  `Department` varchar(64) NOT NULL DEFAULT '' COMMENT '部门',
   `Comment` varchar(500) NOT NULL DEFAULT '' COMMENT '注释',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人邮箱前缀',

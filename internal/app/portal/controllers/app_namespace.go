@@ -28,14 +28,15 @@ func (ctl AppNamespaceController) CreateByRelated(c *gin.Context) {
 	env := c.Param("env")
 	param := new(struct {
 		NamespaceId string `json:"namespace_id"`
-		ClusterName string `json:"cluster_name"`
-		AppId       string `json:"app_id"`
+		//ClusterName string `json:"cluster_name"`
+		AppId   string `json:"app_id"`
+		AppName string `json:"app_name"`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind parm error:%v", err)
 		return
 	}
-	r, err := ctl.service.CreateByRelated(param.NamespaceId, param.ClusterName, param.AppId, env)
+	r, err := ctl.service.CreateByRelated(param.NamespaceId, param.AppName, param.AppId, env)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.CreateByRelated run failed:%v", err)
 		return
@@ -67,6 +68,16 @@ func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.C
 	r, err := ctl.service.FindAppNamespaceByAppIdAndClusterName(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppIdAndClusterName run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
+func (ctl AppNamespaceController) FindAppNamespaceByAppId(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindAppNamespaceByAppId(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppId run failed:%v", err)
 		return
 	}
 	c.Data(r.Code, r.ContentType, r.Data)

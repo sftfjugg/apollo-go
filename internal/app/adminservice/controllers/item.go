@@ -95,3 +95,40 @@ func (ctl ItemController) FindItemByNamespaceIdAndKey(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, items)
 }
+
+func (ctl ItemController) FindItemByAppIdAndKey(c *gin.Context) {
+
+	param := new(struct {
+		AppId string `form:"app_id" json:"app_id"`
+		Key   string `form:"key" json:"key"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	items, err := ctl.service.FindItemByAppIdAndKey(param.AppId, param.Key)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.FindItemByAppIdAndKey() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, items)
+}
+
+func (ctl ItemController) FindItemByKeyForPage(c *gin.Context) {
+
+	param := new(struct {
+		Key      string `form:"key" json:"key"`
+		PageSize int    `form:"page_size" json:"page_size"`
+		PageNum  int    `form:"page_num" json:"page_num"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	items, err := ctl.service.FindItemByKeyForPage(param.Key, param.PageSize, param.PageNum)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.FindItemByKeyForPage() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, items)
+}

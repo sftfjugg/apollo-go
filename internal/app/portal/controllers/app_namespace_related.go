@@ -61,6 +61,9 @@ func (ctl AppNamespaceRelatedController) FindAppNamespaceByNameForPage(c *gin.Co
 		PageSize int    `json:"page_size" form:"page_size"`
 		PageNum  int    `json:"page_num" form:"page_num"`
 	})
+	if err := c.Bind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+	}
 	appNamespaces, err := ctl.service.FindAppNamespaceByNameForPage(param.Name, param.PageSize, param.PageNum)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceRelatedService.FindAppNamespaceByNameForPage run failed:%v", err)

@@ -24,3 +24,5 @@ type Release struct {
 func (Release) TableName() string {
 	return ReleaseTableName
 }
+
+//INSERT INTO `Release` (`Id`,`ReleaseKey`,`Comment`,`AppId`,`ClusterName`,`NamespaceName`,`Configurations`,`IsAbandoned`,`IsDeleted`) VALUES (0,'2020-10-23 18:40:02','xbGPTfgdcCpntzbVrHaLNOiMaXpuFJ','1000044581','default','test','{"myName":"123434"}',0,0)

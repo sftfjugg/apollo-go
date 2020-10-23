@@ -54,17 +54,25 @@ func (s HttpClient) HttpPost(url, env string, data interface{}) (*models2.Respon
 	}
 	i := rand.Intn(len(m[env]))
 	url = "http://" + m[env][i].InstanceId + url
-	contentType := "application/json;charset=utf-8"
 	b, err := json.Marshal(data)
+	//fmt.Println(string(b))
 	if err != nil {
-		return nil, errors.New("json format error:")
+		return nil, errors.Wrap(err, "json format error:")
 	}
 	r := bytes.NewBuffer(b)
-	res, err := s.client.Post(url, contentType, r)
+	res, err := s.client.Post(url, "application/json;charset=UTF-8", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "json format error:")
+	}
+	//request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	//res,err:=s.client.Do(request)
+	//if err != nil {
+	//	return nil, errors.Wrap(err,"s.client.Do(request) error:")
+	//}
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return nil, errors.Wrap(err, "HttpDo request failed")
+		return nil, errors.Wrap(err, "ioutil.ReadAll(res.Body) failed")
 	}
 	response := new(models2.Response)
 	response.Data = body

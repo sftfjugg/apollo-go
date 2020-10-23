@@ -10,7 +10,7 @@ import (
 )
 
 type ReleaseMessageService interface {
-	Create(name, appId, clusterName, comment, namespaceName, namespaceId string, isPublic bool) error
+	Create(name, appId, clusterName, comment, namespaceName, namespaceId string, isPublic bool, keys []string) error
 }
 
 type releaseMessageService struct {
@@ -37,7 +37,7 @@ func NewReleaseMessageService(
 	}
 }
 
-func (s releaseMessageService) Create(name, appId, clusterName, comment, namespaceName, namespaceId string, isPublic bool) error {
+func (s releaseMessageService) Create(name, appId, clusterName, comment, namespaceName, namespaceId string, isPublic bool, keys []string) error {
 	release := new(models.Release)
 	release.NamespaceName = namespaceName
 	release.AppId = appId
@@ -52,26 +52,39 @@ func (s releaseMessageService) Create(name, appId, clusterName, comment, namespa
 	}
 	release.Configurations = configurations
 	if isPublic {
-		return s.CreatePublic(release, namespaceId)
+		return s.CreatePublic(release, namespaceId, keys)
 	} else {
-		return s.CreatePrivate(release, namespaceId)
+		return s.CreatePrivate(release, namespaceId, keys)
 	}
 	return nil
 }
 
 //私有化配置的发布，私有化配置发布只会发布对应的项目泳道（泳道在该项目中使用集群建立）
-func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceId string) error {
+func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceId string, keys []string) error {
 	releaseMessage := new(models.ReleaseMessage)
 	releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+application"
 	releaseMessage.DataChange_LastTime = time.Now()
 	db := s.db.Begin()
+	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId, keys); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
+	}
+	var items = make([]*models.Item, 0)
+	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
+	}
+	m := make(map[string]string)
+	for i := range items {
+		m[items[i].Key] = items[i].Value
+	}
+	config, err := json.Marshal(m)
+	if err != nil {
+		return errors.Wrap(err, "call ItemRepository.Create() error")
+	}
+	release.Configurations = string(config)
 	if err := s.releaseRepository.Create(db, release); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
-	}
-	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	if err := s.repository.DeleteByMessage(db, releaseMessage.Message); err != nil {
 		db.Rollback()
@@ -86,7 +99,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 }
 
 //公共配置发布，发布该项目所有泳道（泳道在该项目中使用集群建立）
-func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId string) error {
+func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId string, keys []string) error {
 	appNamespaces, err := s.appNamespaceRepository.FindClusterNameByAppId(release.AppId)
 	if err != nil {
 		return errors.Wrap(err, "call appNamespaceRepository.FindClusterNameByAppId() error")
@@ -102,13 +115,26 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
 	db := s.db.Begin()
+	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId, keys); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
+	}
+	var items = make([]*models.Item, 0)
+	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
+	}
+	m := make(map[string]string)
+	for i := range items {
+		m[items[i].Key] = items[i].Value
+	}
+	config, err := json.Marshal(m)
+	if err != nil {
+		return errors.Wrap(err, "call ItemRepository.Create() error")
+	}
+	release.Configurations = string(config)
 	if err := s.releaseRepository.Create(db, release); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
-	}
-	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	if err := s.repository.DeleteByMessages(db, messaages); err != nil {
 		db.Rollback()

@@ -50,11 +50,11 @@ func CreateApps(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	appNamespaceRepository := repositories.NewAppNamespaceRepository(gormDB)
-	appNamespaceService := services.NewAppNamespaceService(gormDB, appNamespaceRepository)
-	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemRepisitory := repositories.NewItemRepisitory(gormDB)
 	itemService := services.NewItemService(itemRepisitory, gormDB)
+	appNamespaceRepository := repositories.NewAppNamespaceRepository(gormDB)
+	appNamespaceService := services.NewAppNamespaceService(gormDB, itemRepisitory, itemService, appNamespaceRepository)
+	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemController := controllers.NewItemController(itemService)
 	releaseMessageRepository := repositories.NewReleaseMessageRepository()
 	release := repositories.NewRelease(gormDB)

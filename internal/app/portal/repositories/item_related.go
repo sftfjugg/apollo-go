@@ -54,14 +54,14 @@ func (r itemRelatedRepisitory) Update(db *gorm.DB, item *models.Item) error {
 }
 
 func (r itemRelatedRepisitory) DeleteByNamespaceId(db *gorm.DB, namespaceId string) error {
-	if err := db.Table(models.ItemTableName).Where("NamespaceId=? and IsDeleted=0", namespaceId).Update("IsDeleted= 1").Error; err != nil {
+	if err := db.Table(models.ItemTableName).Where("NamespaceId=? and IsDeleted=0", namespaceId).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.DeleteByNamespaceId failed")
 	}
 	return nil
 }
 
 func (r itemRelatedRepisitory) DeleteById(db *gorm.DB, id string) error {
-	if err := db.Table(models.ItemTableName).Where("Id=?", id).Update("IsDeleted= 1").Error; err != nil {
+	if err := db.Table(models.ItemTableName).Where("Id=?", id).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.DeleteById failed")
 	}
 	return nil
@@ -77,7 +77,7 @@ func (r itemRelatedRepisitory) FindItemByNamespaceId(namespaceID string) ([]*mod
 
 func (r itemRelatedRepisitory) FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error) {
 	item := make([]*models.Item, 0)
-	if err := r.db.Table(models.AppTableName).Find(&item, "NamespaceId =? and Key like ? and IsDeleted=0", namespaceId, key).Error; err != nil {
+	if err := r.db.Table(models.ItemTableName).Find(&item, "NamespaceId =? and `Key` like ? and IsDeleted=0", namespaceId, "%"+key+"%").Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return item, nil
@@ -85,7 +85,7 @@ func (r itemRelatedRepisitory) FindItemByNamespaceIdAndKey(namespaceId, key stri
 
 func (r itemRelatedRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error) {
 	item := new(models.Item)
-	if err := r.db.Table(models.AppTableName).First(&item, "NamespaceId =? and Key = ? and IsDeleted=0", namespaceId, key).Error; err != nil {
+	if err := r.db.Table(models.ItemTableName).First(&item, "NamespaceId =? and `Key` = ? and IsDeleted=0", namespaceId, key).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return item, nil

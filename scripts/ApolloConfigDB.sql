@@ -46,10 +46,12 @@ DROP TABLE IF EXISTS `AppNamespace`;
 CREATE TABLE `AppNamespace` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `Name` varchar(32) NOT NULL DEFAULT '' COMMENT 'namespace名字',
+  `AppName` varchar(64) NOT NULL DEFAULT '' COMMENT '项目名字',
   `AppId` varchar(64) NOT NULL DEFAULT '' COMMENT 'app id',
   `Format` varchar(32) NOT NULL DEFAULT 'properties' COMMENT 'namespace的format类型',
   `IsPublic` tinyint(1) NOT NULL DEFAULT b'0' COMMENT 'namespace是否为公共',
   `ClusterName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'Cluster Name',
+  `LaneName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '泳道名字',
   `Comment` varchar(500) NOT NULL DEFAULT '' COMMENT '注释',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人邮箱前缀',

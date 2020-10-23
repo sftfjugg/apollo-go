@@ -40,7 +40,7 @@ func (s itemRelatedService) Create(item *models.Item) error {
 		return errors.New("key already exists")
 	}
 	db := s.db.Begin()
-	if err := s.repository.Create(s.db, item); err != nil {
+	if err := s.repository.Create(db, item); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRelatedRepisitory.Create() error")
 	}
@@ -50,7 +50,7 @@ func (s itemRelatedService) Create(item *models.Item) error {
 
 func (s itemRelatedService) Creates(items []*models.Item) error {
 	db := s.db.Begin()
-	if err := s.repository.Creates(s.db, items); err != nil {
+	if err := s.repository.Creates(db, items); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRelatedRepisitory.Creates() error")
 	}
@@ -63,11 +63,11 @@ func (s itemRelatedService) Update(item *models.Item) error {
 	if err != nil {
 		return errors.Wrap(err, "call itemRelatedService.FindOneItemByNamespaceIdAndKey() error")
 	}
-	if items.Key != "" && items.Key != item.Key {
+	if items.Key != "" && items.Id != item.Id {
 		return errors.New("key already exists")
 	}
 	db := s.db.Begin()
-	if err := s.repository.Update(s.db, item); err != nil {
+	if err := s.repository.Update(db, item); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRelatedRepisitory.Update() error")
 	}
@@ -77,7 +77,7 @@ func (s itemRelatedService) Update(item *models.Item) error {
 
 func (s itemRelatedService) DeleteById(id string) error {
 	db := s.db.Begin()
-	if err := s.repository.DeleteById(s.db, id); err != nil {
+	if err := s.repository.DeleteById(db, id); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRelatedRepisitory.DeleteById() error")
 	}
@@ -87,7 +87,7 @@ func (s itemRelatedService) DeleteById(id string) error {
 
 func (s itemRelatedService) DeleteByNamespaceId(namespaceId string) error {
 	db := s.db.Begin()
-	if err := s.repository.DeleteByNamespaceId(s.db, namespaceId); err != nil {
+	if err := s.repository.DeleteByNamespaceId(db, namespaceId); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRelatedRepisitory.DeleteByNamespaceId() error")
 	}

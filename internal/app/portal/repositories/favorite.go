@@ -38,7 +38,7 @@ func (r favoriteRepository) Create(db *gorm.DB, favorite *models.Favorite) error
 }
 
 func (r favoriteRepository) DeleteByUserIdAndAppId(db *gorm.DB, userId, appId string) error {
-	if err := db.Table(models.FavoriteTableName).Update("IsDeleted", true).Where("UserId=? and AppId=?", userId, appId).Error; err != nil {
+	if err := db.Table(models.FavoriteTableName).Where("UserId=? and AppId=?", userId, appId).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "delete favorite by AppId error")
 	}
 	return nil

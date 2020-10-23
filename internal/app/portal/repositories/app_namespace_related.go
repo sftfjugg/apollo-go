@@ -37,7 +37,7 @@ func (r appNamespaceRelatedRepository) Create(db *gorm.DB, appNamespace *models.
 }
 
 func (r appNamespaceRelatedRepository) Delete(db *gorm.DB, id string) error {
-	if err := db.Table(models.AppNamespaceTableName).Where("Id =?", id).Update("IsDeleted=1").Error; err != nil {
+	if err := db.Table(models.AppNamespaceTableName).Where("Id =?", id).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "create app error")
 	}
 	return nil
@@ -53,7 +53,7 @@ func (r appNamespaceRelatedRepository) Update(db *gorm.DB, appNamespace *models.
 
 func (r appNamespaceRelatedRepository) FindAppNamespaceByNameForPage(name string, pageSize, pageNum int) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
-	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "Name like? and  IsDeleted=0", "%"+name+"%").Limit(pageSize).Offset(pageSize * (pageNum - 1)).Error; err != nil {
+	if err := r.db.Table(models.AppNamespaceTableName).Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&appNamespaces, "Name like? and  IsDeleted=0", "%"+name+"%").Error; err != nil {
 		return nil, errors.Wrap(err, "find app by name error")
 	}
 	return appNamespaces, nil
@@ -61,7 +61,7 @@ func (r appNamespaceRelatedRepository) FindAppNamespaceByNameForPage(name string
 
 func (r appNamespaceRelatedRepository) FindAppNamespaceByName(name string) (*models.AppNamespace, error) {
 	appNamespace := new(models.AppNamespace)
-	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "Name =? and  IsDeleted=0", name).Error; err != nil {
+	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "Name =? and  IsDeleted=0", name).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		return nil, errors.Wrap(err, "find app by name error")
 	}
 	return appNamespace, nil
@@ -77,7 +77,7 @@ func (r appNamespaceRelatedRepository) FindAppNamespaceById(id string) (*models.
 
 func (r appNamespaceRelatedRepository) FindAppNamespaceByDepartmentForPage(department string, pageSize, pageNum int) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
-	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "Department=? and IsDeleted=0", department).Limit(pageSize).Offset(pageSize * (pageNum - 1)).Error; err != nil {
+	if err := r.db.Table(models.AppNamespaceTableName).Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&appNamespaces, "Department=? and IsDeleted=0", department).Error; err != nil {
 		return nil, errors.Wrap(err, "create app error")
 	}
 	return appNamespaces, nil

@@ -32,14 +32,14 @@ func (ctl AppNamespaceController) CreateByRelated(c *gin.Context) {
 	param := new(struct {
 		AppNamespace *models.AppNamespace `json:"app_namespace"`
 		Items        []*models.Item       `json:"items"`
-		ClusterName  string               `json:"cluster_name"`
+		AppName      string               `json:"app_name"`
 		AppId        string               `json:"app_id"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	if err := ctl.service.CreateByRelated(param.AppNamespace, param.Items, param.ClusterName, param.AppId); err != nil {
+	if err := ctl.service.CreateByRelated(param.AppNamespace, param.Items, param.AppName, param.AppId); err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v", err)
 		return
 	}
@@ -79,6 +79,16 @@ func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.C
 	appNamespaces, err := ctl.service.FindAppNamespaceByAppIdAndClusterName(param.AppId, param.ClusterName)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppIdAndClusterName error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, appNamespaces)
+}
+
+func (ctl AppNamespaceController) FindAppNamespaceByAppId(c *gin.Context) {
+	appId := c.Query("app_id")
+	appNamespaces, err := ctl.service.FindAppNamespaceByAppId(appId)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppId error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, appNamespaces)

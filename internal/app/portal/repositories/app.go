@@ -43,7 +43,7 @@ func (r appRepository) Update(db *gorm.DB, app *models.App) error {
 
 func (r appRepository) FindByName(name string) (*models.App, error) {
 	var app = new(models.App)
-	if err := r.db.Table(models.AppTableName).First(&app, "(Name=?) and IsDeleted=0", name).Limit(1).Error; err != nil {
+	if err := r.db.Table(models.AppTableName).First(&app, "(Name=?) and IsDeleted=0", name).Limit(1).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		return nil, errors.Wrap(err, "find app by name  error")
 	}
 	return app, nil
@@ -51,7 +51,7 @@ func (r appRepository) FindByName(name string) (*models.App, error) {
 
 func (r appRepository) FindByAppId(appId string) (*models.App, error) {
 	var app = new(models.App)
-	if err := r.db.Table(models.AppTableName).First(&app, "(AppId=?) and IsDeleted=0", appId).Limit(1).Error; err != nil {
+	if err := r.db.Table(models.AppTableName).First(&app, "(AppId=?) and IsDeleted=0", appId).Limit(1).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
 		return nil, errors.Wrap(err, "find app by AppId error")
 	}
 	return app, nil
@@ -59,7 +59,7 @@ func (r appRepository) FindByAppId(appId string) (*models.App, error) {
 
 //逻辑删除，并非实际删除
 func (r appRepository) DeleteByAppId(db *gorm.DB, appId string) error {
-	if err := db.Table(models.AppTableName).Update("IsDeleted=?", true).Where("AppId", appId).Error; err != nil {
+	if err := db.Table(models.AppTableName).Where("AppId", appId).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "delete app by AppId error")
 	}
 	return nil

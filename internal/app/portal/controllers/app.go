@@ -5,6 +5,7 @@ import (
 	"apollo-adminserivce/internal/app/portal/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type AppController struct {
@@ -136,22 +137,18 @@ func (ctl AppController) FindLimosAppById(c *gin.Context) {
 }
 
 func (ctl AppController) FindAuth(c *gin.Context) {
-	param := new(struct {
-		AppId int64  `app_id`
-		Name  string `name`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	auth, err := ctl.service.FindAuth(param.AppId, param.Name)
+
+	id := c.GetHeader("AppId")
+	Name := c.GetHeader("UserName")
+	appId, err := strconv.ParseInt(id, 10, 64)
+	auth, err := ctl.service.FindAuth(appId, Name)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v", err)
 		return
 	}
-	if auth {
-		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v")
+	if !auth {
+		c.AbortWithStatus(http.StatusForbidden)
+		c.String(http.StatusForbidden, "call AppService.FindLimosAppById() error:%v")
 		return
 	}
-	c.JSON(http.StatusOK, auth)
 }

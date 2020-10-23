@@ -1,7 +1,7 @@
 app:
   name: portal
 db:
-  url:   "root:980207@tcp(47.100.13.76:3306)/ApolloConfigDB?charset=utf8mb4&parseTime=True&loc=Local"
+  url:   "root:980207@tcp(47.100.13.76:3306)/ApolloPortalDB?charset=utf8mb4&parseTime=True&loc=Local"
   debug: true
 log:
   filename:  logs/server.log
