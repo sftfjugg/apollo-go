@@ -9,10 +9,10 @@ type AppNamespace struct {
 	Id                        uint64    `gorm:"column:Id" json:"id" form:"id"`
 	Name                      string    `gorm:"column:Name" json:"name" form:"name"`
 	AppId                     string    `gorm:"column:AppId" json:"app_id" form:"app_id"`
-	AppName                   string    `gorm:"column:AppName" json:"app_name" form:"app_name"`
+	AppName                   string    `gorm:"column:AppName" json:"app_name" form:"app_name"`             //保留字段
 	ClusterName               string    `gorm:"column:ClusterName" json:"cluster_name" form:"cluster_name"` //灰度使用
 	LaneName                  string    `gorm:"column:LaneName" json:"lane_name" form:"lane_name"`
-	Format                    string    `gorm:"column:Format" json:"format" form:"format"` //类型，目前只支持properties
+	Format                    string    `gorm:"column:Format" json:"format" form:"format"` //类型
 	IsPublic                  bool      `gorm:"column:IsPublic" json:"is_public" form:"is_public"`
 	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
 	IsDeleted                 bool      `gorm:"column:IsDeleted" json:"-"`

@@ -64,7 +64,21 @@ func (ctl AppNamespaceController) DeleteById(c *gin.Context) {
 		c.String(http.StatusBadRequest, "AppNamespaceService.DeleteById error:%v", err)
 		return
 	}
-	c.JSON(http.StatusOK, appId)
+}
+
+func (ctl AppNamespaceController) DeleteByNameAndAppId(c *gin.Context) {
+	param := new(struct {
+		AppId string `form:"app_id" json:"app_id"`
+		Name  string `form:"name" json:"name"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if err := ctl.service.DeleteByNameAndAppId(param.Name, param.AppId); err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.DeleteByNameAndAppId error:%v", err)
+		return
+	}
 }
 
 func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.Context) {

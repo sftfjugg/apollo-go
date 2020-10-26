@@ -10,7 +10,7 @@ import (
 )
 
 type ReleaseMessageService interface {
-	Create(name, appId, clusterName, comment, namespaceName, namespaceId string, isPublic bool, keys []string) error
+	Create(appId, clusterName, comment, name, namespaceId string, isPublic bool, keys []string) error
 }
 
 type releaseMessageService struct {
@@ -37,9 +37,9 @@ func NewReleaseMessageService(
 	}
 }
 
-func (s releaseMessageService) Create(name, appId, clusterName, comment, namespaceName, namespaceId string, isPublic bool, keys []string) error {
+func (s releaseMessageService) Create(appId, clusterName, comment, name, namespaceId string, isPublic bool, keys []string) error {
 	release := new(models.Release)
-	release.NamespaceName = namespaceName
+	release.NamespaceName = name
 	release.AppId = appId
 	release.Comment = comment
 	release.ClusterName = clusterName
@@ -65,17 +65,21 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 	releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+application"
 	releaseMessage.DataChange_LastTime = time.Now()
 	db := s.db.Begin()
+	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
+	}
 	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId, keys); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	var items = make([]*models.Item, 0)
-	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0", namespaceId).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	m := make(map[string]string)
 	for i := range items {
-		m[items[i].Key] = items[i].Value
+		m[items[i].Key] = items[i].ReleaseValue
 	}
 	config, err := json.Marshal(m)
 	if err != nil {
@@ -115,17 +119,23 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
 	db := s.db.Begin()
+	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
+	}
 	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId, keys); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	var items = make([]*models.Item, 0)
-	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0", namespaceId).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	m := make(map[string]string)
-	for i := range items {
-		m[items[i].Key] = items[i].Value
+	for _, i := range items {
+		if i.ReleaseValue != "" {
+			m[i.Key] = i.ReleaseValue
+		}
 	}
 	config, err := json.Marshal(m)
 	if err != nil {

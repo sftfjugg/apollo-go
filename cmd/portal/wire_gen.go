@@ -20,6 +20,7 @@ import (
 	"apollo-adminserivce/internal/pkg/log"
 	"apollo-adminserivce/internal/pkg/zeus"
 	"github.com/google/wire"
+	"go.didapinche.com/uic"
 )
 
 // Injectors from wire.go:
@@ -68,6 +69,11 @@ func CreateApps(cf string) (*app.Application, error) {
 	appdRepository := repositories.NewAppRepository(gormDB)
 	appService := services.NewAppService(gormDB, tChanLimosService, tChanUicService, appdRepository)
 	appController := controllers.NewAppController(appService)
+	uicOptions := uic.NewOptions(viper)
+	api, err := uic.NewApi(uicOptions, logger, tChanUicService)
+	if err != nil {
+		return nil, err
+	}
 	client := httpclient.New()
 	httpClient := clients.NewHttpClient(client)
 	appNamespaceRelatedRepository := repositories.NewAppNamespaceRelatedRepository(gormDB)
@@ -82,7 +88,7 @@ func CreateApps(cf string) (*app.Application, error) {
 	releaseController := controllers.NewReleaseController(releaseService)
 	appNamespaceRelatedService := services.NewAppNamespaceRelatedService(gormDB, appNamespaceRelatedRepository, itemRelatedRepisitory)
 	appNamespaceRelatedController := controllers.NewAppNamespaceRelatedController(appNamespaceRelatedService)
-	initControllers := controllers.InitControllersFn(appController, appNamespaceController, itemController, itemRelatedController, releaseController, appNamespaceRelatedController)
+	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, itemRelatedController, releaseController, appNamespaceRelatedController)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err
@@ -109,4 +115,4 @@ func CreateApps(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSets = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, clients.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet)
+var providerSets = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, clients.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet)

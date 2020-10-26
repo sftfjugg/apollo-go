@@ -3,11 +3,12 @@ package controllers
 import (
 	"apollo-adminserivce/internal/pkg/http"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/uic"
 )
 
 func InitControllersFn(
 	controller *AppController,
-	//uic *uic.Api,
+	uic *uic.Api,
 	appNamespaceController *AppNamespaceController,
 	itemController *ItemController,
 	itemRelatedController *ItemRelatedController,
@@ -33,6 +34,7 @@ func InitControllersFn(
 			r.GET("/app_namespace/:env", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
 			r.POST("/app_namespace/:env", appNamespaceController.Create)
 			r.DELETE("/app_namespace/:env", appNamespaceController.DeleteById)
+			r.DELETE("/app_namespace_by_name/:env", appNamespaceController.DeleteByNameAndAppId)
 			r.PUT("/app_namespace/:env", appNamespaceController.Update)
 			r.POST("/app_namespace_by_related/:env", appNamespaceController.CreateByRelated)
 			r.GET("/app_namespace_all/:env", appNamespaceController.FindAppNamespaceByAppId)
@@ -40,10 +42,10 @@ func InitControllersFn(
 		{
 			r.GET("/items/:env", itemController.FindItemByNamespaceId)
 			r.GET("/items_by_key/:env", itemController.FindItemByKeyForPage)
-			r.POST("/item/:env", itemController.Create)
-			r.DELETE("/item/:env", itemController.DeleteByNamespaceIdAndKey)
-			r.PUT("/item/:env", itemController.Update)
-			r.DELETE("/items/:env", itemController.DeleteByNamespaceId)
+			r.POST("/item/:env", uic.AuthLogin(), itemController.Create)
+			r.DELETE("/item/:env", uic.AuthLogin(), itemController.DeleteByNamespaceIdAndKey)
+			r.PUT("/item/:env", uic.AuthLogin(), itemController.Update)
+			r.DELETE("/items/:env", uic.AuthLogin(), itemController.DeleteByNamespaceId)
 			r.GET("/item/:env", itemController.FindItemByNamespaceIdAndKey)
 			r.GET("/item_by_key_and_app_id/:env", itemController.FindItemByAppIdAndKey)
 		}

@@ -11,6 +11,7 @@ import (
 type AppNamespaceService interface {
 	Create(env string, r *http.Request) (*models2.Response, error)
 	DeleteById(env string, r *http.Request) (*models2.Response, error)
+	DeleteByNameAndAppId(env string, r *http.Request) (*models2.Response, error)
 	Update(env string, r *http.Request) (*models2.Response, error)
 	CreateByRelated(namespaceId, appName, appId, env string) (*models2.Response, error)
 	FindAppNamespaceByAppId(env string, r *http.Request) (*models2.Response, error)
@@ -71,6 +72,14 @@ func (s appNamespaceService) CreateByRelated(namespaceId, appName, appId, env st
 
 func (s appNamespaceService) DeleteById(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/app_namespace", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s appNamespaceService) DeleteByNameAndAppId(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/app_namespace_by_name", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}

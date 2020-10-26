@@ -15,6 +15,7 @@ import (
 	"apollo-adminserivce/internal/pkg/log"
 	"apollo-adminserivce/internal/pkg/zeus"
 	"github.com/google/wire"
+	"go.didapinche.com/uic"
 )
 
 var providerSet = wire.NewSet(
@@ -30,6 +31,7 @@ var providerSet = wire.NewSet(
 	http.ProviderSet,
 	httpclient.ProviderSet,
 	portal.ProviderSet,
+	uic.ProviderSet,
 )
 
 func CreateApp(cf string) (*app.Application, error) {

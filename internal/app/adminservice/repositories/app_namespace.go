@@ -10,10 +10,12 @@ import (
 type AppNamespaceRepository interface {
 	Create(db *gorm.DB, appNamespace *models.AppNamespace) error
 	DeleteById(db *gorm.DB, id string) error
+	DeleteByNameAndAppId(db *gorm.DB, name, appId string) error
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
 	FindAppNamespaceByAppId(appId string) ([]*models.AppNamespace, error)
+	FindAppNamespaceByAppIdAndName(appId, name string) ([]*models.AppNamespace, error)
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 }
 
@@ -38,7 +40,15 @@ func (r appNamespaceRepository) Create(db *gorm.DB, appNamespace *models.AppName
 
 func (r appNamespaceRepository) DeleteById(db *gorm.DB, id string) error {
 	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", id).Update("IsDeleted", 1).Error; err != nil {
-		return errors.Wrap(err, "delete appNamespace error")
+		return errors.Wrap(err, "delete appNamespace by id error")
+	}
+	return nil
+}
+
+//多表删除，通过配置文件名字删除掉配置文件和对应配置
+func (r appNamespaceRepository) DeleteByNameAndAppId(db *gorm.DB, name, appId string) error {
+	if err := db.Table(models.AppNamespaceTableName).Where("Name=? and AppId=?", name, appId).Update("IsDeleted", 1).Error; err != nil {
+		return errors.Wrap(err, "delete appNamespace by appid and name error")
 	}
 	return nil
 }
@@ -81,6 +91,14 @@ func (r appNamespaceRepository) FindClusterNameByAppId(appId string) ([]*models.
 	appNamespaces := make([]*models.AppNamespace, 0)
 	if err := r.db.Raw("select ClusterName from AppNamespace where AppId=? and IsDeleted=0 group by ClusterName order by null;", appId).Scan(&appNamespaces).Error; err != nil {
 		return nil, errors.Wrap(err, "FindAppNamespaceIsPublic appNamespace error")
+	}
+	return appNamespaces, nil
+}
+
+func (r appNamespaceRepository) FindAppNamespaceByAppIdAndName(appId, name string) ([]*models.AppNamespace, error) {
+	appNamespaces := make([]*models.AppNamespace, 0)
+	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0 and Name=?", appId, name).Error; err != nil {
+		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
 	}
 	return appNamespaces, nil
 }

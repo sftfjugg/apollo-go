@@ -15,9 +15,12 @@ type ItemRepisitory interface {
 	Creates(db *gorm.DB, items []*models.Item) error
 	Update(db *gorm.DB, item *models.Item) error
 	UpdateByNamespaceId(db *gorm.DB, namespaceId string, keys []string) error
-	DeleteById(db *gorm.DB, id string) error
+	DeleteById(db *gorm.DB, id, operator string) error
+	DeleteByIdOnRelease(db *gorm.DB, namespaceId string, keys []string) error
 	DeleteByNamespaceId(db *gorm.DB, namespaceId string) error
+	DeleteByNamespaceIds(db *gorm.DB, namespaceIds []string) error
 	FindItemByNamespaceId(namespaceID string) ([]*models.Item, error)
+	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
 	FindItemByKeyForPage(key string, pageSize, pageNum int) ([]*models2.Item, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindItemByAppIdAndKey(appId, key string) ([]*models2.Item, error)
@@ -35,6 +38,7 @@ func NewItemRepisitory(db *gorm.DB) ItemRepisitory {
 }
 
 func (r itemRepisitory) Create(db *gorm.DB, item *models.Item) error {
+	item.Status = 0
 	item.DataChange_CreatedTime = time.Now()
 	item.DataChange_LastTime = time.Now()
 	if err := db.Create(&item).Error; err != nil {
@@ -50,6 +54,7 @@ func (r itemRepisitory) Creates(db *gorm.DB, items []*models.Item) error {
 		return errors.Wrap(err, "creates releaseMessage error")
 	}
 	for i, r := range items {
+		r.Status = 0
 		if i == len(items)-1 {
 			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s');", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
 		} else {
@@ -64,6 +69,7 @@ func (r itemRepisitory) Creates(db *gorm.DB, items []*models.Item) error {
 
 func (r itemRepisitory) Update(db *gorm.DB, item *models.Item) error {
 	item.DataChange_LastTime = time.Now()
+	item.Status = 2
 	if err := db.Table(models.ItemTableName).Where("Id=?", item.Id).Update(&item).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.Update failed")
 	}
@@ -76,7 +82,7 @@ func (r itemRepisitory) UpdateByNamespaceId(db *gorm.DB, namespaceId string, key
 		key += ",'" + keys[i] + "'"
 	}
 	key += ")"
-	if err := db.Table(models.ItemTableName).Where("NamespaceId= ? and IsDeleted=0 and `Key` in "+key, namespaceId).Update("Status", 1).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Where("NamespaceId= ? and IsDeleted=0 and `Key` in "+key, namespaceId).Update("ReleaseValue`=Value,`Status", 1).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.UpdateByNamespaceId failed")
 	}
 	return nil
@@ -89,17 +95,52 @@ func (r itemRepisitory) DeleteByNamespaceId(db *gorm.DB, namespaceId string) err
 	return nil
 }
 
-func (r itemRepisitory) DeleteById(db *gorm.DB, id string) error {
-	if err := db.Table(models.ItemTableName).Where("Id=?", id).Update("IsDeleted", 1).Error; err != nil {
+func (r itemRepisitory) DeleteByNamespaceIds(db *gorm.DB, namespaceIds []string) error {
+	ids := "('" + namespaceIds[0] + "'"
+	for i := 1; i < len(namespaceIds); i++ {
+		ids += ",'" + namespaceIds[i] + "'"
+	}
+	ids += ")"
+	if err := db.Table(models.ItemTableName).Where("IsDeleted=0 and NamespaceId in"+ids).Update("IsDeleted", 1).Error; err != nil {
+		return errors.Wrap(err, "ItemRepisitory.DeleteByNamespaceId failed")
+	}
+	return nil
+}
+
+//只是修改标记为删除
+func (r itemRepisitory) DeleteById(db *gorm.DB, id, operator string) error {
+	if err := db.Table(models.ItemTableName).Where("Id=?", id).Update("Status", 3, "DataChange_LastModifiedBy", operator).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.DeleteById failed")
+	}
+	return nil
+}
+
+//真实删除，发布和删除配置文件时使用真实删除
+func (r itemRepisitory) DeleteByIdOnRelease(db *gorm.DB, id string, keys []string) error {
+	key := "('" + keys[0] + "'"
+	for i := 1; i < len(keys); i++ {
+		key += ",'" + keys[i] + "'"
+	}
+	key += ")"
+	if err := db.Table(models.ItemTableName).Where("namespaceId=? and Status=3 and `Key` in "+key, id).Update("IsDeleted", 1).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
+		return errors.Wrap(err, "ItemRepisitory.DeleteByIdOnRelease failed")
 	}
 	return nil
 }
 
 func (r itemRepisitory) FindItemByNamespaceId(namespaceID string) ([]*models.Item, error) {
 	var items = make([]*models.Item, 0)
-	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceID).Error; err != nil {
+	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0", namespaceID).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
+	}
+	return items, nil
+}
+
+//获得发布时需要发布的key
+func (r itemRepisitory) FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error) {
+	var items = make([]*models.Item, 0)
+	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status!=1", namespaceID).Error; err != nil {
+		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdOnRelease failed")
 	}
 	return items, nil
 }
@@ -114,7 +155,7 @@ func (r itemRepisitory) FindItemByNamespaceIdAndKey(namespaceId, key string) ([]
 
 func (r itemRepisitory) FindItemByAppIdAndKey(appId, key string) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0;", "%"+key+"%", appId).Scan(&items).Error; err != nil {
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.ReleaseValue,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0;", "%"+key+"%", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return items, nil

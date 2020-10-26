@@ -12,10 +12,11 @@ type ItemService interface {
 	Create(item *models.Item) error
 	Creates(item []*models.Item) error
 	Update(item *models.Item) error
-	DeleteById(id string) error
+	DeleteById(id, operator string) error
 	DeleteByNamespaceId(namespaceId string) error
 	FindItemByAppIdAndKey(appId, key string) ([]*models2.AppNamespace, error)
 	FindItemByNamespaceId(namespaceID string) ([]*models.Item, error)
+	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
 	FindItemByKeyForPage(key string, pageSize, pageNum int) ([]*models2.Item, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
@@ -37,6 +38,7 @@ func NewItemService(
 }
 
 func (s itemService) Create(item *models.Item) error {
+	item.Status = 0
 	items, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
 	if err != nil {
 		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
@@ -63,9 +65,9 @@ func (s itemService) Creates(items []*models.Item) error {
 	return nil
 }
 
-func (s itemService) DeleteById(id string) error {
+func (s itemService) DeleteById(id, operator string) error {
 	db := s.db.Begin()
-	if err := s.repository.DeleteById(db, id); err != nil {
+	if err := s.repository.DeleteById(db, id, operator); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.DeleteByNamespaceIdAndKey() error")
 	}
@@ -104,6 +106,14 @@ func (s itemService) FindItemByNamespaceId(namespaceID string) ([]*models.Item, 
 	items, err := s.repository.FindItemByNamespaceId(namespaceID)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
+	}
+	return items, nil
+}
+
+func (s itemService) FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error) {
+	items, err := s.repository.FindItemByNamespaceIdOnRelease(namespaceID)
+	if err != nil {
+		return nil, errors.Wrap(err, "call ItemRepository.FindItemByNamespaceIdOnRelease() error")
 	}
 	return items, nil
 }
@@ -168,6 +178,7 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				itemModel.DataChange_CreatedBy = s.DataChange_CreatedBy
 				itemModel.Describe = s.Describe
 				itemModel.Comment = s.Comment
+				itemModel.ReleaseValue = s.ReleaseValue
 				itemModel.Status = s.Status
 				its = append(its, itemModel)
 				namespace.LaneName = s.LaneName

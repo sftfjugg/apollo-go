@@ -17,6 +17,9 @@ func NewItemController(service services.ItemService) *ItemController {
 
 func (ctl ItemController) Create(c *gin.Context) {
 	item := new(models.Item)
+	//operator,_ := c.Get("UserID")
+	//item.DataChange_CreatedBy=operator.(string)
+	//item.DataChange_LastModifiedBy=operator.(string)
 	if err := c.ShouldBind(item); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
@@ -41,6 +44,8 @@ func (ctl ItemController) Creates(c *gin.Context) {
 
 func (ctl ItemController) Update(c *gin.Context) {
 	item := new(models.Item)
+	//operator,_ := c.Get("UserID")
+	//item.DataChange_LastModifiedBy=operator.(string)
 	if err := c.ShouldBind(item); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
@@ -53,7 +58,8 @@ func (ctl ItemController) Update(c *gin.Context) {
 
 func (ctl ItemController) DeleteById(c *gin.Context) {
 	id := c.Query("id")
-	if err := ctl.service.DeleteById(id); err != nil {
+	//operator,_ := c.Get("UserID")
+	if err := ctl.service.DeleteById(id, ""); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.DeleteById() error:%v", err)
 		return
 	}
@@ -73,6 +79,17 @@ func (ctl ItemController) FindItemByNamespaceId(c *gin.Context) {
 	items, err := ctl.service.FindItemByNamespaceId(namespaceId)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.FindItemByNamespaceId() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, items)
+}
+
+func (ctl ItemController) FindItemByNamespaceIdOnRelease(c *gin.Context) {
+
+	namespaceId := c.Query("namespace_id")
+	items, err := ctl.service.FindItemByNamespaceIdOnRelease(namespaceId)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.FindItemByNamespaceIdOnRelease() error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, items)

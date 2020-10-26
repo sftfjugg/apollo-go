@@ -12,6 +12,7 @@ type Item struct {
 	NamespaceId               uint64    `gorm:"column:NamespaceId" json:"namespace_id" form:"namespace_id"`
 	Key                       string    `gorm:"column:Key" json:"key" form:"value"`
 	Value                     string    `gorm:"column:Value" json:"value" form:"value"`
+	ReleaseValue              string    `gorm:"column:ReleaseValue" json:"release_value" form:"release_value"`
 	Status                    uint64    `gorm:"column:Status" json:"status" from:"status"`
 	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
 	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"`

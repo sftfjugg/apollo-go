@@ -53,6 +53,17 @@ func (ctl AppNamespaceController) DeleteById(c *gin.Context) {
 	}
 	c.Data(r.Code, r.ContentType, r.Data)
 }
+
+func (ctl AppNamespaceController) DeleteByNameAndAppId(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.DeleteByNameAndAppId(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.DeleteByNameAndAppId run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
 func (ctl AppNamespaceController) Update(c *gin.Context) {
 	env := c.Param("env")
 	r, err := ctl.service.Update(env, c.Request)

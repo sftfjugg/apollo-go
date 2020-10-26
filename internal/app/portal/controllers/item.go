@@ -64,6 +64,16 @@ func (ctl ItemController) FindItemByNamespaceId(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
+func (ctl ItemController) FindItemByNamespaceIdOnRelease(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindItemByNamespaceIdOnRelease(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.FindItemByNamespaceIdOnRelease run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
 func (ctl ItemController) FindItemByKeyForPage(c *gin.Context) {
 	env := c.Param("env")
 	r, err := ctl.service.FindItemByKeyForPage(env, c.Request)

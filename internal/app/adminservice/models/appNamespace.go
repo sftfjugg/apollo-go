@@ -6,6 +6,7 @@ type AppNamespace struct {
 	Name       string       `json:"name"`
 	AppId      string       `json:"app_id"`
 	AppName    string       `json:"app_name"`
+	Format     string       `gorm:"column:Format" json:"format" form:"format"` //类型
 	Namespaces []*Namespace `json:"namespaces"`
 }
 

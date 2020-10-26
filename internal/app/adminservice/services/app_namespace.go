@@ -7,12 +7,14 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"go.didapinche.com/time"
+	"strconv"
 )
 
 type AppNamespaceService interface {
 	Create(appNamespace *models.AppNamespace) error
 	CreateByRelated(appNamespace *models.AppNamespace, items []*models.Item, appName, appId string) error
 	DeleteById(id string) error
+	DeleteByNameAndAppId(name, appId string) error
 	Update(appNamespace *models.AppNamespace) error
 	FindAppNamespaceByAppId(appId string) ([]*models2.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
@@ -99,11 +101,34 @@ func (s appNamespaceService) DeleteById(id string) error {
 	db := s.db.Begin()
 	if err := s.itemRepository.DeleteByNamespaceId(db, id); err != nil {
 		db.Rollback()
-		return errors.Wrap(err, "call itemRepository.DeleteById() error")
+		return errors.Wrap(err, "call itemRepository.DeleteByIdOnRelease() error")
 	}
 	if err := s.repository.DeleteById(db, id); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
+	}
+	db.Commit()
+	return nil
+}
+
+//删除配置文件和对应配置
+func (s appNamespaceService) DeleteByNameAndAppId(name, appId string) error {
+	namespaces, err := s.repository.FindAppNamespaceByAppIdAndName(appId, name)
+	if err != nil {
+		return errors.Wrap(err, "call appNamespaceService.FindAppNamespaceByAppIdAndName() error")
+	}
+	ids := make([]string, 0)
+	for _, n := range namespaces {
+		ids = append(ids, strconv.FormatUint(n.Id, 10))
+	}
+	db := s.db.Begin()
+	if err := s.itemRepository.DeleteByNamespaceIds(db, ids); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call itemRepository.DeleteByNamespaceIds() error")
+	}
+	if err := s.repository.DeleteByNameAndAppId(db, name, appId); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call repository.DeleteByNameAndAppId() error")
 	}
 	db.Commit()
 	return nil
@@ -151,11 +176,14 @@ func (s appNamespaceService) FindAppNamespaceByAppId(appId string) ([]*models2.A
 			j := names[k][i]
 			namespace := new(models2.Namespace)
 			app.AppId = appNamespaces[j].AppId
+			if appNamespaces[j].Format != "" {
+				app.Format = appNamespaces[j].Format
+			}
 			app.AppName = appNamespaces[j].AppName
 			namespace.ClusterName = appNamespaces[j].ClusterName
 			namespace.Id = appNamespaces[j].Id
 			namespace.LaneName = appNamespaces[j].LaneName
-			items, err := s.itemService.FindItemByNamespaceId(string(namespace.Id))
+			items, err := s.itemService.FindItemByNamespaceId(strconv.FormatUint(namespace.Id, 10))
 			if err != nil {
 				return nil, errors.Wrap(err, "call itemService.FindItemByNamespaceId() error")
 			}

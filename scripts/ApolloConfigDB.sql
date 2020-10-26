@@ -129,6 +129,7 @@ CREATE TABLE `Item` (
   `NamespaceId` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '集群NamespaceId',
   `Key` varchar(128) NOT NULL DEFAULT 'default' COMMENT '配置项Key',
   `Value` longtext NOT NULL COMMENT '配置项值',
+  `ReleaseValue` longtext NOT NULL COMMENT '发布的配置项值',
   `Status` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '当前状态，0：未发布(新增),1：已发布,2修改（未发布）',
   `Comment` varchar(1024) DEFAULT '' COMMENT '注释',
   `Describe` varchar(1024) DEFAULT '' COMMENT '详细描述',
