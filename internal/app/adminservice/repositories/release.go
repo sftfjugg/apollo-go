@@ -4,6 +4,7 @@ import (
 	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/time"
 )
 
 type Release interface {
@@ -21,6 +22,8 @@ func NewRelease(db *gorm.DB) Release {
 }
 
 func (r release) Create(db *gorm.DB, release *models.Release) error {
+	release.DataChange_CreatedTime = time.Now()
+	release.DataChange_LastTime = time.Now()
 	if err := db.Create(release).Error; err != nil {
 		return errors.Wrap(err, "create release error")
 	}

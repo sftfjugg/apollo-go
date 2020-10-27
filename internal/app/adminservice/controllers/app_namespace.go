@@ -99,8 +99,15 @@ func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.C
 }
 
 func (ctl AppNamespaceController) FindAppNamespaceByAppId(c *gin.Context) {
-	appId := c.Query("app_id")
-	appNamespaces, err := ctl.service.FindAppNamespaceByAppId(appId)
+	param := new(struct {
+		AppId  string `form:"app_id"`
+		Format string `form:"format"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	appNamespaces, err := ctl.service.FindAppNamespaceByAppId(param.AppId, param.Format)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppId error:%v", err)
 		return

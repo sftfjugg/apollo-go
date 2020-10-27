@@ -29,6 +29,7 @@ func InitControllersFn(
 			r.DELETE("/items", itemController.DeleteByNamespaceId)
 			r.GET("/items", itemController.FindItemByNamespaceId)
 			r.GET("/items_by_key", itemController.FindItemByKeyForPage)
+			r.GET("/items_by_key_on_app", itemController.FindAppItemByKeyForPage)
 			r.DELETE("/item", itemController.DeleteById)
 			r.GET("/item", itemController.FindItemByNamespaceIdAndKey)
 			r.GET("/item_by_key_and_appId", itemController.FindItemByAppIdAndKey)

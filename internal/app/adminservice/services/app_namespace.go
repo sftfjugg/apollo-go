@@ -7,6 +7,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"go.didapinche.com/time"
+	"sort"
 	"strconv"
 )
 
@@ -16,7 +17,7 @@ type AppNamespaceService interface {
 	DeleteById(id string) error
 	DeleteByNameAndAppId(name, appId string) error
 	Update(appNamespace *models.AppNamespace) error
-	FindAppNamespaceByAppId(appId string) ([]*models2.AppNamespace, error)
+	FindAppNamespaceByAppId(appId, format string) ([]*models2.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
 }
@@ -159,8 +160,8 @@ func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(appId, cluste
 	return appNamespaces, nil
 }
 
-func (s appNamespaceService) FindAppNamespaceByAppId(appId string) ([]*models2.AppNamespace, error) {
-	appNamespaces, err := s.repository.FindAppNamespaceByAppId(appId)
+func (s appNamespaceService) FindAppNamespaceByAppId(appId, format string) ([]*models2.AppNamespace, error) {
+	appNamespaces, err := s.repository.FindAppNamespaceByAppId(appId, format)
 	if err != nil {
 		return nil, errors.Wrap(err, "call AppNamespaceRepository.FindAppNamespaceByAppId() error")
 	}
@@ -192,6 +193,7 @@ func (s appNamespaceService) FindAppNamespaceByAppId(appId string) ([]*models2.A
 		}
 		apps = append(apps, app)
 	}
+	sort.Sort(models2.AppNamespaceSlice(apps))
 	return apps, nil
 }
 func (s appNamespaceService) FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error) {

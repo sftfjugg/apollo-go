@@ -14,7 +14,7 @@ type AppNamespaceRepository interface {
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
-	FindAppNamespaceByAppId(appId string) ([]*models.AppNamespace, error)
+	FindAppNamespaceByAppId(appId, format string) ([]*models.AppNamespace, error)
 	FindAppNamespaceByAppIdAndName(appId, name string) ([]*models.AppNamespace, error)
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 }
@@ -78,9 +78,12 @@ func (r appNamespaceRepository) FindOneAppNamespaceByAppIdAndClusterNameAndName(
 }
 
 //查询appId下的所有配置
-func (r appNamespaceRepository) FindAppNamespaceByAppId(appId string) ([]*models.AppNamespace, error) {
+func (r appNamespaceRepository) FindAppNamespaceByAppId(appId, format string) ([]*models.AppNamespace, error) {
+	if format != "" {
+		format = "and Format='" + format + "'"
+	}
 	appNamespaces := make([]*models.AppNamespace, 0)
-	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0", appId).Error; err != nil {
+	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0 "+format+"", appId).Error; err != nil {
 		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
 	}
 	return appNamespaces, nil

@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://47.100.13.76:3306/ApolloConfigDB</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="test" uuid="45ed4ff9-a25b-4a0c-ba50-ffecad7381ac">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.1.205:3600</jdbc-url>
+    </data-source>
   </component>
 </project>

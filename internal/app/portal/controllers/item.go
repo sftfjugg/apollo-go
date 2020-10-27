@@ -103,3 +103,13 @@ func (ctl ItemController) FindItemByAppIdAndKey(c *gin.Context) {
 	}
 	c.Data(r.Code, r.ContentType, r.Data)
 }
+
+func (ctl ItemController) FindAppItemByKeyForPage(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindAppItemByKeyForPage(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.FindAppItemByKeyForPage run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}

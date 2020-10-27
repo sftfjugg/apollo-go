@@ -8,34 +8,7 @@
 
 # Create Database
 # ------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS ApolloConfigDB DEFAULT CHARACTER SET = utf8mb4;
-
-Use ApolloConfigDB;
-
-# Dump of table app
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `App`;
-
-CREATE TABLE `App` (
-  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
-  `Name` varchar(500) NOT NULL DEFAULT 'default' COMMENT '应用名',
-  `OrgId` varchar(32) NOT NULL DEFAULT 'default' COMMENT '部门Id',
-  `OrgName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '部门名字',
-  `OwnerName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'ownerName',
-  `OwnerEmail` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'ownerEmail',
-  `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
-  `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
-  `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
-  `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  PRIMARY KEY (`Id`),
-  KEY `AppId` (`AppId`(191)),
-  KEY `DataChange_LastTime` (`DataChange_LastTime`),
-  KEY `IX_Name` (`Name`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用表';
-
+CREATE DATABASE IF NOT EXISTS ApolloConfigDB1 DEFAULT CHARACTER SET = utf8mb4;
 
 
 # Dump of table appnamespace
@@ -60,36 +33,13 @@ CREATE TABLE `AppNamespace` (
   `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`Id`),
   KEY `IX_AppId` (`AppId`),
+  KEY  `ClusterName` (`ClusterName`),
   KEY `IsPublic` (`IsPublic`),
   KEY `Name_AppId` (`Name`,`AppId`),
   KEY `AppId_ClusterName_Name` (`AppId`,`ClusterName`,`Name`),
   KEY `DataChange_LastTime` (`DataChange_LastTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用namespace定义';
 
-
-
-
-
-# Dump of table cluster
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `Cluster`;
-
-CREATE TABLE `Cluster` (
-  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `Name` varchar(32) NOT NULL DEFAULT '' COMMENT '集群名字',
-  `AppId` varchar(64) NOT NULL DEFAULT '' COMMENT 'App id',
-  `ParentClusterId` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '父cluster',
-  `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
-  `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人邮箱前缀',
-  `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
-  `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  PRIMARY KEY (`Id`),
-  KEY `IX_AppId_Name` (`AppId`,`Name`),
-  KEY `IX_ParentClusterId` (`ParentClusterId`),
-  KEY `DataChange_LastTime` (`DataChange_LastTime`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='集群';
 
 
 
@@ -139,6 +89,7 @@ CREATE TABLE `Item` (
   `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
   `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`Id`),
+  KEY  `Key` (`Key`),
   KEY `IX_GroupId` (`NamespaceId`),
   KEY `DataChange_LastTime` (`DataChange_LastTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置项目';
@@ -237,3 +188,6 @@ CREATE TABLE `ServerConfig` (
 
 # Dump of table accesskey
 # ------------------------------------------------------------
+
+show databases;
+select * from dida_apollo_config.`ReleaseMessage`;

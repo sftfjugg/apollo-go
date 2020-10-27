@@ -16,6 +16,7 @@ type ItemService interface {
 	FindItemByNamespaceIdOnRelease(env string, r *http.Request) (*models2.Response, error)
 	FindItemByAppIdAndKey(env string, r *http.Request) (*models2.Response, error)
 	FindItemByKeyForPage(env string, r *http.Request) (*models2.Response, error)
+	FindAppItemByKeyForPage(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error)
 }
 
@@ -85,6 +86,14 @@ func (s itemService) FindItemByAppIdAndKey(env string, r *http.Request) (*models
 
 func (s itemService) FindItemByKeyForPage(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/items_by_key", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s itemService) FindAppItemByKeyForPage(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/items_by_key_on_app", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}

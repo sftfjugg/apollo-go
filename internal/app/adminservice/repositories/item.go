@@ -21,9 +21,10 @@ type ItemRepisitory interface {
 	DeleteByNamespaceIds(db *gorm.DB, namespaceIds []string) error
 	FindItemByNamespaceId(namespaceID string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
-	FindItemByKeyForPage(key string, pageSize, pageNum int) ([]*models2.Item, error)
+	FindItemByKeyForPage(key, format string, pageSize, pageNum int) ([]*models2.Item, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
-	FindItemByAppIdAndKey(appId, key string) ([]*models2.Item, error)
+	FindItemByAppIdAndKey(appId, key, format string) ([]*models2.Item, error)
+	FindItemCountByKey(key string) (int, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
 }
 
@@ -153,20 +154,35 @@ func (r itemRepisitory) FindItemByNamespaceIdAndKey(namespaceId, key string) ([]
 	return items, nil
 }
 
-func (r itemRepisitory) FindItemByAppIdAndKey(appId, key string) ([]*models2.Item, error) {
+func (r itemRepisitory) FindItemByAppIdAndKey(appId, key, format string) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.ReleaseValue,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0;", "%"+key+"%", appId).Scan(&items).Error; err != nil {
+	if format != "" {
+		format = "and Format='" + format + "'"
+	}
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.ReleaseValue,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 "+format+" ;", "%"+key+"%", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return items, nil
 }
 
-func (r itemRepisitory) FindItemByKeyForPage(key string, pageSize, pageNum int) ([]*models2.Item, error) {
+func (r itemRepisitory) FindItemByKeyForPage(key, format string, pageSize, pageNum int) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
+	if format != "" {
+		format = "and Format='" + format + "'"
+	}
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return items, nil
+}
+
+func (r itemRepisitory) FindItemCountByKey(key string) (int, error) {
+
+	var count = new(models2.Count)
+	if err := r.db.Raw("Select count(*) as count  from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0;", "%"+key+"%").Scan(&count).Error; err != nil {
+		return 0, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
+	}
+	return count.Count, nil
 }
 
 func (r itemRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error) {

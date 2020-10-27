@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/time"
 )
 
 type ReleaseMessageRepository interface {
@@ -23,6 +24,7 @@ func NewReleaseMessageRepository() ReleaseMessageRepository {
 }
 
 func (r releaseMessageRepository) Create(db *gorm.DB, releaseMessage *models.ReleaseMessage) error {
+	releaseMessage.DataChange_LastTime = time.Now()
 	if err := db.Create(releaseMessage).Error; err != nil {
 		return errors.Wrap(err, "create releaseMessage error")
 	}
@@ -37,6 +39,7 @@ func (r releaseMessageRepository) Creates(db *gorm.DB, releaseMessages []*models
 	}
 	for i, r := range releaseMessages {
 		if i == len(releaseMessages)-1 {
+			r.DataChange_LastTime = time.Now()
 			buffer.WriteString(fmt.Sprintf("('%s','%s');", r.Message, r.DataChange_LastTime))
 		} else {
 			buffer.WriteString(fmt.Sprintf("('%s','%s'),", r.Message, r.DataChange_LastTime))

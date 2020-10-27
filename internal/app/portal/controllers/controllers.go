@@ -42,6 +42,7 @@ func InitControllersFn(
 		{
 			r.GET("/items/:env", itemController.FindItemByNamespaceId)
 			r.GET("/items_by_key/:env", itemController.FindItemByKeyForPage)
+			r.GET("/items_by_key_on_app/:env", itemController.FindAppItemByKeyForPage)
 			r.POST("/item/:env", uic.AuthLogin(), itemController.Create)
 			r.DELETE("/item/:env", uic.AuthLogin(), itemController.DeleteByNamespaceIdAndKey)
 			r.PUT("/item/:env", uic.AuthLogin(), itemController.Update)

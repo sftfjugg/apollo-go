@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
-	"go.didapinche.com/time"
 )
 
 type ReleaseMessageService interface {
@@ -43,9 +42,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	release.AppId = appId
 	release.Comment = comment
 	release.ClusterName = clusterName
-	release.ReleaseKey = time.Now().String() + name
-	release.DataChange_CreatedTime = time.Now()
-	release.DataChange_LastTime = time.Now()
+	release.ReleaseKey = name
 	configurations, err := s.FindConfig(namespaceId)
 	if err != nil {
 		return errors.Wrap(err, "call releaseRepository.Create() error")
@@ -63,7 +60,6 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceId string, keys []string) error {
 	releaseMessage := new(models.ReleaseMessage)
 	releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+application"
-	releaseMessage.DataChange_LastTime = time.Now()
 	db := s.db.Begin()
 	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
 		db.Rollback()
@@ -115,7 +111,6 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 		releaseMessage := new(models.ReleaseMessage)
 		releaseMessage.Message = release.AppId + "+" + appNamespaces[i].ClusterName + "+application"
 		messaages = append(messaages, releaseMessage.Message)
-		releaseMessage.DataChange_LastTime = time.Now()
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
 	db := s.db.Begin()
