@@ -1,9 +1,9 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/configservice/models"
 	consulapi "github.com/hashicorp/consul/api"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/models"
 	"go.didapinche.com/juno-go/v2"
 	"strconv"
 	"strings"

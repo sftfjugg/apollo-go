@@ -1,12 +1,12 @@
 package configservice
 
 import (
-	"apollo-adminserivce/internal/app/configservice/services"
-	"apollo-adminserivce/internal/pkg/app"
-	"apollo-adminserivce/internal/pkg/http"
 	"github.com/google/wire"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/services"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 	"go.uber.org/zap"
 )
 

@@ -1,10 +1,10 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/clients"
-	models2 "apollo-adminserivce/internal/app/portal/models"
-	"apollo-adminserivce/internal/app/portal/repositories"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"net/http"
 )
 
@@ -19,13 +19,13 @@ type AppNamespaceService interface {
 }
 
 type appNamespaceService struct {
-	httpClient     *clients.HttpClient
+	httpClient     *zclients.HttpClient
 	repository     repositories.AppNamespaceRelatedRepository
 	itemRepository repositories.ItemRelatedRepisitory
 }
 
 func NewAppNamespaceService(
-	httpClient *clients.HttpClient,
+	httpClient *zclients.HttpClient,
 	repository repositories.AppNamespaceRelatedRepository,
 	itemRepository repositories.ItemRelatedRepisitory,
 ) AppNamespaceService {

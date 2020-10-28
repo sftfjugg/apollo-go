@@ -1,9 +1,10 @@
 package app
 
 import (
-	"apollo-adminserivce/internal/pkg/http"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 	"go.didapinche.com/juno-go/v2"
+	"go.didapinche.com/zeus-go/v2/server"
 	"go.uber.org/zap"
 	"os"
 	"os/signal"
@@ -15,6 +16,7 @@ type Application struct {
 	name       string
 	logger     *zap.Logger
 	httpServer *http.Server
+	zeusServer *server.Server
 }
 
 // Option define Optional function
@@ -24,7 +26,14 @@ type Option func(app *Application) error
 func HTTPServerOption(svr *http.Server) Option {
 	return func(app *Application) error {
 		app.httpServer = svr
+		return nil
+	}
+}
 
+// ZeusServerOption returns optional function of zeus server
+func ZeusServerOption(svr *server.Server) Option {
+	return func(app *Application) error {
+		app.zeusServer = svr
 		return nil
 	}
 }
@@ -53,6 +62,10 @@ func (a *Application) Start() error {
 		}
 	}
 
+	if a.zeusServer != nil {
+		a.zeusServer.Start()
+	}
+
 	err := juno.RegisterWithParams(&juno.Params{
 		Name: a.name,
 		Port: a.httpServer.Port(),
@@ -73,11 +86,17 @@ func (a *Application) AwaitSignal() {
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 	select {
 	case s := <-c:
+		juno.Shutdown()
+
 		a.logger.Info("receive a signal", zap.String("signal", s.String()))
 		if a.httpServer != nil {
 			if err := a.httpServer.Stop(); err != nil {
-				a.logger.Warn("stop address server error", zap.Error(err))
+				a.logger.Warn("stop http server error", zap.Error(err))
 			}
+		}
+
+		if a.zeusServer != nil {
+			a.zeusServer.Shutdown()
 		}
 
 		os.Exit(0)

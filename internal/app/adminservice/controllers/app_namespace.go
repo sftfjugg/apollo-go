@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/adminservice/services"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/services"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"net/http"
 )
 
@@ -21,11 +21,32 @@ func (ctl AppNamespaceController) Create(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	appNamespace.DataChange_CreatedBy = userId
+	appNamespace.DataChange_CreatedBy = userId
 	if err := ctl.service.Create(appNamespace); err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, appNamespace)
+}
+
+func (ctl AppNamespaceController) CreateOrFindAppNamespace(c *gin.Context) {
+	appNamespace := new(models.AppNamespace)
+	if err := c.ShouldBind(appNamespace); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	id, err := ctl.service.CreateOrFindAppNamespace(appNamespace)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.CreateOrFindAppNamespace error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, id)
 }
 
 func (ctl AppNamespaceController) CreateByRelated(c *gin.Context) {
@@ -51,6 +72,12 @@ func (ctl AppNamespaceController) Update(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	appNamespace.DataChange_LastModifiedBy = userId
 	if err := ctl.service.Update(appNamespace); err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.Update error:%v", err)
 		return

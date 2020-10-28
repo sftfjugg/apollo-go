@@ -1,4 +1,4 @@
-module apollo-adminserivce
+module go.didapinche.com/foundation/apollo-plus
 
 go 1.13
 
@@ -21,6 +21,7 @@ require (
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/stretchr/testify v1.5.1 // indirect
 	github.com/uber/tchannel-go v1.20.0
+	go.didapinche.com/goapi/apollo_thrift_service/v2 v2.0.0-beta.2
 	go.didapinche.com/goapi/plat_limos_rpc v1.0.0-beta.8
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1
 	go.didapinche.com/juno-gin/v2 v2.0.0
@@ -30,7 +31,7 @@ require (
 	go.didapinche.com/zeus-go/v2 v2.0.1
 	go.uber.org/zap v1.12.0
 	golang.org/x/net v0.0.0-20201010224723-4f7140c49acb // indirect
-	golang.org/x/tools v0.0.0-20201015182029-a5d9e455e9c4
+	golang.org/x/tools v0.0.0-20201015182029-a5d9e455e9c4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 
 //go.didapinche.com/juno-gin/v2 v2.0.0

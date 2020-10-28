@@ -1,8 +1,6 @@
 package http
 
 import (
-	"apollo-adminserivce/internal/pkg/http/middlewares/ginprom"
-	"apollo-adminserivce/internal/pkg/utils/netutil"
 	"context"
 	"fmt"
 	"github.com/gin-contrib/cors"
@@ -13,6 +11,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/viper"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http/middlewares/ginprom"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/utils/netutil"
 	junogin "go.didapinche.com/juno-gin/v2"
 	"go.didapinche.com/juno-go/v2"
 	"go.uber.org/zap"

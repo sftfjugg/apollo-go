@@ -1,16 +1,16 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/clients"
-	models2 "apollo-adminserivce/internal/app/portal/models"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"net/http"
 )
 
 type ItemService interface {
 	Create(env string, r *http.Request) (*models2.Response, error)
 	Update(env string, r *http.Request) (*models2.Response, error)
-	DeleteByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error)
+	DeleteById(env string, r *http.Request) (*models2.Response, error)
 	DeleteByNamespaceId(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceId(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceIdOnRelease(env string, r *http.Request) (*models2.Response, error)
@@ -21,10 +21,10 @@ type ItemService interface {
 }
 
 type itemService struct {
-	httpClient *clients.HttpClient
+	httpClient *zclients.HttpClient
 }
 
-func NewItemService(httpClient *clients.HttpClient) ItemService {
+func NewItemService(httpClient *zclients.HttpClient) ItemService {
 	return &itemService{httpClient: httpClient}
 }
 
@@ -44,7 +44,7 @@ func (s itemService) Update(env string, r *http.Request) (*models2.Response, err
 	return response, nil
 }
 
-func (s itemService) DeleteByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error) {
+func (s itemService) DeleteById(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/item", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")

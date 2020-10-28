@@ -1,11 +1,11 @@
 package adminservice
 
 import (
-	"apollo-adminserivce/internal/pkg/app"
-	"apollo-adminserivce/internal/pkg/http"
 	"github.com/google/wire"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 	"go.uber.org/zap"
 )
 

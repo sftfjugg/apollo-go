@@ -3,17 +3,17 @@
 package main
 
 import (
-	"apollo-adminserivce/internal/app/configservice"
-	"apollo-adminserivce/internal/app/configservice/controllers"
-	"apollo-adminserivce/internal/app/configservice/repositories"
-	"apollo-adminserivce/internal/app/configservice/services"
-	"apollo-adminserivce/internal/pkg/app"
-	"apollo-adminserivce/internal/pkg/config"
-	"apollo-adminserivce/internal/pkg/db"
-	"apollo-adminserivce/internal/pkg/http"
-	"apollo-adminserivce/internal/pkg/httpclient"
-	"apollo-adminserivce/internal/pkg/log"
 	"github.com/google/wire"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/controllers"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/services"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/config"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/db"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
 )
 
 var providerSet = wire.NewSet(

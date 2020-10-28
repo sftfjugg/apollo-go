@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/portal/models"
-	"apollo-adminserivce/internal/app/portal/services"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
 )
 

@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/adminservice/services"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/services"
 	"net/http"
 	"strconv"
 )
@@ -24,12 +24,21 @@ func (ctl ReleaseController) Create(c *gin.Context) {
 		ClusterName string   `json:"cluster_name"`
 		NamespaceId uint64   `json:"namespace_id"`
 		Keys        []string `json:"keys"`
+		Operator    string   `json:"operator"`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	if err := ctl.service.Create(param.AppId, param.ClusterName, param.Comment, param.Name, strconv.FormatUint(param.NamespaceId, 10), param.IsPublic, param.Keys); err != nil {
+	if param.Operator == "" {
+		userId, err := c.Cookie("UserID")
+		if err != nil {
+			c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+			return
+		}
+		param.Operator = userId
+	}
+	if err := ctl.service.Create(param.AppId, param.ClusterName, param.Comment, param.Name, param.Operator, strconv.FormatUint(param.NamespaceId, 10), param.IsPublic, param.Keys); err != nil {
 		c.String(http.StatusInternalServerError, "call ReleaseMessageService.Create() error:%v", err)
 		return
 	}

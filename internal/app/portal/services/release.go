@@ -1,9 +1,9 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/clients"
-	models2 "apollo-adminserivce/internal/app/portal/models"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"net/http"
 )
 
@@ -12,10 +12,10 @@ type ReleaseService interface {
 }
 
 type releaseService struct {
-	httpClient *clients.HttpClient
+	httpClient *zclients.HttpClient
 }
 
-func NewReleaseService(httpClient *clients.HttpClient) ReleaseService {
+func NewReleaseService(httpClient *zclients.HttpClient) ReleaseService {
 	return &releaseService{httpClient: httpClient}
 }
 

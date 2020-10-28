@@ -1,10 +1,10 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/configservice/models"
-	"apollo-adminserivce/internal/app/configservice/single_queue"
 	"encoding/json"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/configservice/single_queue"
 	"time"
 )
 

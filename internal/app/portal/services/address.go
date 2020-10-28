@@ -1,11 +1,11 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/address"
-	"apollo-adminserivce/internal/app/portal/models"
-	"apollo-adminserivce/internal/app/portal/single_queue"
 	"encoding/json"
 	"fmt"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/address"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/single_queue"
 	"io/ioutil"
 	"math/rand"
 	http2 "net/http"

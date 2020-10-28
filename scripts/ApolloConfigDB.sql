@@ -8,7 +8,7 @@
 
 # Create Database
 # ------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS ApolloConfigDB1 DEFAULT CHARACTER SET = utf8mb4;
+CREATE DATABASE IF NOT EXISTS ApolloConfigDB DEFAULT CHARACTER SET = utf8mb4;
 
 
 # Dump of table appnamespace
@@ -190,4 +190,6 @@ CREATE TABLE `ServerConfig` (
 # ------------------------------------------------------------
 
 show databases;
-select * from dida_apollo_config.`ReleaseMessage`;
+select * from dida_apollo_config.`Release`;
+
+ select NamespaceId,`Key`,Value,`Comment` `Describe`,DataChange_CreatedBy,DataChange_LastModifiedBy from `Item` where IsDeleted=0

@@ -1,15 +1,15 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/adminservice/repositories"
-	"apollo-adminserivce/internal/pkg/models"
 	"encoding/json"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 )
 
 type ReleaseMessageService interface {
-	Create(appId, clusterName, comment, name, namespaceId string, isPublic bool, keys []string) error
+	Create(appId, clusterName, comment, name, namespaceId, operator string, isPublic bool, keys []string) error
 }
 
 type releaseMessageService struct {
@@ -36,8 +36,20 @@ func NewReleaseMessageService(
 	}
 }
 
-func (s releaseMessageService) Create(appId, clusterName, comment, name, namespaceId string, isPublic bool, keys []string) error {
+func (s releaseMessageService) Create(appId, clusterName, comment, name, namespaceId, operator string, isPublic bool, keys []string) error {
 	release := new(models.Release)
+	if appId == "" {
+		app, err := s.appNamespaceRepository.FindAppNamespaceById(namespaceId)
+		if err != nil {
+			return errors.Wrap(err, "call appNamespaceRepository.FindAppNamespaceById() error")
+		}
+		appId = app.AppId
+		clusterName = app.ClusterName
+		isPublic = app.IsPublic
+		name = app.Name
+	}
+	release.DataChange_LastModifiedBy = operator
+	release.DataChange_CreatedBy = operator
 	release.NamespaceName = name
 	release.AppId = appId
 	release.Comment = comment

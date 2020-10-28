@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/portal/services"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
 )
 
@@ -16,6 +16,9 @@ func NewAppNamespaceController(service services.AppNamespaceService) *AppNamespa
 
 func (ctl AppNamespaceController) Create(c *gin.Context) {
 	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Create(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.Create run failed:%v", err)
@@ -26,6 +29,7 @@ func (ctl AppNamespaceController) Create(c *gin.Context) {
 
 func (ctl AppNamespaceController) CreateByRelated(c *gin.Context) {
 	env := c.Param("env")
+
 	param := new(struct {
 		NamespaceId string `json:"namespace_id"`
 		//ClusterName string `json:"cluster_name"`
@@ -66,6 +70,9 @@ func (ctl AppNamespaceController) DeleteByNameAndAppId(c *gin.Context) {
 
 func (ctl AppNamespaceController) Update(c *gin.Context) {
 	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Update(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.Update run failed:%v", err)

@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/adminservice/services"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/services"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"net/http"
 )
 
@@ -17,15 +17,31 @@ func NewItemController(service services.ItemService) *ItemController {
 
 func (ctl ItemController) Create(c *gin.Context) {
 	item := new(models.Item)
-	//operator,_ := c.Get("UserID")
-	//item.DataChange_CreatedBy=operator.(string)
-	//item.DataChange_LastModifiedBy=operator.(string)
 	if err := c.ShouldBind(item); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	item.DataChange_CreatedBy = userId
+	item.DataChange_LastModifiedBy = userId
 	if err := ctl.service.Create(item); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.Create() error:%v", err)
+		return
+	}
+}
+
+func (ctl ItemController) CreateOrUpdateItem(c *gin.Context) {
+	item := new(models.Item)
+	if err := c.ShouldBind(item); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if err := ctl.service.CreateOrUpdateItem(item); err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.CreateOrUpdateItem() error:%v", err)
 		return
 	}
 }
@@ -44,12 +60,16 @@ func (ctl ItemController) Creates(c *gin.Context) {
 
 func (ctl ItemController) Update(c *gin.Context) {
 	item := new(models.Item)
-	//operator,_ := c.Get("UserID")
-	//item.DataChange_LastModifiedBy=operator.(string)
 	if err := c.ShouldBind(item); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	item.DataChange_LastModifiedBy = userId
 	if err := ctl.service.Update(item); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.Create() error:%v", err)
 		return
@@ -58,8 +78,12 @@ func (ctl ItemController) Update(c *gin.Context) {
 
 func (ctl ItemController) DeleteById(c *gin.Context) {
 	id := c.Query("id")
-	//operator,_ := c.Get("UserID")
-	if err := ctl.service.DeleteById(id, ""); err != nil {
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	if err := ctl.service.DeleteById(id, userId); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.DeleteById() error:%v", err)
 		return
 	}

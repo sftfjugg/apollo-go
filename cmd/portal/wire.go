@@ -1,20 +1,21 @@
 package main
 
 import (
-	"apollo-adminserivce/internal/app/portal"
-	"apollo-adminserivce/internal/app/portal/address"
-	"apollo-adminserivce/internal/app/portal/clients"
-	"apollo-adminserivce/internal/app/portal/controllers"
-	"apollo-adminserivce/internal/app/portal/repositories"
-	"apollo-adminserivce/internal/app/portal/services"
-	"apollo-adminserivce/internal/pkg/app"
-	"apollo-adminserivce/internal/pkg/config"
-	"apollo-adminserivce/internal/pkg/db"
-	"apollo-adminserivce/internal/pkg/http"
-	"apollo-adminserivce/internal/pkg/httpclient"
-	"apollo-adminserivce/internal/pkg/log"
-	"apollo-adminserivce/internal/pkg/zeus"
 	"github.com/google/wire"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/address"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/controllers"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zservice"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/config"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/db"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/zeus"
 	"go.didapinche.com/uic"
 )
 
@@ -23,7 +24,7 @@ var providerSet = wire.NewSet(
 	config.ProviderSet,
 	db.ProviderSet,
 	zeus.ProviderSet,
-	clients.ProviderSet,
+	zclients.ProviderSet,
 	repositories.ProviderSet,
 	services.ProviderSet,
 	controllers.ProviderSet,
@@ -32,6 +33,7 @@ var providerSet = wire.NewSet(
 	httpclient.ProviderSet,
 	portal.ProviderSet,
 	uic.ProviderSet,
+	zservice.ProviderSet,
 )
 
 func CreateApp(cf string) (*app.Application, error) {

@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/pkg/http"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 )
 
 func InitControllersFn(
@@ -14,6 +14,7 @@ func InitControllersFn(
 
 		{
 			r.POST("/app_namespace", appNamespaceController.Create)
+			r.POST("/app_namespace/create_or_find", appNamespaceController.CreateOrFindAppNamespace)
 			r.PUT("/app_namespace", appNamespaceController.Update)
 			r.GET("/app_namespace", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
 			r.GET("/app_namespace/name", appNamespaceController.FindOneAppNamespaceByAppIdAndClusterNameAndName)
@@ -24,6 +25,7 @@ func InitControllersFn(
 		}
 		{
 			r.POST("/item", itemController.Create)
+			r.POST("/item/create_or_update", itemController.CreateOrUpdateItem)
 			r.POST("/items", itemController.Creates)
 			r.PUT("/item", itemController.Update)
 			r.DELETE("/items", itemController.DeleteByNamespaceId)

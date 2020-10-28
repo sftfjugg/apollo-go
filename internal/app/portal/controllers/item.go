@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/portal/services"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
 )
 
@@ -16,6 +16,9 @@ func NewItemController(service services.ItemService) *ItemController {
 
 func (ctl ItemController) Create(c *gin.Context) {
 	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Create(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "ItemController.Create run failed:%v", err)
@@ -26,6 +29,9 @@ func (ctl ItemController) Create(c *gin.Context) {
 
 func (ctl ItemController) Update(c *gin.Context) {
 	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Update(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "ItemController.Update run failed:%v", err)
@@ -34,9 +40,12 @@ func (ctl ItemController) Update(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
-func (ctl ItemController) DeleteByNamespaceIdAndKey(c *gin.Context) {
+func (ctl ItemController) DeleteById(c *gin.Context) {
 	env := c.Param("env")
-	r, err := ctl.service.DeleteByNamespaceIdAndKey(env, c.Request)
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
+	r, err := ctl.service.DeleteById(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "ItemController.DeleteByNamespaceIdAndKey run failed:%v", err)
 		return

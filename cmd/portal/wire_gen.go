@@ -6,20 +6,21 @@
 package main
 
 import (
-	"apollo-adminserivce/internal/app/portal"
-	"apollo-adminserivce/internal/app/portal/address"
-	"apollo-adminserivce/internal/app/portal/clients"
-	"apollo-adminserivce/internal/app/portal/controllers"
-	"apollo-adminserivce/internal/app/portal/repositories"
-	"apollo-adminserivce/internal/app/portal/services"
-	"apollo-adminserivce/internal/pkg/app"
-	"apollo-adminserivce/internal/pkg/config"
-	"apollo-adminserivce/internal/pkg/db"
-	"apollo-adminserivce/internal/pkg/http"
-	"apollo-adminserivce/internal/pkg/httpclient"
-	"apollo-adminserivce/internal/pkg/log"
-	"apollo-adminserivce/internal/pkg/zeus"
 	"github.com/google/wire"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/address"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/controllers"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zservice"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/config"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/db"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/zeus"
 	"go.didapinche.com/uic"
 )
 
@@ -58,11 +59,11 @@ func CreateApps(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	tChanLimosService, err := clients.NewLimosService(zeusZeus)
+	tChanLimosService, err := zclients.NewLimosService(zeusZeus)
 	if err != nil {
 		return nil, err
 	}
-	tChanUicService, err := clients.NewUicService(zeusZeus)
+	tChanUicService, err := zclients.NewUicService(zeusZeus)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +76,7 @@ func CreateApps(cf string) (*app.Application, error) {
 		return nil, err
 	}
 	client := httpclient.New()
-	httpClient := clients.NewHttpClient(client)
+	httpClient := zclients.NewHttpClient(client)
 	appNamespaceRelatedRepository := repositories.NewAppNamespaceRelatedRepository(gormDB)
 	itemRelatedRepisitory := repositories.NewItemRelatedRepisitory(gormDB)
 	appNamespaceService := services.NewAppNamespaceService(httpClient, appNamespaceRelatedRepository, itemRelatedRepisitory)
@@ -97,6 +98,9 @@ func CreateApps(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
+	zserviceApi := services.NewZserviceApi(httpClient)
+	tChanApolloThriftService := zservice.NewZserviceApi(zserviceApi)
+	serverServer := zeus.NewZeusServer(zeusZeus, tChanApolloThriftService)
 	addressOptions, err := address.NewOptions(viper)
 	if err != nil {
 		return nil, err
@@ -106,7 +110,7 @@ func CreateApps(cf string) (*app.Application, error) {
 		return nil, err
 	}
 	addressService := services.NewAddress(meta)
-	application, err := portal.NewApp(portalOptions, logger, server, addressService)
+	application, err := portal.NewApp(portalOptions, logger, server, serverServer, addressService)
 	if err != nil {
 		return nil, err
 	}
@@ -115,4 +119,4 @@ func CreateApps(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSets = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, clients.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet)
+var providerSets = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet)

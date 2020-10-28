@@ -1,12 +1,12 @@
 package repositories
 
 import (
-	models2 "apollo-adminserivce/internal/app/adminservice/models"
-	"apollo-adminserivce/internal/pkg/models"
 	"bytes"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
 )
 

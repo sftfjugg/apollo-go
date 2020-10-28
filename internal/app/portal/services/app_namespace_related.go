@@ -1,10 +1,10 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/models"
-	"apollo-adminserivce/internal/app/portal/repositories"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 )
 
 type AppNamespaceRelatedService interface {

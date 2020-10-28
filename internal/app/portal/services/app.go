@@ -1,11 +1,11 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/models"
-	"apollo-adminserivce/internal/app/portal/repositories"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"github.com/uber/tchannel-go"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 	"go.didapinche.com/goapi/plat_limos_rpc"
 	"go.didapinche.com/goapi/uic_service_api"
 	"strings"
@@ -113,7 +113,7 @@ func (s appService) FindGroupsOfDevelopment() (*uic_service_api.Node, error) {
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	groups, err := s.uicService.FindGroupsOfDevelopment(ctx)
 	if err != nil {
-		return nil, errors.Wrap(err, "call clients uic.FindGroupsOfDevelopment() error")
+		return nil, errors.Wrap(err, "call zclients uic.FindGroupsOfDevelopment() error")
 	}
 	return groups, nil
 }
@@ -122,7 +122,7 @@ func (s appService) GetAllUsers(name string) ([]*uic_service_api.UserData, error
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	names, err := s.uicService.GetAllUsers(ctx, name)
 	if err != nil {
-		return nil, errors.Wrap(err, "call clients uic.GetAllUsers() error")
+		return nil, errors.Wrap(err, "call zclients uic.GetAllUsers() error")
 	}
 	return names, nil
 }
@@ -131,7 +131,7 @@ func (s appService) FindLimosAppForPage(name string, pageSize, pageNum int32) (*
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	apps, err := s.limosService.FindAppForPage(ctx, name, "", "", "", "", 0, "all", pageSize, pageNum, "", 0)
 	if err != nil {
-		return nil, errors.Wrap(err, "call clients uic.FindAppForPage() error")
+		return nil, errors.Wrap(err, "call zclients uic.FindAppForPage() error")
 	}
 	return apps, nil
 }
@@ -140,7 +140,7 @@ func (s appService) FindLimosAppById(appID int64) (*plat_limos_rpc.App, error) {
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	app, err := s.limosService.GetAppByID(ctx, appID)
 	if err != nil {
-		return nil, errors.Wrap(err, "call clients uic.GetAppByID() error")
+		return nil, errors.Wrap(err, "call zclients uic.GetAppByID() error")
 	}
 	return app, nil
 }
@@ -148,7 +148,7 @@ func (s appService) FindLimosAppById(appID int64) (*plat_limos_rpc.App, error) {
 func (s appService) FindAuth(appId int64, name string) (bool, error) {
 	app, err := s.FindLimosAppById(appId)
 	if err != nil {
-		return false, errors.Wrap(err, "call clients uic.GetAppByID() error")
+		return false, errors.Wrap(err, "call zclients uic.GetAppByID() error")
 	}
 	for o := range app.Owner {
 		if strings.Compare(app.Owner[o], name) == 0 {

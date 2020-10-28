@@ -1,10 +1,10 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/models"
-	"apollo-adminserivce/internal/app/portal/repositories"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 )
 
 //并不关联业务层app_namespcae,关联的为

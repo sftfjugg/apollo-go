@@ -1,10 +1,10 @@
 package services
 
 import (
-	"apollo-adminserivce/internal/app/portal/repositories"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 )
 
 type FavoriteService interface {

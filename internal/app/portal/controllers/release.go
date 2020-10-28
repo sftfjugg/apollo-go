@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/app/portal/services"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
 )
 
@@ -16,6 +16,9 @@ func NewReleaseController(service services.ReleaseService) *ReleaseController {
 
 func (ctl ReleaseController) Create(c *gin.Context) {
 	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Create(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "ReleaseController.Create run failed:%v", err)

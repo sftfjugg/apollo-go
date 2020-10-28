@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
 )
 
@@ -12,6 +12,7 @@ type AppNamespaceRepository interface {
 	DeleteById(db *gorm.DB, id string) error
 	DeleteByNameAndAppId(db *gorm.DB, name, appId string) error
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
+	FindAppNamespaceById(id string) (*models.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
 	FindAppNamespaceByAppId(appId, format string) ([]*models.AppNamespace, error)
@@ -67,6 +68,14 @@ func (r appNamespaceRepository) FindAppNamespaceByAppIdAndClusterName(appId, clu
 		return nil, errors.Wrap(err, "FindAppNamespaceByAppIdAndClusterName appNamespace error")
 	}
 	return appNamespaces, nil
+}
+
+func (r appNamespaceRepository) FindAppNamespaceById(id string) (*models.AppNamespace, error) {
+	appNamespace := new(models.AppNamespace)
+	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "Id=?  and IsDeleted=0", id).Error; err != nil {
+		return nil, errors.Wrap(err, "FindAppNamespaceByAppIdAndClusterName appNamespace error")
+	}
+	return appNamespace, nil
 }
 
 func (r appNamespaceRepository) FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error) {

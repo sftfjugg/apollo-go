@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"apollo-adminserivce/internal/pkg/http"
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 )
 
 //r.GET("/services/config",consul.FindConfig)

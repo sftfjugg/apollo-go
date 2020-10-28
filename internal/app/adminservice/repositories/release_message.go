@@ -1,11 +1,11 @@
 package repositories
 
 import (
-	"apollo-adminserivce/internal/pkg/models"
 	"bytes"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
 )
 

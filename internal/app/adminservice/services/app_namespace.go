@@ -1,11 +1,11 @@
 package services
 
 import (
-	models2 "apollo-adminserivce/internal/app/adminservice/models"
-	"apollo-adminserivce/internal/app/adminservice/repositories"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
 	"sort"
 	"strconv"
@@ -13,6 +13,7 @@ import (
 
 type AppNamespaceService interface {
 	Create(appNamespace *models.AppNamespace) error
+	CreateOrFindAppNamespace(appNamespace *models.AppNamespace) (int64, error)
 	CreateByRelated(appNamespace *models.AppNamespace, items []*models.Item, appName, appId string) error
 	DeleteById(id string) error
 	DeleteByNameAndAppId(name, appId string) error
@@ -59,6 +60,26 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 	db.Commit()
 	return nil
 }
+
+func (s appNamespaceService) CreateOrFindAppNamespace(appNamespace *models.AppNamespace) (int64, error) {
+	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName(appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name)
+	if err != nil {
+		return 0, errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+	}
+	if app.Name != "" {
+		return int64(app.Id), nil
+	}
+	if err := s.Create(appNamespace); err != nil {
+		return 0, errors.Wrap(err, "call appNamespaceService.Create() error")
+	}
+	createApp, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName(appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name)
+	if err != nil {
+		return 0, errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+	}
+	return int64(createApp.Id), nil
+}
+
+//通过关联创建
 func (s appNamespaceService) CreateByRelated(appNamespace *models.AppNamespace, items []*models.Item, appName, appId string) error {
 	if len(items) == 0 {
 		return errors.New("The namespace does not have a configuration")
@@ -70,7 +91,6 @@ func (s appNamespaceService) CreateByRelated(appNamespace *models.AppNamespace, 
 	if app.Name != "" {
 		return errors.New("name alrealy exists")
 	}
-	appNamespace.AppName = appName
 	appNamespace.ClusterName = "default"
 	appNamespace.LaneName = "主版本"
 	appNamespace.AppId = appId
@@ -180,7 +200,6 @@ func (s appNamespaceService) FindAppNamespaceByAppId(appId, format string) ([]*m
 			if appNamespaces[j].Format != "" {
 				app.Format = appNamespaces[j].Format
 			}
-			app.AppName = appNamespaces[j].AppName
 			namespace.ClusterName = appNamespaces[j].ClusterName
 			namespace.Id = appNamespaces[j].Id
 			namespace.LaneName = appNamespaces[j].LaneName

@@ -1,16 +1,17 @@
 package services
 
 import (
-	models2 "apollo-adminserivce/internal/app/adminservice/models"
-	"apollo-adminserivce/internal/app/adminservice/repositories"
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/adminservice/repositories"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"sort"
 )
 
 type ItemService interface {
 	Create(item *models.Item) error
+	CreateOrUpdateItem(item *models.Item) error
 	Creates(item []*models.Item) error
 	Update(item *models.Item) error
 	DeleteById(id, operator string) error
@@ -40,12 +41,11 @@ func NewItemService(
 }
 
 func (s itemService) Create(item *models.Item) error {
-	item.Status = 0
-	items, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
+	item2, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
 	if err != nil {
 		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
 	}
-	if items.Key != "" {
+	if item2.Key != "" {
 		return errors.New("item already exists")
 	}
 	db := s.db.Begin()
@@ -54,6 +54,25 @@ func (s itemService) Create(item *models.Item) error {
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	db.Commit()
+	return nil
+}
+
+func (s itemService) CreateOrUpdateItem(item *models.Item) error {
+	item2, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
+	if err != nil {
+		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
+	}
+	item.Id = item2.Id
+	if item2.Key != "" {
+		if err := s.Update(item); err != nil {
+			return errors.Wrap(err, "call itemService.Update() error")
+		}
+	} else {
+		item.DataChange_CreatedBy = item.DataChange_LastModifiedBy
+		if err := s.Create(item); err != nil {
+			return errors.Wrap(err, "call itemService.Create() error")
+		}
+	}
 	return nil
 }
 
@@ -88,11 +107,11 @@ func (s itemService) DeleteByNamespaceId(namespaceId string) error {
 }
 
 func (s itemService) Update(item *models.Item) error {
-	items, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
+	item2, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
 	if err != nil {
 		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
 	}
-	if items.Key != "" && items.Key != item.Key {
+	if item2.Key != "" && item2.Key != item.Key {
 		return errors.New("item already exists")
 	}
 	db := s.db.Begin()
@@ -176,6 +195,7 @@ func (s itemService) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key stri
 	return item, nil
 }
 
+//作用是将Item格式转化为前端展示格式
 func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.AppNamespace {
 	names := make(map[string][]int)
 	for i, n := range items {
@@ -211,7 +231,6 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				namespace.Id = s.NamespaceId
 				appNamespace.AppId = s.AppId
 				//appNamespace.
-				appNamespace.AppName = s.AppName
 				appNamespace.Name = s.Name
 				if s.Format != "" {
 					appNamespace.Format = s.Format

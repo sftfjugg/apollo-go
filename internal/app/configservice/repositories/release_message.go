@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"apollo-adminserivce/internal/pkg/models"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 )
 
 type ReleaseMessageRepository interface {
