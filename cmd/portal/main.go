@@ -9,7 +9,7 @@ var configFile = flag.String("c", "configs/portal.yaml", "set config file which 
 func main() {
 	flag.Parse()
 
-	app, err := CreateApps(*configFile)
+	app, err := CreateApp(*configFile)
 	if err != nil {
 		panic(err)
 	}

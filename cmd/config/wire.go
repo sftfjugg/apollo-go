@@ -16,7 +16,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
 )
 
-var providerSets = wire.NewSet(
+var providerSet = wire.NewSet(
 	log.ProviderSet,
 	config.ProviderSet,
 	db.ProviderSet,
@@ -28,6 +28,6 @@ var providerSets = wire.NewSet(
 	httpclient.ProviderSet,
 )
 
-func CreateApps(cf string) (*app.Application, error) {
-	panic(wire.Build(providerSets))
+func CreateApp(cf string) (*app.Application, error) {
+	panic(wire.Build(providerSet))
 }

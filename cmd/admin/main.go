@@ -10,7 +10,7 @@ func main() {
 
 	flag.Parse()
 
-	app, err := CreateApps(*configFile)
+	app, err := CreateApp(*configFile)
 	if err != nil {
 		panic(err)
 	}

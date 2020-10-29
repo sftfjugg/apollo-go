@@ -1,3 +1,5 @@
+// +build wireinject
+
 package main
 
 import (
@@ -27,5 +29,5 @@ var providerSet = wire.NewSet(
 )
 
 func CreateApp(cf string) (*app.Application, error) {
-	panic(wire.Build(providerSets))
+	panic(wire.Build(providerSet))
 }

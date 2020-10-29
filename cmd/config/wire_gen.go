@@ -21,7 +21,7 @@ import (
 
 // Injectors from wire.go:
 
-func CreateApps(cf string) (*app.Application, error) {
+func CreateApp(cf string) (*app.Application, error) {
 	viper, err := config.New(cf)
 	if err != nil {
 		return nil, err
@@ -77,4 +77,4 @@ func CreateApps(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSets = wire.NewSet(log.ProviderSet, config2.ProviderSet, db.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, config.ProviderSet, http.ProviderSet, httpclient.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config2.ProviderSet, db.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, config.ProviderSet, http.ProviderSet, httpclient.ProviderSet)
