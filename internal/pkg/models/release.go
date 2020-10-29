@@ -13,7 +13,7 @@ type Release struct {
 	ClusterName               string    `gorm:"column:ClusterName" json:"cluster_name" form:"cluster_name"`
 	NamespaceName             string    `gorm:"column:NamespaceName" json:"namespace_name" form:"namespace_name"`
 	Configurations            string    `gorm:"column:Configurations" json:"configurations" form:"configurations"`
-	IsAbandoned               bool      `gorm:"column:IsAbandoned" json:"is_abandoned" form:"is_abandoned"`
+	IsAbandoned               bool      `gorm:"column:IsAbandoned" json:"is_abandoned" form:"is_abandoned"` //无用，保留字段
 	IsDeleted                 bool      `gorm:"column:IsDeleted"`
 	DataChange_CreatedBy      string    `gorm:"column:DataChange_CreatedBy" json:"data_change_created_by" form:"data_change_created_by"`
 	DataChange_LastModifiedBy string    `gorm:"column:DataChange_LastModifiedBy" json:"data_change_last_modified_by" form:"data_change_last_modified_by"`

@@ -8,22 +8,24 @@
 
 # Create Database
 # ------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS ApolloConfigDB DEFAULT CHARACTER SET = utf8mb4;
+CREATE DATABASE IF NOT EXISTS plat_apollo_config DEFAULT CHARACTER SET = utf8mb4;
 
 
 # Dump of table appnamespace
 # ------------------------------------------------------------
 
+USE plat_apollo_config;
+
 DROP TABLE IF EXISTS `AppNamespace`;
 
 CREATE TABLE `AppNamespace` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `Name` varchar(32) NOT NULL DEFAULT '' COMMENT 'namespace名字',
+  `Name` varchar(64) NOT NULL DEFAULT '' COMMENT 'namespace名字',
   `AppName` varchar(64) NOT NULL DEFAULT '' COMMENT '项目名字',
   `AppId` varchar(64) NOT NULL DEFAULT '' COMMENT 'app id',
   `Format` varchar(32) NOT NULL DEFAULT 'properties' COMMENT 'namespace的format类型',
   `IsPublic` tinyint(1) NOT NULL DEFAULT b'0' COMMENT 'namespace是否为公共',
-  `ClusterName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'Cluster Name',
+  `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'Cluster Name',
   `LaneName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '泳道名字',
   `Comment` varchar(500) NOT NULL DEFAULT '' COMMENT '注释',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
@@ -33,39 +35,13 @@ CREATE TABLE `AppNamespace` (
   `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`Id`),
   KEY `IX_AppId` (`AppId`),
-  KEY  `ClusterName` (`ClusterName`),
+  KEY  `ClusterName` (`ClusterName`(64)),
   KEY `IsPublic` (`IsPublic`),
   KEY `Name_AppId` (`Name`,`AppId`),
-  KEY `AppId_ClusterName_Name` (`AppId`,`ClusterName`,`Name`),
+  KEY `AppId_ClusterName_Name` (`AppId`,`ClusterName`(64),`Name`),
   KEY `DataChange_LastTime` (`DataChange_LastTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用namespace定义';
 
-
-
-
-# Dump of table commit
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `Commit`;
-
-CREATE TABLE `Commit` (
-  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `ChangeSets` longtext NOT NULL COMMENT '修改变更集',
-  `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
-  `ClusterName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
-  `NamespaceName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
-  `Comment` varchar(500) DEFAULT NULL COMMENT '备注',
-  `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
-  `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
-  `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
-  `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
-  PRIMARY KEY (`Id`),
-  KEY `DataChange_LastTime` (`DataChange_LastTime`),
-  KEY `AppId` (`AppId`(191)),
-  KEY `ClusterName` (`ClusterName`(191)),
-  KEY `NamespaceName` (`NamespaceName`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='commit 历史表';
 
 
 
@@ -106,8 +82,8 @@ CREATE TABLE `Release` (
   `Name` varchar(64) NOT NULL DEFAULT 'default' COMMENT '发布名字',
   `Comment` varchar(256) DEFAULT NULL COMMENT '发布说明',
   `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
-  `ClusterName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
-  `NamespaceName` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
+  `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
+  `NamespaceName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
   `Configurations` longtext NOT NULL COMMENT '发布配置',
   `IsAbandoned` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '是否废弃',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
@@ -116,7 +92,7 @@ CREATE TABLE `Release` (
   `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
   `DataChange_LastTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
   PRIMARY KEY (`Id`),
-  KEY `AppId_ClusterName_GroupName` (`AppId`(191),`ClusterName`(191),`NamespaceName`(191)),
+  KEY `AppId_ClusterName_GroupName` (`AppId`(64),`ClusterName`(64),`NamespaceName`(64)),
   KEY `DataChange_LastTime` (`DataChange_LastTime`),
   KEY `IX_ReleaseKey` (`ReleaseKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='发布';
@@ -130,8 +106,8 @@ DROP TABLE IF EXISTS `ReleaseHistory`;
 CREATE TABLE `ReleaseHistory` (
   `Id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增Id',
   `AppId` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'AppID',
-  `ClusterName` varchar(32) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
-  `NamespaceName` varchar(32) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
+  `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
+  `NamespaceName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
   `BranchName` varchar(32) NOT NULL DEFAULT 'default' COMMENT '发布分支名',
   `ReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的Release Id',
   `PreviousReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '前一次发布的ReleaseId',
@@ -186,10 +162,6 @@ CREATE TABLE `ServerConfig` (
   KEY `DataChange_LastTime` (`DataChange_LastTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置服务自身配置';
 
-# Dump of table accesskey
-# ------------------------------------------------------------
+show databases ;
 
-show databases;
-select * from dida_apollo_config.`Release`;
-
- select NamespaceId,`Key`,Value,`Comment` `Describe`,DataChange_CreatedBy,DataChange_LastModifiedBy from `Item` where IsDeleted=0
+show tables;

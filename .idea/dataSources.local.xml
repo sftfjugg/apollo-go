@@ -25,7 +25,10 @@
       <user-name>plat</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node kind="schema" qname="@" />
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="plat_apollo_config" />
+          </node>
         </introspection-scope>
       </schema-mapping>
     </data-source>

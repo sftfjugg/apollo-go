@@ -20,25 +20,19 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 }
 
 func (s configService) FindConfigByAppIdandCluster(appId, cluster string) (*models.ConfigResponse, error) {
-	names, err := s.repository.FindPublicConfigName(appId)
+	configsPublic, err := s.repository.FindPublicConfig(appId)
 	if err != nil {
 		return nil, errors.Wrap(err, "find config names failed")
 	}
 	m := make(map[string]string)
-	for i := range names {
-		configsPublic, err := s.repository.FindPublicConfig(appId, names[i].Name)
+	for i := range configsPublic {
+		config := make(map[string]string)
+		err := json.Unmarshal([]byte(configsPublic[i].Configurations), &config)
 		if err != nil {
-			return nil, errors.Wrap(err, "find config names failed")
+			return nil, errors.Wrap(err, "json.Unmarshal config  failed")
 		}
-		for j := range configsPublic {
-			config := make(map[string]string)
-			err := json.Unmarshal([]byte(configsPublic[j].Configurations), &config)
-			if err != nil {
-				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
-			}
-			for k := range config {
-				m[k] = config[k]
-			}
+		for k := range config {
+			m[k] = config[k]
 		}
 	}
 	configPrivates, err := s.repository.FindPrivateConfig(appId, cluster)
