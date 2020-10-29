@@ -57,7 +57,11 @@ func (s AddressService) GetAddress(name string, metas []string) {
 		fmt.Println(err, "json.Unmarshal config  failed")
 	}
 	m := single_queue.GetV()
-	m[name] = address
+	if address != nil {
+		m[name] = address
+	} else {
+		fmt.Errorf("get admin by consul error,admin ip no change")
+	}
 	add, err := json.Marshal(address)
 	if err != nil {
 		fmt.Println(err)

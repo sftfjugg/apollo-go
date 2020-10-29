@@ -31,7 +31,8 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "create consul failed")
 	}
-	services, err := client.Agent().Services()
+	client.Health().Service(name, "", false, nil)
+	services, _, err := client.Health().Service(name, "", false, nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "FindAddresss failed")
 	}
@@ -40,21 +41,19 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 	}
 	consuls := make([]*models.Consul, 0)
 	for s := range services {
-		if strings.EqualFold(services[s].Service, name) {
-			consul := new(models.Consul)
-			consul.AppName = services[s].Service
-			ip := services[s].Address
-			if ip == "" {
-				appJuno := juno.GetParams()
-				ip = appJuno.Addr + ":" + string(appJuno.Port)
-			}
-			if strings.Contains(ip, ":") {
-				ip = string([]byte(ip)[0:strings.Index(ip, ":")])
-			}
-			consul.InstanceId = ip + ":" + strconv.Itoa(services[s].Port)
-			consul.HomepageUrl = "http://" + ip + ":" + strconv.Itoa(services[s].Port)
-			consuls = append(consuls, consul)
+		consul := new(models.Consul)
+		consul.AppName = services[s].Service.Service
+		ip := services[s].Service.Address
+		if ip == "" {
+			appJuno := juno.GetParams()
+			ip = appJuno.Addr + ":" + string(appJuno.Port)
 		}
+		if strings.Contains(ip, ":") {
+			ip = string([]byte(ip)[0:strings.Index(ip, ":")])
+		}
+		consul.InstanceId = ip + ":" + strconv.Itoa(services[s].Service.Port)
+		consul.HomepageUrl = "http://" + ip + ":" + strconv.Itoa(services[s].Service.Port)
+		consuls = append(consuls, consul)
 	}
 	return consuls, nil
 }
