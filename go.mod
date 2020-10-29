@@ -20,7 +20,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/stretchr/testify v1.5.1 // indirect
-	github.com/uber/tchannel-go v1.20.0
+	github.com/uber/tchannel-go v1.18.0
 	go.didapinche.com/goapi/apollo_thrift_service/v2 v2.0.0-beta.2
 	go.didapinche.com/goapi/plat_limos_rpc v1.0.0-beta.8
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1
@@ -34,8 +34,6 @@ require (
 	golang.org/x/tools v0.0.0-20201015182029-a5d9e455e9c4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 
-//go.didapinche.com/juno-gin/v2 v2.0.0
-//go.didapinche.com/juno-go/v2 v2.0.5
 )
 
 // replace qlang.io/qlang.v2 => github.com/qiniu/qlang v0.0.0-20160405103033-ad312e7743d8
