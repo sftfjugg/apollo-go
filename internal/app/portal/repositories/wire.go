@@ -3,7 +3,6 @@ package repositories
 import "github.com/google/wire"
 
 var ProviderSet = wire.NewSet(
-	NewFavoriteReposity,
 	NewAppNamespaceRelatedRepository,
 	NewAppRepository,
 	NewItemRelatedRepisitory,

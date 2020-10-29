@@ -6,7 +6,6 @@ import (
 
 var ProviderSet = wire.NewSet(
 	NewAppController,
-	NewFavoriteController,
 	NewAppNamespaceController,
 	InitControllersFn,
 	NewItemController,

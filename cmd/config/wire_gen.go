@@ -7,7 +7,7 @@ package main
 
 import (
 	"github.com/google/wire"
-	"go.didapinche.com/foundation/apollo-plus/internal/app/config"
+	config2 "go.didapinche.com/foundation/apollo-plus/internal/app/config"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/controllers"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/services"
@@ -44,7 +44,7 @@ func CreateApps(cf string) (*app.Application, error) {
 	}
 	releaseMessageRepository := repositories.NewReleaseMessageRepository(gormDB)
 	releaseMessageService := services.NewReleaseMessageService(releaseMessageRepository)
-	configserviceOptions, err := config.NewOptions(viper, logger, releaseMessageService)
+	configOptions, err := config2.NewOptions(viper, logger, releaseMessageService)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func CreateApps(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	application, err := config.NewApp(configserviceOptions, logger, server)
+	application, err := config2.NewApp(configOptions, logger, server)
 	if err != nil {
 		return nil, err
 	}
@@ -77,4 +77,4 @@ func CreateApps(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSets = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, config.ProviderSet, http.ProviderSet, httpclient.ProviderSet)
+var providerSets = wire.NewSet(log.ProviderSet, config2.ProviderSet, db.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, config.ProviderSet, http.ProviderSet, httpclient.ProviderSet)
