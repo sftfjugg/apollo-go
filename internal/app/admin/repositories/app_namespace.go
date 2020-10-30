@@ -101,7 +101,7 @@ func (r appNamespaceRepository) FindAppNamespaceByAppId(appId, format string) ([
 //查询appId下的所有集群名字
 func (r appNamespaceRepository) FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
-	if err := r.db.Raw("select ClusterName from AppNamespace where AppId=? and IsDeleted=0 group by ClusterName order by null;", appId).Scan(&appNamespaces).Error; err != nil {
+	if err := r.db.Raw("select * from AppNamespace where AppId=? and IsDeleted=0 group by ClusterName order by null;", appId).Scan(&appNamespaces).Error; err != nil {
 		return nil, errors.Wrap(err, "FindAppNamespaceIsPublic appNamespace error")
 	}
 	return appNamespaces, nil
