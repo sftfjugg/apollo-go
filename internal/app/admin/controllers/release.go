@@ -33,12 +33,13 @@ func (ctl ReleaseController) Create(c *gin.Context) {
 	if param.Operator == "" {
 		userId, err := c.Cookie("UserID")
 		if err != nil {
-			c.String(http.StatusBadRequest, "UserID don't  null:%v")
-			return
+			//c.String(http.StatusBadRequest, "UserID don't  null:%v")
+			//return
 		}
 		param.Operator = userId
 	}
-	if err := ctl.service.Create(param.AppId, param.ClusterName, param.Comment, param.Name, param.Operator, strconv.FormatUint(param.NamespaceId, 10), param.IsPublic, param.Keys); err != nil {
+	NamespaceId := strconv.Itoa(int(param.NamespaceId))
+	if err := ctl.service.Create(param.AppId, param.ClusterName, param.Comment, param.Name, NamespaceId, param.Operator, param.IsPublic, param.Keys); err != nil {
 		c.String(http.StatusInternalServerError, "call ReleaseMessageService.Create() error:%v", err)
 		return
 	}

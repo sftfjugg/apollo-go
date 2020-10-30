@@ -38,7 +38,7 @@ func InitControllersFn(
 			r.GET("/item_by_key_and_app_id/:env", uic.AuthLogin(), itemController.FindItemByAppIdAndKey)
 		}
 		{
-			r.POST("/release/:env", uic.AuthLogin(), releaseController.Create)
+			r.POST("/release/:env", releaseController.Create)
 		}
 
 		//权限相关，暂时保留2020.10.28 lihang
@@ -47,7 +47,7 @@ func InitControllersFn(
 			r.GET("/limos/app", uic.AuthLogin(), controller.FindLimosAppById)
 			r.GET("/limos/groups", uic.AuthLogin(), controller.FindGroupsOfDevelopment)
 			r.GET("/limos/auth", uic.AuthLogin(), controller.FindAuth)
-			r.GET("/users", uic.AuthLogin(), controller.GetAllUsers)
+			r.GET("/users", controller.GetAllUsers)
 			//r.GET("/app/:appId", controller.FindByAppId)
 		}
 		//关联获得配置，暂时不做2020.10.28 lihang

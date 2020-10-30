@@ -55,11 +55,6 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	release.Comment = comment
 	release.ClusterName = clusterName
 	release.ReleaseKey = name
-	configurations, err := s.FindConfig(namespaceId)
-	if err != nil {
-		return errors.Wrap(err, "call releaseRepository.Create() error")
-	}
-	release.Configurations = configurations
 	if isPublic {
 		return s.CreatePublic(release, namespaceId, keys)
 	} else {
