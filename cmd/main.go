@@ -9,10 +9,10 @@ import (
 
 func main() {
 	//viper.AutomaticEnv()
-	viper.Set("apollo.appID", viper.GetString("taxidetail-rs-service"))
-	viper.Set("apollo.meta", "http://10.31.77.116:9090")
-	viper.Set("apollo.Cluster", viper.GetString("test"))
-	viper.Set("apollo.namespaceName", "all")
+	viper.Set("apollo.appId", viper.GetString("taxidetail-rs-service"))
+	viper.Set("apollo.meta", "http://10.31.77.101:9090")
+	viper.Set("apollo.cluster", viper.GetString("test"))
+	viper.Set("apollo.namespaceName", "test")
 	viper.SetConfigName("app")
 	viper.AddConfigPath("./")
 	err := viper.ReadInConfig()

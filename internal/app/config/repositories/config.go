@@ -22,7 +22,7 @@ func NewConfigRepository(db *gorm.DB) ConfigRepository {
 
 func (r configRepository) FindPublicConfig(appId string) ([]*models.Config, error) {
 	var configurations = make([]*models.Config, 0)
-	if err := r.db.Raw("select Configurations from `Release`,`ReleaseKey` where ClusterName='default' and IsDeleted=0 and Id in(select max(Id) from `Release`  group by AppId,NamespaceName having AppId=?) ", appId).Scan(&configurations).Error; err != nil {
+	if err := r.db.Raw("select Configurations from `Release`  where ClusterName='default' and IsDeleted=0 and Id in(select max(Id) from `Release`  group by AppId,NamespaceName having AppId=?) ", appId).Scan(&configurations).Error; err != nil {
 		return nil, errors.Wrap(err, "find config publish  error")
 	}
 	return configurations, nil
