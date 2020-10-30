@@ -107,7 +107,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 
 //公共配置发布，发布该项目所有泳道（泳道在该项目中使用集群建立）
 func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId string, keys []string) error {
-	appNamespaces, err := s.appNamespaceRepository.FindClusterNameByAppId(release.AppId)
+	appNamespaces, err := s.appNamespaceRepository.FindAppNamespaceByAppIdAndName(release.AppId, release.NamespaceName)
 	if err != nil {
 		return errors.Wrap(err, "call appNamespaceRepository.FindClusterNameByAppId() error")
 	}
@@ -116,7 +116,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	messaages := make([]string, 0)
 	for i := range appNamespaces {
 		releaseMessage := new(models.ReleaseMessage)
-		releaseMessage.Message = appNamespaces[i].AppId + "+" + appNamespaces[i].ClusterName + "+" + appNamespaces[i].Name
+		releaseMessage.Message = appNamespaces[i].AppId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
 		messaages = append(messaages, releaseMessage.Message)
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
