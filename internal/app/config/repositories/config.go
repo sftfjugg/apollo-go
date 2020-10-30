@@ -38,7 +38,7 @@ func (r configRepository) FindPrivateConfig(appId, cluster string) ([]*models.Co
 
 func (r configRepository) FindConfig(appId, cluster, namespcae string) ([]*models.Config, error) {
 	var configurations = make([]*models.Config, 0)
-	if err := r.db.Raw("select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where ClusterName=? and IsDeleted=0  and Id in (select max(Id) from `Release`  group by AppId,NamespaceName having AppId=? and NamespaceName=?)", cluster, appId, namespcae).Scan(&configurations).Error; err != nil {
+	if err := r.db.Raw("select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where AppId=? and ClusterName=? and IsDeleted=0  and  NamespaceName=? order by Id desc limit 1", appId, cluster, namespcae).Scan(&configurations).Error; err != nil {
 		return nil, errors.Wrap(err, "find config private  error")
 	}
 	return configurations, nil

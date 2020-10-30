@@ -172,4 +172,8 @@ show tables;
 select * from `Release` order by Id desc ;
 select  * from ReleaseMessage order by Id desc ;
 
+
+select max(Id) from `Release`  group by AppId,NamespaceName having AppId='taxidetail-rs-service';
+select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where ClusterName='dc-test' and NamespaceName='test' and IsDeleted=0  and AppId='taxidetail-rs-service' order by Id desc limit 1;
+
 SELECT * FROM `AppNamespace`  WHERE (AppId='taxidetail-rs-service' and IsDeleted=0 and Comment='老系统迁移')
