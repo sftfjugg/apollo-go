@@ -17,6 +17,10 @@ func NewItemController(service services.ItemService) *ItemController {
 func (ctl ItemController) Create(c *gin.Context) {
 	env := c.Param("env")
 	UserID, _ := c.Get("UserID")
+	if UserID.(string) == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
+		return
+	}
 	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
 	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Create(env, c.Request)
@@ -31,6 +35,10 @@ func (ctl ItemController) Update(c *gin.Context) {
 	env := c.Param("env")
 	UserID, _ := c.Get("UserID")
 	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	if UserID.(string) == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
+		return
+	}
 	c.Request.AddCookie(cookie)
 	r, err := ctl.service.Update(env, c.Request)
 	if err != nil {
