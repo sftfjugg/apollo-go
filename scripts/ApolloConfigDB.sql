@@ -170,3 +170,5 @@ select NamespaceId from Item;
 show tables;
 
 select * from `Release` order by Id desc ;
+
+SELECT * FROM `AppNamespace`  WHERE (AppId='taxidetail-rs-service' and IsDeleted=0 and Comment='老系统迁移')

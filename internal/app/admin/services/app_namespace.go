@@ -181,7 +181,7 @@ func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(appId, cluste
 }
 
 func (s appNamespaceService) FindAppNamespaceByAppId(appId, format, comment string) ([]*models2.AppNamespace, error) {
-	appNamespaces, err := s.repository.FindAppNamespaceByAppId(appId, format, comment)
+	appNamespaces, err := s.repository.FindAppNamespaceByAppId(appId, format)
 	if err != nil {
 		return nil, errors.Wrap(err, "call AppNamespaceRepository.FindAppNamespaceByAppId() error")
 	}
@@ -203,7 +203,7 @@ func (s appNamespaceService) FindAppNamespaceByAppId(appId, format, comment stri
 			namespace.ClusterName = appNamespaces[j].ClusterName
 			namespace.Id = appNamespaces[j].Id
 			namespace.LaneName = appNamespaces[j].LaneName
-			items, err := s.itemService.FindItemByNamespaceId(strconv.FormatUint(namespace.Id, 10))
+			items, err := s.itemService.FindItemByNamespaceId(strconv.FormatUint(namespace.Id, 10), comment)
 			if err != nil {
 				return nil, errors.Wrap(err, "call itemService.FindItemByNamespaceId() error")
 			}

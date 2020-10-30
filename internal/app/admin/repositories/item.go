@@ -19,7 +19,7 @@ type ItemRepisitory interface {
 	DeleteByIdOnRelease(db *gorm.DB, namespaceId string, keys []string) error
 	DeleteByNamespaceId(db *gorm.DB, namespaceId string) error
 	DeleteByNamespaceIds(db *gorm.DB, namespaceIds []string) error
-	FindItemByNamespaceId(namespaceID string) ([]*models.Item, error)
+	FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
 	FindItemByKeyForPage(key, format string, pageSize, pageNum int) ([]*models2.Item, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
@@ -129,9 +129,12 @@ func (r itemRepisitory) DeleteByIdOnRelease(db *gorm.DB, id string, keys []strin
 	return nil
 }
 
-func (r itemRepisitory) FindItemByNamespaceId(namespaceID string) ([]*models.Item, error) {
+func (r itemRepisitory) FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error) {
 	var items = make([]*models.Item, 0)
-	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0", namespaceID).Error; err != nil {
+	if comment != "" {
+		comment = "and Comment='" + comment + "'"
+	}
+	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 "+comment+"", namespaceID).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	return items, nil
