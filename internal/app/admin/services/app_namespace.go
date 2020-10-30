@@ -18,7 +18,7 @@ type AppNamespaceService interface {
 	DeleteById(id string) error
 	DeleteByNameAndAppId(name, appId string) error
 	Update(appNamespace *models.AppNamespace) error
-	FindAppNamespaceByAppId(appId, format string) ([]*models2.AppNamespace, error)
+	FindAppNamespaceByAppId(appId, format, comment string) ([]*models2.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, clusterName, name string) (*models.AppNamespace, error)
 }
@@ -180,8 +180,8 @@ func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(appId, cluste
 	return appNamespaces, nil
 }
 
-func (s appNamespaceService) FindAppNamespaceByAppId(appId, format string) ([]*models2.AppNamespace, error) {
-	appNamespaces, err := s.repository.FindAppNamespaceByAppId(appId, format)
+func (s appNamespaceService) FindAppNamespaceByAppId(appId, format, comment string) ([]*models2.AppNamespace, error) {
+	appNamespaces, err := s.repository.FindAppNamespaceByAppId(appId, format, comment)
 	if err != nil {
 		return nil, errors.Wrap(err, "call AppNamespaceRepository.FindAppNamespaceByAppId() error")
 	}

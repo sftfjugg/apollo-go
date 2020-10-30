@@ -140,15 +140,16 @@ func (ctl ItemController) FindItemByNamespaceIdAndKey(c *gin.Context) {
 func (ctl ItemController) FindItemByAppIdAndKey(c *gin.Context) {
 
 	param := new(struct {
-		AppId  string `form:"app_id"`
-		Key    string `form:"key"`
-		Format string `form:"format"`
+		AppId   string `form:"app_id"`
+		Key     string `form:"key"`
+		Format  string `form:"format"`
+		Comment string `form:"comment"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	items, err := ctl.service.FindItemByAppIdAndKey(param.AppId, param.Key, param.Format)
+	items, err := ctl.service.FindItemByAppIdAndKey(param.AppId, param.Key, param.Format, param.Comment)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.FindItemByAppIdAndKey() error:%v", err)
 		return

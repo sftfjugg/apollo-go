@@ -23,6 +23,21 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 	m := make(map[string]string)
 	configResponse := new(models.ConfigResponse)
 	if namespace != "all" {
+		configsDefault, err := s.repository.FindConfig(appId, "default", namespace)
+		if err != nil {
+			return nil, errors.Wrap(err, "find config names failed")
+		}
+		for i := range configsDefault {
+			config := make(map[string]string)
+			err := json.Unmarshal([]byte(configsDefault[i].Configurations), &config)
+			if err != nil {
+				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+			}
+			for k := range config {
+				m[k] = config[k]
+			}
+			configResponse.ReleaseKey = configsDefault[i].ReleaseKey
+		}
 		configsAll, err := s.repository.FindConfig(appId, cluster, namespace)
 		if err != nil {
 			return nil, errors.Wrap(err, "find config names failed")

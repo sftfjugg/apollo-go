@@ -16,7 +16,7 @@ type ItemService interface {
 	Update(item *models.Item) error
 	DeleteById(id, operator string) error
 	DeleteByNamespaceId(namespaceId string) error
-	FindItemByAppIdAndKey(appId, key, format string) ([]*models2.AppNamespace, error)
+	FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.AppNamespace, error)
 	FindItemByNamespaceId(namespaceID string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
 	FindItemByKeyForPage(key, format string, pageSize, pageNum int) (*models2.ItemPage, error)
@@ -170,8 +170,8 @@ func (s itemService) FindAppItemByKeyForPage(key, format string, pageSize, pageN
 	return appNamespacePage, nil
 }
 
-func (s itemService) FindItemByAppIdAndKey(appId, key, format string) ([]*models2.AppNamespace, error) {
-	items, err := s.repository.FindItemByAppIdAndKey(appId, key, format)
+func (s itemService) FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.AppNamespace, error) {
+	items, err := s.repository.FindItemByAppIdAndKey(appId, key, format, comment)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByAppIdAndKey() error")
 	}
