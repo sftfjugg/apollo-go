@@ -69,7 +69,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 			}
 			configResponse.ReleaseKey = configsPublic[i].ReleaseKey
 		}
-		if cluster == "default" {
+		if cluster != "default" {
 			configPrivates, err := s.repository.FindPrivateConfig(appId, cluster)
 			if err != nil {
 				return nil, errors.Wrap(err, "find config private failed")
