@@ -3,6 +3,7 @@ module go.didapinche.com/foundation/apollo-plus
 go 1.13
 
 require (
+	github.com/coocood/freecache v1.1.1 // indirect
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-contrib/zap v0.0.1
@@ -21,6 +22,7 @@ require (
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/stretchr/testify v1.5.1 // indirect
 	github.com/uber/tchannel-go v1.18.0
+	go.didapinche.com/foundation/agollo v2.0.1+incompatible
 	go.didapinche.com/goapi/apollo_thrift_service/v2 v2.0.0-beta.2
 	go.didapinche.com/goapi/plat_limos_rpc v1.0.0-beta.8
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1
