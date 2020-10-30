@@ -66,7 +66,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 //私有化配置的发布，私有化配置发布只会发布对应的项目泳道（泳道在该项目中使用集群建立）
 func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceId string, keys []string) error {
 	releaseMessage := new(models.ReleaseMessage)
-	releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+application"
+	releaseMessage.Message = release.AppId + "+" + release.ClusterName + release.NamespaceName
 	db := s.db.Begin()
 	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
 		db.Rollback()
@@ -116,7 +116,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	messaages := make([]string, 0)
 	for i := range appNamespaces {
 		releaseMessage := new(models.ReleaseMessage)
-		releaseMessage.Message = release.AppId + "+" + appNamespaces[i].ClusterName + "+application"
+		releaseMessage.Message = release.AppId + "+" + appNamespaces[i].ClusterName + release.NamespaceName
 		messaages = append(messaages, releaseMessage.Message)
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
