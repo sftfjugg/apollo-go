@@ -163,7 +163,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 //查询该配置文件发布时的配置
 func (s releaseMessageService) FindConfig(namespaceId string) (string, error) {
 	m := make(map[string]string)
-	items, err := s.itemRepository.FindItemByNamespaceId(namespaceId)
+	items, err := s.itemRepository.FindItemByNamespaceId(namespaceId, "xs")
 	if err != nil {
 		return "", errors.Wrap(err, "call ItemRepository.Create() error")
 	}

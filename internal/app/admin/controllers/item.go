@@ -100,7 +100,7 @@ func (ctl ItemController) DeleteByNamespaceId(c *gin.Context) {
 func (ctl ItemController) FindItemByNamespaceId(c *gin.Context) {
 
 	namespaceId := c.Query("namespace_id")
-	items, err := ctl.service.FindItemByNamespaceId(namespaceId)
+	items, err := ctl.service.FindItemByNamespaceId(namespaceId, "")
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.FindItemByNamespaceId() error:%v", err)
 		return
