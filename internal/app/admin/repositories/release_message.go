@@ -39,10 +39,9 @@ func (r releaseMessageRepository) Creates(db *gorm.DB, releaseMessages []*models
 	}
 	for i, r := range releaseMessages {
 		if i == len(releaseMessages)-1 {
-			r.DataChange_LastTime = time.Now()
-			buffer.WriteString(fmt.Sprintf("('%s','%s');", r.Message, r.DataChange_LastTime))
+			buffer.WriteString(fmt.Sprintf("('%s','%s');", r.Message, time.Now()))
 		} else {
-			buffer.WriteString(fmt.Sprintf("('%s','%s'),", r.Message, r.DataChange_LastTime))
+			buffer.WriteString(fmt.Sprintf("('%s','%s'),", r.Message, time.Now()))
 		}
 	}
 	if err := db.Exec(buffer.String()).Error; err != nil {
