@@ -38,7 +38,7 @@ func InitControllersFn(
 			r.GET("/item_by_key_and_app_id/:env", uic.AuthLogin(), itemController.FindItemByAppIdAndKey)
 		}
 		{
-			r.POST("/release/:env", releaseController.Create)
+			r.POST("/release/:env", uic.AuthLogin(), releaseController.Create)
 		}
 
 		//权限相关，暂时保留2020.10.28 lihang

@@ -33,8 +33,8 @@ func (ctl ReleaseController) Create(c *gin.Context) {
 	if param.Operator == "" {
 		userId, err := c.Cookie("UserID")
 		if err != nil {
-			//c.String(http.StatusBadRequest, "UserID don't  null:%v")
-			//return
+			c.String(http.StatusBadRequest, "UserID don't  null:%v")
+			return
 		}
 		param.Operator = userId
 	}
