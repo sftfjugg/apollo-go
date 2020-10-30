@@ -164,6 +164,6 @@ CREATE TABLE `ServerConfig` (
 
 show databases ;
 
-select * from AppNamespace where Id=179;
-select * from Item  where NamespaceId=179;
+select * from AppNamespace where Id=34;
+select NamespaceId from Item;
 show tables;
