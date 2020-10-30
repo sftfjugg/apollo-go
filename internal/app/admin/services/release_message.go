@@ -77,7 +77,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	var items = make([]*models.Item, 0)
-	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0", namespaceId).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	m := make(map[string]string)
@@ -130,7 +130,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	var items = make([]*models.Item, 0)
-	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0", namespaceId).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	m := make(map[string]string)
