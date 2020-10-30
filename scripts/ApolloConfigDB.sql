@@ -29,6 +29,7 @@ CREATE TABLE `AppNamespace` (
   `LaneName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '泳道名字',
   `Comment` varchar(500) NOT NULL DEFAULT '' COMMENT '注释',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
+  `IsRelease` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '0: 未发布, 1: 已发布',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人邮箱前缀',
   `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `DataChange_LastModifiedBy` varchar(32) DEFAULT '' COMMENT '最后修改人邮箱前缀',
@@ -167,3 +168,5 @@ show databases ;
 select * from AppNamespace where Id=34;
 select NamespaceId from Item;
 show tables;
+
+select * from `Release` order by Id desc ;

@@ -8,7 +8,7 @@ import (
 )
 
 type ConfigService interface {
-	FindConfigByAppIdandCluster(appId, cluster string) (*models.ConfigResponse, error)
+	FindConfigByAppIdandCluster(appId, cluster, namespace string) (*models.ConfigResponse, error)
 }
 
 type configService struct {
@@ -19,36 +19,57 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 	return &configService{repository: repository}
 }
 
-func (s configService) FindConfigByAppIdandCluster(appId, cluster string) (*models.ConfigResponse, error) {
-	configsPublic, err := s.repository.FindPublicConfig(appId)
-	if err != nil {
-		return nil, errors.Wrap(err, "find config names failed")
-	}
+func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace string) (*models.ConfigResponse, error) {
 	m := make(map[string]string)
-	for i := range configsPublic {
-		config := make(map[string]string)
-		err := json.Unmarshal([]byte(configsPublic[i].Configurations), &config)
-		if err != nil {
-			return nil, errors.Wrap(err, "json.Unmarshal config  failed")
-		}
-		for k := range config {
-			m[k] = config[k]
-		}
-	}
-	configPrivates, err := s.repository.FindPrivateConfig(appId, cluster)
-	if err != nil {
-		return nil, errors.Wrap(err, "find config private failed")
-	}
-	config := make(map[string]string)
 	configResponse := new(models.ConfigResponse)
-	for i := range configPrivates {
-		if err := json.Unmarshal([]byte(configPrivates[i].Configurations), &config); err != nil {
-			return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+	if namespace != "all" {
+		configsAll, err := s.repository.FindConfig(appId, cluster, namespace)
+		if err != nil {
+			return nil, errors.Wrap(err, "find config names failed")
 		}
-		for k := range config {
-			m[k] = config[k]
+		for i := range configsAll {
+			config := make(map[string]string)
+			err := json.Unmarshal([]byte(configsAll[i].Configurations), &config)
+			if err != nil {
+				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+			}
+			for k := range config {
+				m[k] = config[k]
+			}
+			configResponse.ReleaseKey = configsAll[i].ReleaseKey
 		}
-		configResponse.ReleaseKey = configPrivates[i].ReleaseKey
+	} else {
+		configsPublic, err := s.repository.FindPublicConfig(appId)
+		if err != nil {
+			return nil, errors.Wrap(err, "find config names failed")
+		}
+		for i := range configsPublic {
+			config := make(map[string]string)
+			err := json.Unmarshal([]byte(configsPublic[i].Configurations), &config)
+			if err != nil {
+				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+			}
+			for k := range config {
+				m[k] = config[k]
+			}
+			configResponse.ReleaseKey = configsPublic[i].ReleaseKey
+		}
+		if cluster == "default" {
+			configPrivates, err := s.repository.FindPrivateConfig(appId, cluster)
+			if err != nil {
+				return nil, errors.Wrap(err, "find config private failed")
+			}
+			config := make(map[string]string)
+			for i := range configPrivates {
+				if err := json.Unmarshal([]byte(configPrivates[i].Configurations), &config); err != nil {
+					return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+				}
+				for k := range config {
+					m[k] = config[k]
+				}
+				configResponse.ReleaseKey = configPrivates[i].ReleaseKey
+			}
+		}
 	}
 	configResponse.Configurations = m
 	configResponse.AppId = appId

@@ -32,7 +32,7 @@ func (ctl ConfigController) FindConfig(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	config, err := ctl.service.FindConfigByAppIdandCluster(param.AppId, param.ClusterName)
+	config, err := ctl.service.FindConfigByAppIdandCluster(param.AppId, param.ClusterName, param.Namespace)
 	config.NamespaceName = param.Namespace
 	if err != nil {
 		c.String(http.StatusBadRequest, "get Config failed:%v", err)
