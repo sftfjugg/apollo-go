@@ -36,6 +36,7 @@ func InitControllersFn(
 			r.GET("/item", itemController.FindItemByNamespaceIdAndKey)
 			r.GET("/item_by_key_and_appId", itemController.FindItemByAppIdAndKey)
 			r.GET("/items_release", itemController.FindItemByNamespaceIdOnRelease)
+			r.GET("/item_comment", itemController.FindAllComment)
 		}
 		{
 			r.POST("/release", releaseController.Create)

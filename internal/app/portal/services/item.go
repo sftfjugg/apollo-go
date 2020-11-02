@@ -18,6 +18,7 @@ type ItemService interface {
 	FindItemByKeyForPage(env string, r *http.Request) (*models2.Response, error)
 	FindAppItemByKeyForPage(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error)
+	FindAllComment(env string, r *http.Request) (*models2.Response, error)
 }
 
 type itemService struct {
@@ -102,6 +103,14 @@ func (s itemService) FindAppItemByKeyForPage(env string, r *http.Request) (*mode
 
 func (s itemService) FindItemByNamespaceIdAndKey(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/item", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s itemService) FindAllComment(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/item_comment", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}

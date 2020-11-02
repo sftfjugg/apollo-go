@@ -130,3 +130,13 @@ func (ctl ItemController) FindAppItemByKeyForPage(c *gin.Context) {
 	}
 	c.Data(r.Code, r.ContentType, r.Data)
 }
+
+func (ctl ItemController) FindAllComment(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindAllComment(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.FindAllComment run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}

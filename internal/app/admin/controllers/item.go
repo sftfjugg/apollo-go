@@ -108,6 +108,17 @@ func (ctl ItemController) FindItemByNamespaceId(c *gin.Context) {
 	c.JSON(http.StatusOK, items)
 }
 
+func (ctl ItemController) FindAllComment(c *gin.Context) {
+
+	namespaceId := c.Query("app_id")
+	comments, err := ctl.service.FindAllComment(namespaceId)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.FindAllComment() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, comments)
+}
+
 func (ctl ItemController) FindItemByNamespaceIdOnRelease(c *gin.Context) {
 
 	namespaceId := c.Query("namespace_id")

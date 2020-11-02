@@ -23,6 +23,7 @@ type ItemService interface {
 	FindAppItemByKeyForPage(key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
+	FindAllComment(appId string) ([]string, error)
 }
 
 type itemService struct {
@@ -193,6 +194,20 @@ func (s itemService) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key stri
 		return nil, errors.Wrap(err, "call ItemRepository.FindOneItemByNamespaceIdAndKey() error")
 	}
 	return item, nil
+}
+
+func (s itemService) FindAllComment(appId string) ([]string, error) {
+	items, err := s.repository.FindAllComment(appId)
+	if err != nil {
+		return nil, errors.Wrap(err, "call ItemRepository.FindAllComment() error")
+	}
+	comments := make([]string, 0)
+	for _, i := range items {
+		if i.Comment != "" {
+			comments = append(comments, i.Comment)
+		}
+	}
+	return comments, nil
 }
 
 //作用是将Item格式转化为前端展示格式

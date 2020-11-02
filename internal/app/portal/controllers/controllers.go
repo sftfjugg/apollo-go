@@ -33,6 +33,7 @@ func InitControllersFn(
 			r.POST("/item/:env", uic.AuthLogin(), itemController.Create)
 			r.DELETE("/item/:env", uic.AuthLogin(), itemController.DeleteById)
 			r.PUT("/item/:env", uic.AuthLogin(), itemController.Update)
+			r.GET("/item_comment", uic.AuthLogin(), itemController.FindAllComment)
 			r.DELETE("/items/:env", uic.AuthLogin(), itemController.DeleteByNamespaceId)
 			r.GET("/item/:env", uic.AuthLogin(), itemController.FindItemByNamespaceIdAndKey)
 			r.GET("/item_by_key_and_app_id/:env", uic.AuthLogin(), itemController.FindItemByAppIdAndKey)

@@ -25,6 +25,7 @@ type ItemRepisitory interface {
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.Item, error)
 	FindItemCountByKey(key string) (int, error)
+	FindAllComment(appId string) ([]*models.Item, error) //查询所有不同标签
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
 }
 
@@ -165,9 +166,7 @@ func (r itemRepisitory) FindItemByAppIdAndKey(appId, key, format, comment string
 	if comment != "" {
 		comment = "and Comment='" + comment + "'"
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.ReleaseValue,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 "+format+comment+" ;", "%"+key+"%", appId).Scan(&items).Error; err != nil {
-		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
-	}
+
 	return items, nil
 }
 
@@ -197,4 +196,12 @@ func (r itemRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key s
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return item, nil
+}
+
+func (r itemRepisitory) FindAllComment(appId string) ([]*models.Item, error) {
+	items := make([]*models.Item, 0)
+	if err := r.db.Raw("Select I.Comment from `AppNamespace` A,`Item` I where  A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
+		return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
+	}
+	return items, nil
 }
