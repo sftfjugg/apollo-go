@@ -8,12 +8,13 @@ import (
 )
 
 func main() {
+
 	//viper.AutomaticEnv()
-	viper.Set("apollo.appId", viper.GetString("taxidetail-rs-service"))
-	viper.Set("apollo.meta", "http://10.31.77.101:9090")
-	viper.Set("apollo.cluster", viper.GetString("test"))
-	viper.Set("apollo.namespaceName", "test")
-	viper.SetConfigName("app")
+	//viper.Set("apollo.appId", "taxidetail-rs-service")
+	//viper.Set("apollo.ip", "http://10.31.122.109:9090")
+	//viper.Set("apollo.cluster", "test")
+	//viper.Set("apollo.namespaceName", "test")
+	viper.SetConfigName("configs/app")
 	viper.AddConfigPath("./")
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -34,15 +35,13 @@ func main() {
 			fmt.Println(viper.AllSettings())
 		}
 	}()
-	//u = viper.Get("db.username")
-	//fmt.Println(u)
 	//p = viper.Get("db.password")
 	//fmt.Println(p)
 
+	config := agollo.GetCurrentApolloConfig()
+	fmt.Println(config)
 	select {}
-	//config := agollo.GetCurrentApolloConfig()
 	//cache := agollo.GetApolloConfigCache()
-	//fmt.Println(config)
 	//it := cache.NewIterator()
 	//for i := 0; i < int(cache.EntryCount()); i++ {
 	//	entry := it.Next()
