@@ -5,11 +5,15 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"go.didapinche.com/foundation/agollo"
+	"os"
 )
 
 func main() {
 
-	//viper.AutomaticEnv()
+	conn := os.Getenv("IDC")
+	if conn != "" {
+		viper.Set("apollo.cluster", "test")
+	}
 	//viper.Set("apollo.appId", "taxidetail-rs-service")
 	//viper.Set("apollo.ip", "http://10.31.122.109:9090")
 	//viper.Set("apollo.cluster", "test")

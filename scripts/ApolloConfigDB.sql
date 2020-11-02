@@ -185,6 +185,10 @@ select * from `Release` where Id =314;
 select *from `ReleaseMessage` order by Id desc ;
 
 
+select * from AppNamespace where name='test';
+
+select * from Item order by Id desc ;
+
 select * from AppNamespace where AppId='taxidetail-rs-service' and IsDeleted=0 group by ClusterName order by null;
 
 SELECT * FROM `AppNamespace`  WHERE (AppId='taxidetail-rs-service' and IsDeleted=0 and Comment='老系统迁移')
