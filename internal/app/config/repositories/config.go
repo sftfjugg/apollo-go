@@ -10,6 +10,7 @@ type ConfigRepository interface {
 	FindPublicConfig(appId string) ([]*models.Config, error)
 	FindPrivateConfig(appId, cluster string) ([]*models.Config, error)
 	FindConfig(appId, cluster, namespace string) ([]*models.Config, error)
+	FindGlobalConfig(cluster string) ([]*models.Config, error)
 }
 
 type configRepository struct {
@@ -18,6 +19,14 @@ type configRepository struct {
 
 func NewConfigRepository(db *gorm.DB) ConfigRepository {
 	return &configRepository{db: db}
+}
+
+func (r configRepository) FindGlobalConfig(cluster string) ([]*models.Config, error) {
+	var configurations = make([]*models.Config, 0)
+	if err := r.db.Raw("select * from `Release` R where AppId in (select AppId from AppNamespace where IsPublic=1 and IsDeleted=0 group by AppId) and Id in (select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName=？) and IsDeleted=0", cluster).Scan(&configurations).Error; err != nil {
+		return nil, errors.Wrap(err, "find config publish  error")
+	}
+	return configurations, nil
 }
 
 func (r configRepository) FindPublicConfig(appId string) ([]*models.Config, error) {

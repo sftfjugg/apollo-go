@@ -10,10 +10,27 @@ import (
 
 func main() {
 
-	conn := os.Getenv("IDC")
-	if conn != "" {
-		viper.Set("apollo.cluster", "test")
+	idc := os.Getenv("IDC")
+	if idc != "" {
+		viper.Set("apollo.cluster", idc)
 	}
+	appId := os.Getenv("APP_ID")
+	if appId != "" {
+		viper.Set("apollo.appId", appId)
+	}
+	ip := os.Getenv("APOLLO_META")
+	if appId != "" {
+		viper.Set("apollo.ip", ip)
+	}
+	namespace := os.Getenv("APOLLO_BOOTSTRAP_NAMESPACES")
+	if namespace != "" {
+		viper.Set("apollo.namespaceName", namespace)
+	}
+	configPath := os.Getenv("APOLLO_CACHEDIR")
+	if namespace != "" {
+		viper.Set("apollo.backupConfigPath", configPath)
+	}
+
 	//viper.Set("apollo.appId", "taxidetail-rs-service")
 	//viper.Set("apollo.ip", "http://10.31.122.109:9090")
 	//viper.Set("apollo.cluster", "test")

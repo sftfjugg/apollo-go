@@ -22,6 +22,38 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace string) (*models.ConfigResponse, error) {
 	m := make(map[string]string)
 	configResponse := new(models.ConfigResponse)
+	//查询公共全局配置
+	configsGlobal, err := s.repository.FindGlobalConfig("default")
+	if err != nil {
+		return nil, errors.Wrap(err, "find config names failed")
+	}
+	for i := range configsGlobal {
+		config := make(map[string]string)
+		err := json.Unmarshal([]byte(configsGlobal[i].Configurations), &config)
+		if err != nil {
+			return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+		}
+		for k := range config {
+			m[k] = config[k]
+		}
+	}
+	if cluster != "default" {
+		configsGlobal, err := s.repository.FindGlobalConfig(cluster)
+		if err != nil {
+			return nil, errors.Wrap(err, "find config names failed")
+		}
+		for i := range configsGlobal {
+			config := make(map[string]string)
+			err := json.Unmarshal([]byte(configsGlobal[i].Configurations), &config)
+			if err != nil {
+				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
+			}
+			for k := range config {
+				m[k] = config[k]
+			}
+		}
+	}
+
 	if namespace != "all" {
 		configsDefault, err := s.repository.FindConfig(appId, "default", namespace)
 		if err != nil {

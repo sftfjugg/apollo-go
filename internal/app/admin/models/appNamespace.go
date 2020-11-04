@@ -12,7 +12,8 @@ type AppNamespacePage struct {
 type AppNamespace struct {
 	Name       string       `json:"name"`
 	AppId      string       `json:"app_id"`
-	Format     string       `gorm:"column:Format" json:"format" form:"format"` //类型
+	Format     string       `json:"format"` //类型
+	IsPublic   bool         `json:"is_public"`
 	Namespaces []*Namespace `json:"namespaces"`
 }
 

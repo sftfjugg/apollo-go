@@ -197,6 +197,7 @@ func (s appNamespaceService) FindAppNamespaceByAppId(appId, format, comment stri
 			j := names[k][i]
 			namespace := new(models2.Namespace)
 			app.AppId = appNamespaces[j].AppId
+			app.IsPublic = appNamespaces[j].IsPublic
 			if appNamespaces[j].Format != "" {
 				app.Format = appNamespaces[j].Format
 			}

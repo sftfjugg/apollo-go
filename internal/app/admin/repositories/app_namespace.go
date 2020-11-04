@@ -18,6 +18,7 @@ type AppNamespaceRepository interface {
 	FindAppNamespaceByAppId(appId, format string) ([]*models.AppNamespace, error)
 	FindAppNamespaceByAppIdAndName(appId, name string) ([]*models.AppNamespace, error)
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
+	FindAppNamespaceByPublic(cluster string) ([]*models.AppNamespace, error)
 }
 
 type appNamespaceRepository struct {
@@ -111,6 +112,20 @@ func (r appNamespaceRepository) FindAppNamespaceByAppIdAndName(appId, name strin
 	appNamespaces := make([]*models.AppNamespace, 0)
 	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0 and Name=?", appId, name).Error; err != nil {
 		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
+	}
+	return appNamespaces, nil
+}
+
+//查询appId下的所有集群名字
+func (r appNamespaceRepository) FindAppNamespaceByPublic(cluster string) ([]*models.AppNamespace, error) {
+	if cluster != "default" {
+		cluster = "having ClusterName='" + cluster + "'"
+	} else {
+		cluster = ""
+	}
+	appNamespaces := make([]*models.AppNamespace, 0)
+	if err := r.db.Raw("select * from AppNamespace where IsDeleted=0 group by AppId,ClusterName " + cluster + " order by null;").Scan(&appNamespaces).Error; err != nil {
+		return nil, errors.Wrap(err, "FindAppNamespaceIsPublic appNamespace error")
 	}
 	return appNamespaces, nil
 }

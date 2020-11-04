@@ -163,32 +163,16 @@ CREATE TABLE `ServerConfig` (
   KEY `DataChange_LastTime` (`DataChange_LastTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置服务自身配置';
 
-show databases ;
-
-select * from AppNamespace where Id=34;
-select NamespaceId from Item;
-show tables;
-
-select * from `Release` order by Id desc ;
-select  * from ReleaseMessage order by Id desc ;
 
 
-select max(Id) from `Release`  group by AppId,NamespaceName having AppId='taxidetail-rs-service';
-select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where ClusterName='dc-test' and NamespaceName='test' and IsDeleted=0  and AppId='taxidetail-rs-service' order by Id desc limit 1;
+delete from `Release`;
+delete from AppNamespace;
+delete from `Item`;
+delete from `ReleaseMessage`;
+select * from ReleaseMessage;
 
-select Configurations from `Release` where   IsDeleted=0  and Id in(select max(Id) from `Release`  group by AppId,NamespaceName,ClusterName having AppId='taxidetail-rs-service' and ClusterName='default');
+alter table `Release` AUTO_INCREMENT=1;
+alter table `AppNamespace` AUTO_INCREMENT=1;
+alter table `Item` AUTO_INCREMENT=1;
+alter table `ReleaseMessage` AUTO_INCREMENT=1;
 
-select *,max(Id) from `Release`  group by AppId,NamespaceName having AppId='taxidetail-rs-service';
-
-select * from `Release` where Id =314;
-
-select *from `ReleaseMessage` order by Id desc ;
-
-
-select * from AppNamespace where name='test';
-
-select * from Item order by Id desc ;
-
-select * from AppNamespace where AppId='taxidetail-rs-service' and IsDeleted=0 group by ClusterName order by null;
-
-SELECT * FROM `AppNamespace`  WHERE (AppId='taxidetail-rs-service' and IsDeleted=0 and Comment='老系统迁移')

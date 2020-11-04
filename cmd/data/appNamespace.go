@@ -20,10 +20,8 @@ func AppNamespace(db1 *gorm.DB, db2 *gorm.DB) {
 		appNamespace[i].DataChange_LastTime = time.Now()
 		appNamespace[i].IsDeleted = false
 		if appNamespace[i].ClusterName == "default" {
-			appNamespace[i].IsPublic = true
 			appNamespace[i].LaneName = "主版本"
 		} else {
-			appNamespace[i].IsPublic = false
 			appNamespace[i].LaneName = appNamespace[i].ClusterName
 		}
 		if appNamespace[i].Name == "application" {

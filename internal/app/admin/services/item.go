@@ -245,6 +245,7 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				namespace.LaneName = s.LaneName
 				namespace.Id = s.NamespaceId
 				appNamespace.AppId = s.AppId
+				appNamespace.IsPublic = s.IsPublic
 				//appNamespace.
 				appNamespace.Name = s.Name
 				if s.Format != "" {

@@ -13,6 +13,7 @@ type Item struct {
 	Id                        uint64    `gorm:"column:Id" json:"id" form:"id"`
 	Name                      string    `gorm:"column:Name" json:"name" form:"name"`
 	AppId                     string    `gorm:"column:AppId" json:"app_id" form:"app_id"`
+	IsPublic                  bool      `gorm:"column:IsPublic" json:"is_public" form:"is_public"`
 	AppName                   string    `gorm:"column:AppName" json:"app_name" form:"app_name"`
 	ClusterName               string    `gorm:"column:ClusterName" json:"cluster_name" form:"cluster_name"` //灰度使用
 	LaneName                  string    `gorm:"column:LaneName" json:"lane_name" form:"lane_name"`

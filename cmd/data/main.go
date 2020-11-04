@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -22,5 +23,9 @@ func main() {
 	Item(db1, db2)
 	Release(db1, db2)
 	ReleaseMessage(db1, db2)
+	if err := db2.Exec("update AppNamespace set AppId='public_global_config' where IsPublic=1;").Error; err != nil {
+		fmt.Println("修改所有公共配置失败")
+	}
+	fmt.Println("所有数据完成")
 
 }
