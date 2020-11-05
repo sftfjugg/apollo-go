@@ -19,11 +19,12 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 	return &configService{repository: repository}
 }
 
+//这里吃进行4次查询，先查询是否有公共配置，在查询公共配置的灰度，在查询自己对应配置，最后查询自己灰度
 func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace string) (*models.ConfigResponse, error) {
 	m := make(map[string]string)
 	configResponse := new(models.ConfigResponse)
 	//查询公共全局配置
-	configsGlobal, err := s.repository.FindGlobalConfig("default")
+	configsGlobal, err := s.repository.FindGlobalConfig(namespace, "default")
 	if err != nil {
 		return nil, errors.Wrap(err, "find config names failed")
 	}
@@ -38,7 +39,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 		}
 	}
 	if cluster != "default" {
-		configsGlobal, err := s.repository.FindGlobalConfig(cluster)
+		configsGlobal, err := s.repository.FindGlobalConfig(namespace, cluster)
 		if err != nil {
 			return nil, errors.Wrap(err, "find config names failed")
 		}

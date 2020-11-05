@@ -1,7 +1,7 @@
 app:
   name: portal
 db:
-  url:   "plat:mTAerlrufO@tcp(192.168.1.205:3600)/plat_apollo_portal?charset=utf8mb4&parseTime=True&loc=Local"
+  url:   "plat:mTAerlrufO@tcp(192.168.1.205:3600)/dida_apollo_plus_portal?charset=utf8mb4&parseTime=True&loc=Local"
   debug: true
 log:
   filename:  logs/server.log

@@ -8,9 +8,9 @@
 
 # Create Database
 # ------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS plat_apollo_portal DEFAULT CHARACTER SET = utf8mb4;
+CREATE DATABASE IF NOT EXISTS dida_apollo_plus_portal DEFAULT CHARACTER SET = utf8mb4;
 
-Use plat_apollo_portal;
+Use dida_apollo_plus_portal;
 
 # Dump of table app
 # ------------------------------------------------------------

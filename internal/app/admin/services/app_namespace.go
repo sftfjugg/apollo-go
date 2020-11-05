@@ -52,6 +52,19 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 	if app.Name != "" {
 		return errors.New("name alrealy exists")
 	}
+	if appNamespace.IsPublic {
+		if app.Name == "application" {
+			return errors.New("If it is public, the name cannot be application")
+		}
+		appPublic, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName("public_global_config", appNamespace.ClusterName, appNamespace.Name)
+		if err != nil {
+			return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+		}
+		if appPublic.Name != "" {
+			return errors.New("If it is public, the name cannot be repeated")
+		}
+	}
+
 	db := s.db.Begin()
 	if err := s.repository.Create(db, appNamespace); err != nil {
 		db.Rollback()

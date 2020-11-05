@@ -10,7 +10,7 @@ import (
 
 func Release(db1 *gorm.DB, db2 *gorm.DB) {
 	release := make([]*models.Release, 0)
-	db1.Raw("select Id,ReleaseKey,Comment,AppId,ClusterName,NamespaceName,Configurations,DataChange_CreatedBy,DataChange_LastModifiedBy from `Release` where IsDeleted=0 and IsAbandoned=0 and Id in (select max(Id) from `Release`  group by AppId,NamespaceName) ORDER BY Id;").Scan(&release)
+	db1.Raw("select Id,ReleaseKey,Comment,AppId,ClusterName,NamespaceName,Configurations,DataChange_CreatedBy,DataChange_LastModifiedBy from `Release` where IsDeleted=0 and IsAbandoned=0 and Id in (select max(Id) from `Release`  group by AppId,NamespaceName,ClusterName) ORDER BY Id;").Scan(&release)
 	for i, _ := range release {
 		release[i].Id = 0
 		release[i].DataChange_CreatedTime = time.Now()

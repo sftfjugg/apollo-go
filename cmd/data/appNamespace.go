@@ -11,7 +11,7 @@ import (
 func AppNamespace(db1 *gorm.DB, db2 *gorm.DB) {
 
 	appNamespace := make([]*models.AppNamespace, 0)
-	db1.Raw("select AppId,ClusterName,NamespaceName Name,DataChange_CreatedBy,DataChange_LastModifiedBy from Namespace where IsDeleted=0;").Scan(&appNamespace)
+	db1.Raw("select AppId,ClusterName,NamespaceName Name,DataChange_CreatedBy,DataChange_LastModifiedBy from Namespace where IsDeleted=0 and ClusterName='default';").Scan(&appNamespace)
 	//AppNamespace数据导入
 	for i, _ := range appNamespace {
 		db := db2.Begin()
@@ -19,6 +19,7 @@ func AppNamespace(db1 *gorm.DB, db2 *gorm.DB) {
 		appNamespace[i].DataChange_CreatedTime = time.Now()
 		appNamespace[i].DataChange_LastTime = time.Now()
 		appNamespace[i].IsDeleted = false
+		appNamespace[i].IsPublic = false
 		if appNamespace[i].ClusterName == "default" {
 			appNamespace[i].LaneName = "主版本"
 		} else {

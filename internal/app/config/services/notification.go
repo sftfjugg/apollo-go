@@ -29,10 +29,12 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications strin
 	}
 	max := make([]float64, 0)
 	key := make([]string, 0)
+	keys := make([]string, 0)
 	for i := range tempMap {
 		namespaceName := tempMap[i]["namespaceName"].(string)
 		max = append(max, tempMap[i]["notificationId"].(float64))
-		key = append(key, appid+"+"+cluster+"+"+namespaceName)
+		key = append(key, appid+"+"+cluster+"+"+namespaceName)                   //自身配置对比
+		keys = append(key, "public_global_config"+"+"+cluster+"+"+namespaceName) //公共配置对比
 	}
 
 	m := single_queue.GetV()
@@ -43,8 +45,13 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications strin
 loop:
 	for range ticker.C {
 		for i := range tempMap {
-			k := key[i]
-			if float64(m[k]) > max[i] {
+			if float64(m[key[i]]) > max[i] {
+				max[i] = float64(m[key[i]])
+				typ = true
+				break loop
+			}
+			if float64(m[keys[i]]) > max[i] {
+				max[i] = float64(m[keys[i]])
 				typ = true
 				break loop
 			}
@@ -57,7 +64,7 @@ loop:
 	for i := range tempMap {
 		notification := new(models.Notification)
 		notification.NamespaceName = tempMap[i]["namespaceName"].(string)
-		notification.NotificationId = int(m[appid+"+"+cluster+"+"+notification.NamespaceName])
+		notification.NotificationId = int(max[i])
 		message := new(models.Messages)
 		message.Details = make(map[string]int)
 		message.Details[notification.NamespaceName] = notification.NotificationId

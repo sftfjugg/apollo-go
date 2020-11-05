@@ -8,13 +8,13 @@
 
 # Create Database
 # ------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS plat_apollo_config DEFAULT CHARACTER SET = utf8mb4;
+CREATE DATABASE IF NOT EXISTS dida_apollo_plus_config DEFAULT CHARACTER SET = utf8mb4;
 
 
 # Dump of table appnamespace
 # ------------------------------------------------------------
 
-USE plat_apollo_config;
+USE dida_apollo_plus_config;
 
 DROP TABLE IF EXISTS `AppNamespace`;
 
@@ -112,7 +112,7 @@ CREATE TABLE `ReleaseHistory` (
   `BranchName` varchar(32) NOT NULL DEFAULT 'default' COMMENT '发布分支名',
   `ReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的Release Id',
   `PreviousReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '前一次发布的ReleaseId',
-  `Operation` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '发布类型，0: 普通发布，1: 回滚，2: 灰度发布，3: 灰度规则更新，4: 灰度合并回主分支发布，5: 主分支发布灰度自动发布，6: 主分支回滚灰度自动发布，7: 放弃灰度',
+  `Operation` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '发布类型，0: 普通发布，1: 灰度发布，2: 灰度全量发布',
   `OperationContext` longtext NOT NULL COMMENT '发布上下文信息',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
@@ -164,15 +164,11 @@ CREATE TABLE `ServerConfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置服务自身配置';
 
 
+select * from AppNamespace;
+select * from dida_apollo_plus_config.AppNamespace;
+select * from ReleaseHistory;
+select * from `Release`;
 
-delete from `Release`;
-delete from AppNamespace;
-delete from `Item`;
-delete from `ReleaseMessage`;
-select * from ReleaseMessage;
-
-alter table `Release` AUTO_INCREMENT=1;
-alter table `AppNamespace` AUTO_INCREMENT=1;
-alter table `Item` AUTO_INCREMENT=1;
-alter table `ReleaseMessage` AUTO_INCREMENT=1;
-
+show databases ;
+use dida_apollo_plus_config;
+show tables ;
