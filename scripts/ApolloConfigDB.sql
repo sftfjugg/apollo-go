@@ -109,11 +109,12 @@ CREATE TABLE `ReleaseHistory` (
   `AppId` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'AppID',
   `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
   `NamespaceName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
-  `BranchName` varchar(32) NOT NULL DEFAULT 'default' COMMENT '发布分支名',
-  `ReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '关联的Release Id',
-  `PreviousReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '前一次发布的ReleaseId',
+  `BranchName` varchar(32) NOT NULL DEFAULT 'default' COMMENT '发布灰度名',
+  `ReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保留字段',
+  `PreviousReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保留字段',
   `Operation` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '发布类型，0: 普通发布，1: 灰度发布，2: 灰度全量发布',
-  `OperationContext` longtext NOT NULL COMMENT '发布上下文信息',
+  `OperationContext` longtext NOT NULL COMMENT '发布上下文信息（只展示不同的）',
+  `ReleaseContext` longtext NOT NULL COMMENT '发布上下文信息（展示全部发布内容）',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
   `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -164,7 +165,7 @@ CREATE TABLE `ServerConfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置服务自身配置';
 
 
-select * from AppNamespace;
+select * from AppNamespace where IsPublic=1;
 select * from dida_apollo_plus_config.AppNamespace;
 select * from ReleaseHistory;
 select * from `Release`;
@@ -172,3 +173,7 @@ select * from `Release`;
 show databases ;
 use dida_apollo_plus_config;
 show tables ;
+desc ReleaseHistory;
+
+select * from AppNamespace where AppId='zeus-demo-common' and Name='foundation.zeus-demo-common';
+update AppNamespace set AppId='public_global_config',IsPublic=1 where   AppId='zeus-demo-common' and Name='foundation.zeus-demo-common';

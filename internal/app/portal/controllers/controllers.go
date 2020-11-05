@@ -13,6 +13,7 @@ func InitControllersFn(
 	itemController *ItemController,
 	itemRelatedController *ItemRelatedController,
 	releaseController *ReleaseController,
+	historyController *ReleaseHistoryController,
 	appNamespaceRelatedController *AppNamespaceRelatedController,
 ) http.InitControllers {
 	return func(r *gin.Engine) {
@@ -40,6 +41,10 @@ func InitControllersFn(
 		}
 		{
 			r.POST("/release/:env", uic.AuthLogin(), releaseController.Create)
+			r.POST("/release_gray_total/:env", uic.AuthLogin(), releaseController.ReleaseGrayTotal)
+		}
+		{
+			r.GET("/release_history/:env", uic.AuthLogin(), historyController.Find)
 		}
 
 		//权限相关，暂时保留2020.10.28 lihang

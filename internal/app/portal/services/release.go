@@ -9,6 +9,7 @@ import (
 
 type ReleaseService interface {
 	Create(env string, r *http.Request) (*models2.Response, error)
+	ReleaseGrayTotal(env string, r *http.Request) (*models2.Response, error)
 }
 
 type releaseService struct {
@@ -21,6 +22,14 @@ func NewReleaseService(httpClient *zclients.HttpClient) ReleaseService {
 
 func (s releaseService) Create(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/release", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s releaseService) ReleaseGrayTotal(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/release_gray_total", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}

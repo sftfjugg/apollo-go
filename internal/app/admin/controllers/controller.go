@@ -8,6 +8,7 @@ import (
 func InitControllersFn(
 	appNamespaceController *AppNamespaceController,
 	itemController *ItemController,
+	releaseHistoryController *ReleaseHistoryController,
 	releaseController *ReleaseController,
 ) http.InitControllers {
 	return func(r *gin.Engine) {
@@ -40,6 +41,10 @@ func InitControllersFn(
 		}
 		{
 			r.POST("/release", releaseController.Create)
+			r.POST("/release_gray_total", releaseController.ReleaseGrayTotal)
+		}
+		{
+			r.GET("/release_history", releaseHistoryController.Find)
 		}
 
 	}

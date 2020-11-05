@@ -22,14 +22,14 @@ func main() {
 	}
 	//AppNamespace(db1, db2)
 	//Item(db1, db2)
-	Release(db1, db2)
-	ReleaseMessage(db1, db2)
+	//Release(db1, db2)
+	//ReleaseMessage(db1, db2)
 	appNamespace := make([]*models.AppNamespace, 0)
 	if err := db1.Raw("select AppId,Name from AppNamespace where IsPublic=1 and IsDeleted=0").Scan(&appNamespace).Error; err != nil {
 		fmt.Println("查询公共配置失败")
 	}
 	for i := range appNamespace {
-		if err := db2.Exec("update AppNamespace set AppId='public_global_config', IsPublic=1 where IsPublic=1 and AppId=? and Name=?;", appNamespace[i].AppId, appNamespace[i].Name).Error; err != nil {
+		if err := db2.Exec("update AppNamespace set AppId='public_global_config',IsPublic=1 where  AppId=? and Name=?;", appNamespace[i].AppId, appNamespace[i].Name).Error; err != nil {
 			fmt.Println("修改公共配置失败:")
 			fmt.Print(appNamespace[i])
 		}

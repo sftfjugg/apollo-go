@@ -44,3 +44,29 @@ func (ctl ReleaseController) Create(c *gin.Context) {
 		return
 	}
 }
+
+//灰度全量发布
+func (ctl ReleaseController) ReleaseGrayTotal(c *gin.Context) {
+	param := new(struct {
+		Name        string `json:"name"`
+		AppId       string `json:"app_id"`
+		NamespaceId uint64 `json:"namespace_id"`
+		Operator    string `json:"operator"`
+	})
+	if err := c.Bind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if param.Operator == "" {
+		userId, err := c.Cookie("UserID")
+		if err != nil {
+			c.String(http.StatusBadRequest, "UserID don't  null:%v")
+			return
+		}
+		param.Operator = userId
+	}
+	if err := ctl.service.ReleaseGrayTotal(string(param.NamespaceId), param.Name, param.AppId, param.Operator); err != nil {
+		c.String(http.StatusInternalServerError, "call ReleaseMessageService.ReleaseGrayTotal() error:%v", err)
+		return
+	}
+}
