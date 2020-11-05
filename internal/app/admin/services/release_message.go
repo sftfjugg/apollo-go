@@ -118,6 +118,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
 	releaseHistory.BranchName = "灰度发布"
+	releaseHistory.Operation = 1
 	if err := s.releaseRepository.Create(db, release); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
@@ -179,6 +180,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	}
 	release.Configurations = string(config)
 	releaseHistory.BranchName = "普通发布"
+	releaseHistory.Operation = 0
 	releaseContext, err := json.Marshal(items)
 	if err != nil {
 		return errors.Wrap(err, "json.Marshal(items) error")
@@ -239,6 +241,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	releaseHistory.NamespaceName = app.Name
 	releaseHistory.AppId = appId
 	releaseHistory.BranchName = "灰度全量发布"
+	releaseHistory.Operation = 2
 	operationContext, err := json.Marshal(items1)
 	if err != nil {
 		return errors.Wrap(err, "json.Marshal(items) error")

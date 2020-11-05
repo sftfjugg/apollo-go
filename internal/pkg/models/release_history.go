@@ -13,7 +13,7 @@ type ReleaseHistory struct {
 	BranchName                string    `gorm:"column:BranchName" json:"branch_name" form:"branch_name"`
 	ReleaseId                 uint64    `gorm:"column:ReleaseId" json:"release_id" form:"release_id"`
 	PreviousReleaseId         uint64    `gorm:"column:PreviousReleaseId" json:"previous_release_id" form:"previous_release_id"`
-	Operation                 string    `gorm:"column:Operation" json:"operation" form:"operation"`
+	Operation                 uint64    `gorm:"column:Operation" json:"operation" form:"operation"` //保留字段
 	OperationContext          string    `gorm:"column:OperationContext" json:"operation_context" form:"operation_context"`
 	ReleaseContext            string    `gorm:"column:ReleaseContext" json:"release_context" form:"release_context"`
 	IsDeleted                 bool      `gorm:"column:IsDeleted" json:"-" form:"is_deleted"`
