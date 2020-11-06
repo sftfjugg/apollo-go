@@ -21,7 +21,7 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 
 //这里吃进行4次查询，先查询是否有公共配置，在查询公共配置的灰度，在查询自己对应配置，最后查询自己灰度
 func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace string) (*models.ConfigResponse, error) {
-	m := make(map[string]string)
+	m := make(map[string]string, 0)
 	configResponse := new(models.ConfigResponse)
 	//查询公共全局配置
 	configsGlobal, err := s.repository.FindGlobalConfig(namespace, "default")
@@ -29,7 +29,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 		return nil, errors.Wrap(err, "find config names failed")
 	}
 	for i := range configsGlobal {
-		config := make(map[string]string)
+		config := make(map[string]string, 0)
 		err := json.Unmarshal([]byte(configsGlobal[i].Configurations), &config)
 		if err != nil {
 			return nil, errors.Wrap(err, "json.Unmarshal config  failed")
@@ -44,7 +44,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 			return nil, errors.Wrap(err, "find config names failed")
 		}
 		for i := range configsGlobal {
-			config := make(map[string]string)
+			config := make(map[string]string, 0)
 			err := json.Unmarshal([]byte(configsGlobal[i].Configurations), &config)
 			if err != nil {
 				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
@@ -61,7 +61,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 			return nil, errors.Wrap(err, "find config names failed")
 		}
 		for i := range configsDefault {
-			config := make(map[string]string)
+			config := make(map[string]string, 0)
 			err := json.Unmarshal([]byte(configsDefault[i].Configurations), &config)
 			if err != nil {
 				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
@@ -76,7 +76,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 			return nil, errors.Wrap(err, "find config names failed")
 		}
 		for i := range configsAll {
-			config := make(map[string]string)
+			config := make(map[string]string, 0)
 			err := json.Unmarshal([]byte(configsAll[i].Configurations), &config)
 			if err != nil {
 				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
@@ -92,7 +92,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 			return nil, errors.Wrap(err, "find config names failed")
 		}
 		for i := range configsPublic {
-			config := make(map[string]string)
+			config := make(map[string]string, 0)
 			err := json.Unmarshal([]byte(configsPublic[i].Configurations), &config)
 			if err != nil {
 				return nil, errors.Wrap(err, "json.Unmarshal config  failed")
@@ -107,7 +107,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace str
 			if err != nil {
 				return nil, errors.Wrap(err, "find config private failed")
 			}
-			config := make(map[string]string)
+			config := make(map[string]string, 0)
 			for i := range configPrivates {
 				if err := json.Unmarshal([]byte(configPrivates[i].Configurations), &config); err != nil {
 					return nil, errors.Wrap(err, "json.Unmarshal config  failed")

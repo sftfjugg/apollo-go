@@ -33,11 +33,11 @@ func (ctl ConfigController) FindConfig(c *gin.Context) {
 		return
 	}
 	config, err := ctl.service.FindConfigByAppIdandCluster(param.AppId, param.ClusterName, param.Namespace)
-	config.NamespaceName = param.Namespace
 	if err != nil {
 		c.String(http.StatusBadRequest, "get Config failed:%v", err)
 		return
 	}
+	config.NamespaceName = param.Namespace
 	c.JSON(http.StatusOK, config)
 
 }

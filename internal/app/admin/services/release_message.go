@@ -305,15 +305,16 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 		db.Rollback()
 		return errors.Wrap(err, "call itemRepository.Saves() error")
 	}
-
 	itemConfig := make([]*models.Item, 0)
 	if err := db.Table(models.ItemTableName).Find(&itemConfig, "NamespaceId=? and IsDeleted=0 and Status=1", app.Id).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
+
 	releaseContext, err := json.Marshal(itemConfig)
 	if err != nil {
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
+
 	releaseHistory.ReleaseContext = string(releaseContext)
 	conf := make(map[string]string)
 	for _, i := range itemConfig {
@@ -321,7 +322,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 			conf[i.Key] = i.ReleaseValue
 		}
 	}
-	config, err := json.Marshal(m)
+	config, err := json.Marshal(conf)
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}

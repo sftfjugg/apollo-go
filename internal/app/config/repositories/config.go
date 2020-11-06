@@ -23,7 +23,7 @@ func NewConfigRepository(db *gorm.DB) ConfigRepository {
 
 func (r configRepository) FindGlobalConfig(name, cluster string) ([]*models.Config, error) {
 	var configurations = make([]*models.Config, 0)
-	if err := r.db.Raw("select * from `Release` R where AppId in (select AppId from AppNamespace where IsPublic=1 and IsDeleted=0 and Name=? group by AppId) and Id in (select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName=？ ) and IsDeleted=0", name, cluster).Scan(&configurations).Error; err != nil {
+	if err := r.db.Raw("select * from `Release` R where AppId in (select AppId from AppNamespace where IsPublic=1 and IsDeleted=0 and Name=? group by AppId) and Id in (select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName=?) and IsDeleted=0", name, cluster).Scan(&configurations).Error; err != nil {
 		return nil, errors.Wrap(err, "find config publish  error")
 	}
 	return configurations, nil
