@@ -3,6 +3,7 @@ package repositories
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
 )
@@ -10,6 +11,7 @@ import (
 type ReleaseHistoryRepository interface {
 	Create(db *gorm.DB, releaseHistory *models.ReleaseHistory) error
 	Find(appId, namespaceName, key string, pageSize, pageNum int) ([]*models.ReleaseHistory, error)
+	FindCount(appId, namespaceName, key string) (int, error)
 }
 
 type releaseHistoryRepository struct {
@@ -38,4 +40,15 @@ func (r releaseHistoryRepository) Find(appId, namespaceName, key string, pageSiz
 		return nil, errors.Wrap(err, "find releaseHistory error")
 	}
 	return releaseHistorys, nil
+}
+
+func (r releaseHistoryRepository) FindCount(appId, namespaceName, key string) (int, error) {
+	if key != "" {
+		key = "and Key like '%" + key + "%'"
+	}
+	var count = new(models2.Count)
+	if err := r.db.Raw("Select count(*) as count  from `ReleaseHistory`  where AppId=? and NamespaceName=?"+key, appId, namespaceName).Scan(&count).Error; err != nil {
+		return 0, errors.Wrap(err, "ItemRepisitory.FindSum failed")
+	}
+	return count.Count, nil
 }

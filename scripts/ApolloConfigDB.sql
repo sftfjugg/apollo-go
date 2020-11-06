@@ -177,3 +177,4 @@ desc ReleaseHistory;
 
 select * from AppNamespace where AppId='zeus-demo-common' and Name='foundation.zeus-demo-common';
 update AppNamespace set AppId='public_global_config',IsPublic=1 where   AppId='zeus-demo-common' and Name='foundation.zeus-demo-common';
+select * from ReleaseHistory;
