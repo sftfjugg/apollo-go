@@ -6,11 +6,14 @@ import (
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
+	"go.didapinche.com/time"
 	"sort"
+	"strings"
 )
 
 type ItemService interface {
 	Create(item *models.Item) error
+	CreateByText(items *models2.ItemText) error
 	CreateOrUpdateItem(item *models.Item) error
 	Creates(item []*models.Item) error
 	Update(item *models.Item) error
@@ -39,6 +42,65 @@ func NewItemService(
 		db:         db,
 		repository: repository,
 	}
+}
+
+//通过文本编辑修改值，先获得该配置下所有items，然后通过map对比改动，原来不存在的值则新增，原来存在，现在存在的值则删除，同时存在则修改,因为删除操作为逻辑删除，所以可以使用一个sql语句进行
+func (s itemService) CreateByText(itemText *models2.ItemText) error {
+	items, err := s.repository.FindItemByNamespaceId(string(itemText.NamespaceId), "") //目前所有主版本配置
+	if err != nil {
+		return errors.Wrap(err, "call itemService.FindItemByNamespaceId() error")
+	}
+	m := make(map[string]int)
+	for i := range items {
+		m[items[i].Key] = i
+	}
+	//解析text
+	texts := strings.Split(itemText.Text, "\n")
+	if len(texts) == 0 {
+		return errors.New("格式错误")
+	}
+	itemsSave := make([]*models.Item, 0) //需要新增，修改，删除的
+	for _, t := range texts {            //第一次循环将新增修改的添加itemsSave并剔除于m，使m中只留下需要删除的
+		if strings.Count(t, "=") != 1 {
+			return errors.New("格式错误,一行只能有一个等号")
+		}
+		k := strings.Split(t, "=")
+		key := k[0]
+		value := k[1]
+		if _, ok := m[key]; ok {
+			i := m[key]
+			if value != items[i].Value {
+				items[i].Value = value
+				items[i].Status = 2
+				items[i].DataChange_LastModifiedBy = itemText.Operator
+				itemsSave = append(itemsSave, items[i])
+				delete(m, key)
+			} else {
+				item := new(models.Item)
+				item.Key = key
+				item.Value = value
+				item.Status = 0
+				item.NamespaceId = itemText.NamespaceId
+				item.DataChange_CreatedBy = itemText.Operator
+				item.DataChange_LastModifiedBy = itemText.Operator
+				item.DataChange_CreatedTime = time.Now()
+				itemsSave = append(itemsSave, item)
+			}
+		}
+	}
+	//整理所有需要删除的
+	for _, i := range m {
+		items[i].Status = 3
+		items[i].DataChange_LastModifiedBy = itemText.Operator
+		itemsSave = append(itemsSave, items[i])
+	}
+	db := s.db.Begin()
+	if err := s.repository.Saves(db, itemsSave); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call ItemRepository.Saves() error")
+	}
+	db.Commit()
+	return nil
 }
 
 func (s itemService) Create(item *models.Item) error {

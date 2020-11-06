@@ -52,6 +52,7 @@ func (ctl ReleaseController) ReleaseGrayTotal(c *gin.Context) {
 		AppId       string `json:"app_id"`
 		NamespaceId uint64 `json:"namespace_id"`
 		Operator    string `json:"operator"`
+		IsDeleted   bool   `json:"is_deleted"`
 	})
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
@@ -65,7 +66,7 @@ func (ctl ReleaseController) ReleaseGrayTotal(c *gin.Context) {
 		}
 		param.Operator = userId
 	}
-	if err := ctl.service.ReleaseGrayTotal(string(param.NamespaceId), param.Name, param.AppId, param.Operator); err != nil {
+	if err := ctl.service.ReleaseGrayTotal(string(param.NamespaceId), param.Name, param.AppId, param.Operator, param.IsDeleted); err != nil {
 		c.String(http.StatusInternalServerError, "call ReleaseMessageService.ReleaseGrayTotal() error:%v", err)
 		return
 	}

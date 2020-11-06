@@ -31,6 +31,12 @@ type Item struct {
 	DataChange_LastTime       time.Time `gorm:"column:DataChange_LastTime" json:"data_change_last_time" form:"data_change_last_time"`
 }
 
+type ItemText struct {
+	NamespaceId uint64 `json:"namespace_id" form:"namespace_id"`
+	Text        string `json:"text"`
+	Operator    string `json:"operator"`
+}
+
 type Count struct {
 	Count int `form:"count"`
 }

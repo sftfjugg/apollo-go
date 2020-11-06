@@ -6,12 +6,13 @@ import (
 	"github.com/pkg/errors"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
+	"go.didapinche.com/time"
 )
 
 type ReleaseMessageService interface {
 	//正常发布和灰度发布
 	Create(appId, clusterName, comment, name, namespaceId, operator string, isPublic bool, keys []string) error
-	ReleaseGrayTotal(namespaceId, name, appId, operator string) error
+	ReleaseGrayTotal(namespaceId, name, appId, operator string, isDeleted bool) error
 }
 
 type releaseMessageService struct {
@@ -224,7 +225,7 @@ func (s releaseMessageService) FindConfig(namespaceId string) (string, error) {
 }
 
 //灰度全量发布，首先获取灰度配置，然后获取主版本配置，最后灰度配置覆盖主版本配置
-func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operator string) error {
+func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operator string, isDeleted bool) error {
 	items1, err := s.itemRepository.FindItemByNamespaceId(namespaceId, "") //灰度的所有配置
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
@@ -265,19 +266,22 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 		if items1[i].Status != 1 {
 			return errors.New("有未发布的值，只有灰度发布所有值都进行过发布，才能进行全量发布")
 		}
-		if j, ok := m[items1[i].Key]; ok {
+		if j, ok := m[items1[i].Key]; ok { //item2是主版本配置，因此只需要修改发布值
 			items2[j].Value = items1[i].Value
 			items2[j].Status = 1
-			items2[j].ReleaseValue = items[i].ReleaseValue
+			items2[j].ReleaseValue = items1[i].ReleaseValue
 			items2[j].Comment = items1[i].Comment
 			items2[j].Describe = items1[i].Describe
 			items2[j].DataChange_CreatedBy = operator
 			items2[j].DataChange_LastModifiedBy = operator
+			items2[j].DataChange_CreatedTime = items1[i].DataChange_CreatedTime
 			items = append(items, items2[j])
 		} else {
-			items1[i].Id = 0
+			items1[i].Id = 0 //item1是灰度版本，所以需要新增操作
 			items1[i].DataChange_CreatedBy = operator
 			items1[i].DataChange_LastModifiedBy = operator
+			items1[i].NamespaceId = app.Id
+			items1[i].DataChange_CreatedTime = time.Now()
 			items = append(items, items1[i])
 		}
 	}
@@ -326,7 +330,16 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
 	}
-
+	if isDeleted {
+		if err := s.itemRepository.DeleteByNamespaceId(db, namespaceId); err != nil {
+			db.Rollback()
+			return errors.Wrap(err, "call itemRepository.DeleteByIdOnRelease() error")
+		}
+		if err := s.appNamespaceRepository.DeleteById(db, namespaceId); err != nil {
+			db.Rollback()
+			return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
+		}
+	}
 	if err := s.repository.DeleteByMessages(db, messaages); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.DeleteByMessage() error")

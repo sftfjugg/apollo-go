@@ -101,9 +101,9 @@ func (r itemRepisitory) Saves(db *gorm.DB, items []*models.Item) error {
 	for i, r := range items {
 		r.Status = 0
 		if i == len(items)-1 {
-			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s');", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
+			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s');", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
 		} else {
-			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s'),", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
+			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s'),", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
 		}
 	}
 	if err := db.Exec(buffer.String()).Error; err != nil {

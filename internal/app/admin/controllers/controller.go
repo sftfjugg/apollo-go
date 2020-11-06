@@ -26,6 +26,7 @@ func InitControllersFn(
 		}
 		{
 			r.POST("/item", itemController.Create)
+			r.POST("/item_by_text", itemController.CreateByText)
 			r.POST("/item/create_or_update", itemController.CreateOrUpdateItem)
 			r.POST("/items", itemController.Creates)
 			r.PUT("/item", itemController.Update)

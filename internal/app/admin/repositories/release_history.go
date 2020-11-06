@@ -33,7 +33,7 @@ func (r releaseHistoryRepository) Create(db *gorm.DB, releaseHistory *models.Rel
 
 func (r releaseHistoryRepository) Find(appId, namespaceName, key string, pageSize, pageNum int) ([]*models.ReleaseHistory, error) {
 	if key != "" {
-		key = "and Key like '%" + key + "%'"
+		key = "and OperationContext like '%" + key + "%'"
 	}
 	releaseHistorys := make([]*models.ReleaseHistory, 0)
 	if err := r.db.Table(models.ReleaseHistoryTableName).Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&releaseHistorys, "AppId=? and NamespaceName=? "+key, appId, namespaceName).Error; err != nil {
@@ -44,7 +44,7 @@ func (r releaseHistoryRepository) Find(appId, namespaceName, key string, pageSiz
 
 func (r releaseHistoryRepository) FindCount(appId, namespaceName, key string) (int, error) {
 	if key != "" {
-		key = "and Key like '%" + key + "%'"
+		key = "and Key OperationContext '%" + key + "%'"
 	}
 	var count = new(models2.Count)
 	if err := r.db.Raw("Select count(*) as count  from `ReleaseHistory`  where AppId=? and NamespaceName=?"+key, appId, namespaceName).Scan(&count).Error; err != nil {

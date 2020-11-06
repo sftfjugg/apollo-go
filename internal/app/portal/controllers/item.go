@@ -31,6 +31,23 @@ func (ctl ItemController) Create(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
+func (ctl ItemController) CreateByText(c *gin.Context) {
+	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	if UserID.(string) == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
+		return
+	}
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
+	r, err := ctl.service.CreateByText(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.CreateByText run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
 func (ctl ItemController) Update(c *gin.Context) {
 	env := c.Param("env")
 	UserID, _ := c.Get("UserID")

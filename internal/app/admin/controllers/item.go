@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/services"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"net/http"
@@ -30,6 +31,24 @@ func (ctl ItemController) Create(c *gin.Context) {
 	item.DataChange_LastModifiedBy = userId
 	if err := ctl.service.Create(item); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.Create() error:%v", err)
+		return
+	}
+}
+
+func (ctl ItemController) CreateByText(c *gin.Context) {
+	item := new(models2.ItemText)
+	if err := c.ShouldBind(item); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	item.Operator = userId
+	if err := ctl.service.CreateByText(item); err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.CreateByText() error:%v", err)
 		return
 	}
 }

@@ -11,7 +11,7 @@ type Item struct {
 	Key                       string    `gorm:"column:Key" json:"key" form:"value"`
 	Value                     string    `gorm:"column:Value" json:"value" form:"value"`
 	ReleaseValue              string    `gorm:"column:ReleaseValue" json:"release_value" form:"release_value"`
-	Status                    uint64    `gorm:"column:Status" json:"status" from:"status"`
+	Status                    uint64    `gorm:"column:Status" json:"status" from:"status"` //当前状态，0：未发布(新增),1：已发布,2修改（未发布）,3：删除
 	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
 	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"`
 	IsDeleted                 bool      `gorm:"column:IsDeleted" json:"-"`
