@@ -32,7 +32,6 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "create consul failed")
 	}
-	client.Health().Service(name, "", false, nil)
 	services, _, err := client.Health().Service(name, "", false, nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "FindAddresss failed")

@@ -41,12 +41,12 @@ func (ctl ItemController) CreateByText(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	//userId, err := c.Cookie("UserID")
-	//if err != nil {
-	//	c.String(http.StatusBadRequest, "UserID is null error:%v")
-	//	return
-	//}
-	//item.Operator = userId
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "UserID is null error:%v")
+		return
+	}
+	item.Operator = userId
 	item.Operator = "lihang"
 	if err := ctl.service.CreateByText(item); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.CreateByText() error:%v", err)
