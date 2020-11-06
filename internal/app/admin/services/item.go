@@ -68,25 +68,30 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 		k := strings.Split(t, "=")
 		key := strings.Trim(k[0], " ")
 		value := strings.Trim(k[1], " ")
-		if _, ok := m[key]; ok {
-			i := m[key]
-			delete(m, key)
-			if value != items[i].Value {
-				items[i].Value = value
-				items[i].Status = 2
-				items[i].DataChange_LastModifiedBy = itemText.Operator
-				itemsSave = append(itemsSave, items[i])
+		if key != "" {
+			if _, ok := m[key]; ok {
+				i := m[key]
+				if value != items[i].Value {
+					items[i].Value = value
+					items[i].Status = 2
+					items[i].DataChange_LastModifiedBy = itemText.Operator
+					itemsSave = append(itemsSave, items[i])
+					delete(m, key)
+				} else {
+					itemsSave = append(itemsSave, items[i])
+					delete(m, key)
+				}
+			} else {
+				item := new(models.Item)
+				item.Key = key
+				item.Value = value
+				item.Status = 0
+				item.NamespaceId = itemText.NamespaceId
+				item.DataChange_CreatedBy = itemText.Operator
+				item.DataChange_LastModifiedBy = itemText.Operator
+				item.DataChange_CreatedTime = time.Now()
+				itemsSave = append(itemsSave, item)
 			}
-		} else {
-			item := new(models.Item)
-			item.Key = key
-			item.Value = value
-			item.Status = 0
-			item.NamespaceId = itemText.NamespaceId
-			item.DataChange_CreatedBy = itemText.Operator
-			item.DataChange_LastModifiedBy = itemText.Operator
-			item.DataChange_CreatedTime = time.Now()
-			itemsSave = append(itemsSave, item)
 		}
 
 	}

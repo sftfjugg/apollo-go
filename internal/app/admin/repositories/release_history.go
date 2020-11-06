@@ -36,7 +36,7 @@ func (r releaseHistoryRepository) Find(appId, namespaceName, key string, pageSiz
 		key = "and OperationContext like '%" + key + "%'"
 	}
 	releaseHistorys := make([]*models.ReleaseHistory, 0)
-	if err := r.db.Table(models.ReleaseHistoryTableName).Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&releaseHistorys, "AppId=? and NamespaceName=? "+key, appId, namespaceName).Error; err != nil {
+	if err := r.db.Table(models.ReleaseHistoryTableName).Order("Id desc").Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&releaseHistorys, "AppId=? and NamespaceName=? "+key, appId, namespaceName).Error; err != nil {
 		return nil, errors.Wrap(err, "find releaseHistory error")
 	}
 	return releaseHistorys, nil
