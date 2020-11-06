@@ -52,7 +52,7 @@ func (r itemRepisitory) Create(db *gorm.DB, item *models.Item) error {
 }
 
 func (r itemRepisitory) Creates(db *gorm.DB, items []*models.Item) error {
-	s := "insert into Item(`NamespaceId`,`Key`,`Value`,`Comment`,`Describe`,`DataChange_CreatedBy`,`DataChange_LastModifiedBy`,`DataChange_CreatedTime`,`DataChange_LastTime`) values"
+	s := "insert into Item(`NamespaceId`,`Key`,`Value`,`ReleaseValue`,`Status`,`Comment`,`Describe`,`DataChange_CreatedBy`,`DataChange_LastModifiedBy`,`DataChange_CreatedTime`,`DataChange_LastTime`) values"
 	var buffer bytes.Buffer
 	if _, err := buffer.WriteString(s); err != nil {
 		return errors.Wrap(err, "creates releaseMessage error")
@@ -60,9 +60,9 @@ func (r itemRepisitory) Creates(db *gorm.DB, items []*models.Item) error {
 	for i, r := range items {
 		r.Status = 0
 		if i == len(items)-1 {
-			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s');", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
+			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%v','%s','%s','%s','%s','%s','%s');", r.NamespaceId, r.Key, r.Value, r.ReleaseValue, r.Status, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
 		} else {
-			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s'),", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
+			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%v','%s','%s','%s','%s','%s','%s'),", r.NamespaceId, r.Key, r.Value, r.ReleaseValue, r.Status, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, time.Now(), time.Now()))
 		}
 	}
 	if err := db.Exec(buffer.String()).Error; err != nil {
@@ -93,17 +93,16 @@ func (r itemRepisitory) UpdateByNamespaceId(db *gorm.DB, namespaceId string, key
 }
 
 func (r itemRepisitory) Saves(db *gorm.DB, items []*models.Item) error {
-	s := "replace into Item(`NamespaceId`,`Key`,`Value`,`Comment`,`Describe`,`DataChange_CreatedBy`,`DataChange_LastModifiedBy`,`DataChange_CreatedTime`,`DataChange_LastTime`) values"
+	s := "replace into Item(`Id`,`NamespaceId`,`Key`,`Value`,`ReleaseValue`,`Status`,`Comment`,`Describe`,`DataChange_CreatedBy`,`DataChange_LastModifiedBy`,`DataChange_CreatedTime`,`DataChange_LastTime`) values"
 	var buffer bytes.Buffer
 	if _, err := buffer.WriteString(s); err != nil {
 		return errors.Wrap(err, "creates items error")
 	}
 	for i, r := range items {
-		r.Status = 0
 		if i == len(items)-1 {
-			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s');", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
+			buffer.WriteString(fmt.Sprintf("('%v','%v','%s','%s','%s','%v','%s','%s','%s','%s','%s','%s');", r.Id, r.NamespaceId, r.Key, r.Value, r.ReleaseValue, r.Status, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
 		} else {
-			buffer.WriteString(fmt.Sprintf("('%v','%s','%s','%s','%s','%s','%s','%s','%s'),", r.NamespaceId, r.Key, r.Value, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
+			buffer.WriteString(fmt.Sprintf("('%v','%v','%s','%s','%s','%v','%s','%s','%s','%s','%s','%s'),", r.Id, r.NamespaceId, r.Key, r.Value, r.ReleaseValue, r.Status, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
 		}
 	}
 	if err := db.Exec(buffer.String()).Error; err != nil {

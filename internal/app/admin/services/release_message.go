@@ -7,6 +7,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
+	"strconv"
 )
 
 type ReleaseMessageService interface {
@@ -256,7 +257,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	release.ReleaseKey = app.Name
 	release.DataChange_CreatedBy = operator
 	release.DataChange_LastModifiedBy = operator
-	items2, err := s.itemRepository.FindItemByNamespaceId(string(app.Id), "") //主版本所有配置
+	items2, err := s.itemRepository.FindItemByNamespaceId(strconv.FormatUint(app.Id, 10), "") //主版本所有配置
 	items := make([]*models.Item, 0)
 	m := make(map[string]int)
 	for i := range items2 {
@@ -272,7 +273,6 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 			items2[j].ReleaseValue = items1[i].ReleaseValue
 			items2[j].Comment = items1[i].Comment
 			items2[j].Describe = items1[i].Describe
-			items2[j].DataChange_CreatedBy = operator
 			items2[j].DataChange_LastModifiedBy = operator
 			items2[j].DataChange_CreatedTime = items1[i].DataChange_CreatedTime
 			items = append(items, items2[j])
@@ -339,6 +339,10 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 			db.Rollback()
 			return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
 		}
+	}
+	if err := s.releaseHistoryService.Create(db, releaseHistory); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call releaseHistoryService.Create() error")
 	}
 	if err := s.repository.DeleteByMessages(db, messaages); err != nil {
 		db.Rollback()
