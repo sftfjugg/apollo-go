@@ -20,6 +20,7 @@ func NewConsulService() ConsulService {
 	return &consulService{}
 }
 
+//有个bug，config不能发现部署在自己服务器的consul
 func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 	consul := juno.GetConsulRegistry()
 	consulAddress := consul.ConsulAddress
@@ -44,16 +45,18 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 		consul := new(models.Consul)
 		consul.AppName = services[s].Service.Service
 		ip := services[s].Service.Address
-		if ip == "" {
-			appJuno := juno.GetParams()
-			ip = appJuno.Addr + ":" + string(appJuno.Port)
+		if ip != "" || name == "config-service" {
+			if ip == "" {
+				appJuno := juno.GetParams()
+				ip = appJuno.Addr + ":" + string(appJuno.Port)
+			}
+			if strings.Contains(ip, ":") {
+				ip = string([]byte(ip)[0:strings.Index(ip, ":")])
+			}
+			consul.InstanceId = ip + ":" + strconv.Itoa(services[s].Service.Port)
+			consul.HomepageUrl = "http://" + ip + ":" + strconv.Itoa(services[s].Service.Port)
+			consuls = append(consuls, consul)
 		}
-		if strings.Contains(ip, ":") {
-			ip = string([]byte(ip)[0:strings.Index(ip, ":")])
-		}
-		consul.InstanceId = ip + ":" + strconv.Itoa(services[s].Service.Port)
-		consul.HomepageUrl = "http://" + ip + ":" + strconv.Itoa(services[s].Service.Port)
-		consuls = append(consuls, consul)
 	}
 	return consuls, nil
 }

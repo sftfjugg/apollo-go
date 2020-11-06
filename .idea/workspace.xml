@@ -19,9 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-599:发布bug解决">
+    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-599:1灰度全量发布和文本编辑">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/config/services/consul.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/consul.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +62,7 @@
     <property name="database.data.extractors.current.export.id" value="Comma-separated (CSV)_id" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="go.sdk" />
+    <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -155,18 +156,18 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Database Script.ApolloConfigDB.sql" />
       <item itemvalue="Go Build.go build apollo-adminserivce/cmd/adminservice" />
+      <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/config" />
       <item itemvalue="Go Build.go build apollo-adminserivce/cmd/portal" />
       <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd" />
       <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/data" />
-      <item itemvalue="Database Script.ApolloConfigDB.sql" />
-      <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/config" />
       <item itemvalue="Go Build.go build apollo-adminserivce/cmd/configservice1" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build apollo-adminserivce/cmd/portal" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd" />
+        <item itemvalue="Go Build.go build apollo-adminserivce/cmd/portal" />
         <item itemvalue="Go Build.go build apollo-adminserivce/cmd/configservice1" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/data" />
         <item itemvalue="Database Script.ApolloConfigDB.sql" />
@@ -181,83 +182,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00002" summary="mysql">
-      <created>1601031834244</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1601031834244</updated>
-    </task>
-    <task id="LOCAL-00003" summary="mysql&#10;实体类">
-      <created>1601204765617</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1601204765617</updated>
-    </task>
-    <task id="LOCAL-00004" summary="mysql&#10;实体类">
-      <created>1601284163474</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1601284163474</updated>
-    </task>
-    <task id="LOCAL-00005" summary="mysql&#10;整体结构搭建">
-      <created>1601285042162</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1601285042162</updated>
-    </task>
-    <task id="LOCAL-00006" summary="mysql&#10;整体结构搭建">
-      <created>1601289355881</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1601289355881</updated>
-    </task>
-    <task id="LOCAL-00007" summary="mysql&#10;整体结构搭建">
-      <created>1601289394137</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1601289394137</updated>
-    </task>
-    <task id="LOCAL-00008" summary="mysql&#10;整体结构搭建">
-      <created>1601291204080</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1601291204080</updated>
-    </task>
-    <task id="LOCAL-00009" summary="mysql&#10;第一页面编写">
-      <created>1601376946874</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1601376946874</updated>
-    </task>
-    <task id="LOCAL-00010" summary="mysql&#10;第一页面编写">
-      <created>1601463597356</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1601463597356</updated>
-    </task>
-    <task id="LOCAL-00011" summary="mysql&#10;第一页面编写">
-      <created>1602225135217</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1602225135217</updated>
-    </task>
-    <task id="LOCAL-00012" summary="mysql&#10;第一页面编写">
-      <created>1602241971173</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1602241971173</updated>
     </task>
     <task id="LOCAL-00013" summary="mysql&#10;第一页面编写">
       <created>1602328050926</created>
@@ -525,7 +449,84 @@
       <option name="project" value="LOCAL" />
       <updated>1604057410225</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="PMOPP-599:发布bug解决">
+      <created>1604057787436</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1604057787436</updated>
+    </task>
+    <task id="LOCAL-00052" summary="PMOPP-599:1期自测修改匹配go客户端">
+      <created>1604301814957</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1604301814957</updated>
+    </task>
+    <task id="LOCAL-00053" summary="PMOPP-599:1期自测修改匹配go客户端">
+      <created>1604303205748</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1604303205748</updated>
+    </task>
+    <task id="LOCAL-00054" summary="PMOPP-599:1期自测修改匹配go客户端">
+      <created>1604305490986</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1604305490986</updated>
+    </task>
+    <task id="LOCAL-00055" summary="PMOPP-599:1期自测修改匹配公共配置">
+      <created>1604482394121</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1604482394122</updated>
+    </task>
+    <task id="LOCAL-00056" summary="PMOPP-599:1公共配置">
+      <created>1604561222399</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1604561222399</updated>
+    </task>
+    <task id="LOCAL-00057" summary="PMOPP-599:1发布历史">
+      <created>1604580057800</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1604580057800</updated>
+    </task>
+    <task id="LOCAL-00058" summary="PMOPP-599:1发布历史">
+      <created>1604581135635</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1604581135635</updated>
+    </task>
+    <task id="LOCAL-00059" summary="PMOPP-599:1发布历史">
+      <created>1604629886943</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1604629886944</updated>
+    </task>
+    <task id="LOCAL-00060" summary="PMOPP-599:1灰度全量发布和文本编辑">
+      <created>1604642331392</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1604642331392</updated>
+    </task>
+    <task id="LOCAL-00061" summary="PMOPP-599:1灰度全量发布和文本编辑">
+      <created>1604649775670</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1604649775670</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -563,7 +564,12 @@
     <MESSAGE value="PMOPP-599:增加标签筛选" />
     <MESSAGE value="PMOPP-599:灰度bug解决" />
     <MESSAGE value="PMOPP-599:发布bug解决" />
-    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-599:发布bug解决" />
+    <MESSAGE value="PMOPP-599:1期自测修改匹配go客户端" />
+    <MESSAGE value="PMOPP-599:1期自测修改匹配公共配置" />
+    <MESSAGE value="PMOPP-599:1公共配置" />
+    <MESSAGE value="PMOPP-599:1发布历史" />
+    <MESSAGE value="PMOPP-599:1灰度全量发布和文本编辑" />
+    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-599:1灰度全量发布和文本编辑" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -582,13 +588,14 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="433" y="269" key="#Notifications/0.23.1440.828@0.23.1440.828" timestamp="1601029192013" />
-    <state x="299" y="123" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603779880404">
-      <screen x="0" y="23" width="1440" height="825" />
+    <state x="299" y="123" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604491750499">
+      <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state x="299" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.825@0.23.1440.825" timestamp="1603779880404" />
     <state x="299" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.826@0.23.1440.826" timestamp="1603779171993" />
     <state x="348" y="106" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.827@0.23.1440.827" timestamp="1603092483620" />
     <state x="184" y="100" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.828@0.23.1440.828" timestamp="1601276043636" />
+    <state x="299" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.829@0.23.1440.829" timestamp="1604491750499" />
     <state x="426" y="247" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1602642592892">
       <screen x="0" y="23" width="1440" height="826" />
     </state>
@@ -597,14 +604,15 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="533" y="161" key="#com.intellij.ide.util.MemberChooser/0.23.1440.828@0.23.1440.828" timestamp="1601195399552" />
-    <state x="792" y="300" width="474" height="444" key="#xdebugger.evaluate" timestamp="1604049981474">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state x="891" y="146" width="474" height="444" key="#xdebugger.evaluate" timestamp="1604645146762">
+      <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state x="853" y="161" key="#xdebugger.evaluate/0.23.1440.825@0.23.1440.825" timestamp="1603963579757" />
-    <state x="792" y="300" width="474" height="529" key="#xdebugger.evaluate/0.23.1440.826@0.23.1440.826" timestamp="1604049981474" />
+    <state x="792" y="300" width="474" height="529" key="#xdebugger.evaluate/0.23.1440.826@0.23.1440.826" timestamp="1604300451742" />
     <state x="816" y="406" width="474" height="444" key="#xdebugger.evaluate/0.23.1440.827@0.23.1440.827" timestamp="1604025744651" />
     <state x="889" y="202" key="#xdebugger.evaluate/0.23.1440.828@0.23.1440.828" timestamp="1601269167861" />
-    <state x="891" y="146" key="#xdebugger.evaluate/0.23.1440.830@0.23.1440.830" timestamp="1602484724706" />
+    <state x="891" y="146" key="#xdebugger.evaluate/0.23.1440.829@0.23.1440.829" timestamp="1604645146762" />
+    <state x="891" y="146" key="#xdebugger.evaluate/0.23.1440.830@0.23.1440.830" timestamp="1604644357516" />
     <state x="526" y="364" key="Gitee.CreateGistDialog" timestamp="1601028770088">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
@@ -613,96 +621,108 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="573" y="345" key="Gitee.ShareDialog/0.23.1440.828@0.23.1440.828" timestamp="1601029317266" />
-    <state width="1358" height="247" key="GridCell.Tab.0.bottom" timestamp="1604056442850">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom" timestamp="1604652615328">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.bottom/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
-    <state width="1358" height="247" key="GridCell.Tab.0.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604056442850" />
+    <state width="1358" height="249" key="GridCell.Tab.0.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604307264114" />
     <state width="1358" height="247" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604026738233" />
-    <state width="1358" height="248" key="GridCell.Tab.0.bottom/0.23.1440.828@0.23.1440.828" timestamp="1603706156916" />
-    <state width="1358" height="246" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1602484824909" />
-    <state width="679" height="246" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1602484687345" />
-    <state width="1358" height="247" key="GridCell.Tab.0.center" timestamp="1604056442849">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom/0.23.1440.828@0.23.1440.828" timestamp="1604652615328" />
+    <state width="1358" height="254" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1604650054397" />
+    <state width="1358" height="240" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1604644608380" />
+    <state width="1358" height="249" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1604392702301" />
+    <state width="1358" height="254" key="GridCell.Tab.0.center" timestamp="1604652615327">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.center/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
-    <state width="1358" height="247" key="GridCell.Tab.0.center/0.23.1440.826@0.23.1440.826" timestamp="1604056442849" />
+    <state width="1358" height="249" key="GridCell.Tab.0.center/0.23.1440.826@0.23.1440.826" timestamp="1604307264114" />
     <state width="1358" height="247" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1604026738233" />
-    <state width="1358" height="248" key="GridCell.Tab.0.center/0.23.1440.828@0.23.1440.828" timestamp="1603706156916" />
-    <state width="1358" height="246" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1602484824908" />
-    <state width="679" height="246" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1602484687344" />
-    <state width="1358" height="247" key="GridCell.Tab.0.left" timestamp="1604056442849">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.0.center/0.23.1440.828@0.23.1440.828" timestamp="1604652615327" />
+    <state width="1358" height="254" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1604650054396" />
+    <state width="1358" height="240" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1604644608379" />
+    <state width="1358" height="249" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1604392702300" />
+    <state width="1358" height="254" key="GridCell.Tab.0.left" timestamp="1604652615327">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.left/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
-    <state width="1358" height="247" key="GridCell.Tab.0.left/0.23.1440.826@0.23.1440.826" timestamp="1604056442849" />
+    <state width="1358" height="249" key="GridCell.Tab.0.left/0.23.1440.826@0.23.1440.826" timestamp="1604307264113" />
     <state width="1358" height="247" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1604026738232" />
-    <state width="1358" height="248" key="GridCell.Tab.0.left/0.23.1440.828@0.23.1440.828" timestamp="1603706156915" />
-    <state width="1358" height="246" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1602484824907" />
-    <state width="679" height="246" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1602484687343" />
-    <state width="1358" height="247" key="GridCell.Tab.0.right" timestamp="1604056442850">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.0.left/0.23.1440.828@0.23.1440.828" timestamp="1604652615327" />
+    <state width="1358" height="254" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1604650054395" />
+    <state width="1358" height="240" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1604644608379" />
+    <state width="1358" height="249" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1604392702300" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right" timestamp="1604652615327">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.right/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
-    <state width="1358" height="247" key="GridCell.Tab.0.right/0.23.1440.826@0.23.1440.826" timestamp="1604056442850" />
+    <state width="1358" height="249" key="GridCell.Tab.0.right/0.23.1440.826@0.23.1440.826" timestamp="1604307264114" />
     <state width="1358" height="247" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1604026738233" />
-    <state width="1358" height="248" key="GridCell.Tab.0.right/0.23.1440.828@0.23.1440.828" timestamp="1603706156916" />
-    <state width="1358" height="246" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1602484824908" />
-    <state width="679" height="246" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1602484687345" />
-    <state width="1358" height="247" key="GridCell.Tab.1.bottom" timestamp="1604056442852">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right/0.23.1440.828@0.23.1440.828" timestamp="1604652615327" />
+    <state width="1358" height="254" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1604650054396" />
+    <state width="1358" height="240" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1604644608379" />
+    <state width="1358" height="249" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1604392702300" />
+    <state width="1358" height="254" key="GridCell.Tab.1.bottom" timestamp="1604652615251">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.bottom/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
-    <state width="1358" height="247" key="GridCell.Tab.1.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604056442852" />
+    <state width="1358" height="249" key="GridCell.Tab.1.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="247" key="GridCell.Tab.1.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604026738234" />
-    <state width="1358" height="248" key="GridCell.Tab.1.bottom/0.23.1440.828@0.23.1440.828" timestamp="1603706156917" />
-    <state width="1358" height="246" key="GridCell.Tab.1.bottom/0.23.1440.830@0.23.1440.830" timestamp="1602484824821" />
-    <state width="679" height="246" key="GridCell.Tab.1.bottom/0.23.1440.831@0.23.1440.831" timestamp="1602484687346" />
-    <state width="1358" height="247" key="GridCell.Tab.1.center" timestamp="1604056442851">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.1.bottom/0.23.1440.828@0.23.1440.828" timestamp="1604652615251" />
+    <state width="1358" height="254" key="GridCell.Tab.1.bottom/0.23.1440.829@0.23.1440.829" timestamp="1604650054398" />
+    <state width="1358" height="240" key="GridCell.Tab.1.bottom/0.23.1440.830@0.23.1440.830" timestamp="1604644608304" />
+    <state width="1358" height="249" key="GridCell.Tab.1.bottom/0.23.1440.831@0.23.1440.831" timestamp="1604392702302" />
+    <state width="1358" height="254" key="GridCell.Tab.1.center" timestamp="1604652615250">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.center/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
-    <state width="1358" height="247" key="GridCell.Tab.1.center/0.23.1440.826@0.23.1440.826" timestamp="1604056442851" />
+    <state width="1358" height="249" key="GridCell.Tab.1.center/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="247" key="GridCell.Tab.1.center/0.23.1440.827@0.23.1440.827" timestamp="1604026738234" />
-    <state width="1358" height="248" key="GridCell.Tab.1.center/0.23.1440.828@0.23.1440.828" timestamp="1603706156917" />
-    <state width="1358" height="246" key="GridCell.Tab.1.center/0.23.1440.830@0.23.1440.830" timestamp="1602484824820" />
-    <state width="679" height="246" key="GridCell.Tab.1.center/0.23.1440.831@0.23.1440.831" timestamp="1602484687346" />
-    <state width="1358" height="247" key="GridCell.Tab.1.left" timestamp="1604056442850">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.1.center/0.23.1440.828@0.23.1440.828" timestamp="1604652615250" />
+    <state width="1358" height="254" key="GridCell.Tab.1.center/0.23.1440.829@0.23.1440.829" timestamp="1604650054398" />
+    <state width="1358" height="240" key="GridCell.Tab.1.center/0.23.1440.830@0.23.1440.830" timestamp="1604644608303" />
+    <state width="1358" height="249" key="GridCell.Tab.1.center/0.23.1440.831@0.23.1440.831" timestamp="1604392702302" />
+    <state width="1358" height="254" key="GridCell.Tab.1.left" timestamp="1604652615250">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.left/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
-    <state width="1358" height="247" key="GridCell.Tab.1.left/0.23.1440.826@0.23.1440.826" timestamp="1604056442850" />
+    <state width="1358" height="249" key="GridCell.Tab.1.left/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="247" key="GridCell.Tab.1.left/0.23.1440.827@0.23.1440.827" timestamp="1604026738234" />
-    <state width="1358" height="248" key="GridCell.Tab.1.left/0.23.1440.828@0.23.1440.828" timestamp="1603706156916" />
-    <state width="1358" height="246" key="GridCell.Tab.1.left/0.23.1440.830@0.23.1440.830" timestamp="1602484824819" />
-    <state width="679" height="246" key="GridCell.Tab.1.left/0.23.1440.831@0.23.1440.831" timestamp="1602484687345" />
-    <state width="1358" height="247" key="GridCell.Tab.1.right" timestamp="1604056442851">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.1.left/0.23.1440.828@0.23.1440.828" timestamp="1604652615250" />
+    <state width="1358" height="254" key="GridCell.Tab.1.left/0.23.1440.829@0.23.1440.829" timestamp="1604650054397" />
+    <state width="1358" height="240" key="GridCell.Tab.1.left/0.23.1440.830@0.23.1440.830" timestamp="1604644608303" />
+    <state width="1358" height="249" key="GridCell.Tab.1.left/0.23.1440.831@0.23.1440.831" timestamp="1604392702301" />
+    <state width="1358" height="254" key="GridCell.Tab.1.right" timestamp="1604652615250">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.right/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
-    <state width="1358" height="247" key="GridCell.Tab.1.right/0.23.1440.826@0.23.1440.826" timestamp="1604056442851" />
+    <state width="1358" height="249" key="GridCell.Tab.1.right/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="247" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1604026738234" />
-    <state width="1358" height="248" key="GridCell.Tab.1.right/0.23.1440.828@0.23.1440.828" timestamp="1603706156917" />
-    <state width="1358" height="246" key="GridCell.Tab.1.right/0.23.1440.830@0.23.1440.830" timestamp="1602484824820" />
-    <state width="679" height="246" key="GridCell.Tab.1.right/0.23.1440.831@0.23.1440.831" timestamp="1602484687346" />
-    <state x="221" y="77" key="SettingsEditor" timestamp="1602741148936">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state width="1358" height="254" key="GridCell.Tab.1.right/0.23.1440.828@0.23.1440.828" timestamp="1604652615250" />
+    <state width="1358" height="254" key="GridCell.Tab.1.right/0.23.1440.829@0.23.1440.829" timestamp="1604650054398" />
+    <state width="1358" height="240" key="GridCell.Tab.1.right/0.23.1440.830@0.23.1440.830" timestamp="1604644608303" />
+    <state width="1358" height="249" key="GridCell.Tab.1.right/0.23.1440.831@0.23.1440.831" timestamp="1604392702302" />
+    <state x="221" y="77" key="SettingsEditor" timestamp="1604491673555">
+      <screen x="0" y="23" width="1440" height="829" />
     </state>
-    <state x="221" y="77" key="SettingsEditor/0.23.1440.826@0.23.1440.826" timestamp="1602741148936" />
+    <state x="221" y="77" key="SettingsEditor/0.23.1440.826@0.23.1440.826" timestamp="1604281855245" />
     <state x="221" y="77" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1601028979764" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1604057421442">
-      <screen x="0" y="23" width="1440" height="826" />
+    <state x="221" y="77" key="SettingsEditor/0.23.1440.829@0.23.1440.829" timestamp="1604491673555" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1604649788631">
+      <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.825@0.23.1440.825" timestamp="1603960112334" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.826@0.23.1440.826" timestamp="1604057421442" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.826@0.23.1440.826" timestamp="1604305512440" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.827@0.23.1440.827" timestamp="1604026011805" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1601463966216" />
-    <state width="700" height="389" key="XDebugger.FullValuePopup" timestamp="1603868973374">
-      <screen x="0" y="23" width="1440" height="825" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1604580067134" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1604649788631" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.830@0.23.1440.830" timestamp="1604642340180" />
+    <state width="700" height="391" key="XDebugger.FullValuePopup" timestamp="1604648928638">
+      <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="700" height="389" key="XDebugger.FullValuePopup/0.23.1440.825@0.23.1440.825" timestamp="1603868973374" />
-    <state width="700" height="389" key="XDebugger.FullValuePopup/0.23.1440.826@0.23.1440.826" timestamp="1603161415197" />
+    <state width="700" height="389" key="XDebugger.FullValuePopup/0.23.1440.826@0.23.1440.826" timestamp="1604302464570" />
     <state width="700" height="390" key="XDebugger.FullValuePopup/0.23.1440.827@0.23.1440.827" timestamp="1603090692303" />
+    <state width="700" height="391" key="XDebugger.FullValuePopup/0.23.1440.829@0.23.1440.829" timestamp="1604648928638" />
     <state x="259" y="174" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1603090711137">
       <screen x="0" y="23" width="1440" height="827" />
     </state>
@@ -711,26 +731,29 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="120" y="149" width="1200" height="578" key="dock-window-1/0.23.1440.828@0.23.1440.828" timestamp="1601191739660" />
-    <state x="418" y="193" width="604" height="490" key="find.popup" timestamp="1603789690925">
-      <screen x="0" y="23" width="1440" height="825" />
+    <state x="418" y="194" width="604" height="492" key="find.popup" timestamp="1604650341970">
+      <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="418" y="193" width="604" height="490" key="find.popup/0.23.1440.825@0.23.1440.825" timestamp="1603789690925" />
     <state x="418" y="193" width="604" height="490" key="find.popup/0.23.1440.826@0.23.1440.826" timestamp="1602825651273" />
+    <state x="418" y="194" width="604" height="492" key="find.popup/0.23.1440.828@0.23.1440.828" timestamp="1604650341970" />
     <state x="509" y="334" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1603459486035">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
     <state x="509" y="334" key="git4idea.remote.GitConfigureRemotesDialog/0.23.1440.825@0.23.1440.825" timestamp="1603459486035" />
-    <state x="385" y="175" width="670" height="676" key="search.everywhere.popup" timestamp="1603707949522">
-      <screen x="0" y="23" width="1440" height="827" />
+    <state x="385" y="175" width="670" height="678" key="search.everywhere.popup" timestamp="1604633359249">
+      <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.825@0.23.1440.825" timestamp="1603690365119" />
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.826@0.23.1440.826" timestamp="1602725328259" />
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.827@0.23.1440.827" timestamp="1603707949522" />
-    <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.828@0.23.1440.828" timestamp="1601345627613" />
-    <state x="450" y="357" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1602824093369">
+    <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.828@0.23.1440.828" timestamp="1604578449845" />
+    <state x="385" y="175" width="670" height="678" key="search.everywhere.popup/0.23.1440.829@0.23.1440.829" timestamp="1604492057911" />
+    <state x="385" y="175" width="670" height="678" key="search.everywhere.popup/0.23.1440.830@0.23.1440.830" timestamp="1604633359249" />
+    <state x="450" y="357" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1604287023895">
       <screen x="0" y="23" width="1440" height="826" />
     </state>
-    <state x="450" y="357" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.23.1440.826@0.23.1440.826" timestamp="1602824093369" />
+    <state x="450" y="357" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.23.1440.826@0.23.1440.826" timestamp="1604287023895" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -741,24 +764,119 @@
           <option name="timeStamp" value="366" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/data/appNamespace.go</url>
-          <line>12</line>
-          <option name="timeStamp" value="552" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/release.go</url>
-          <line>18</line>
-          <option name="timeStamp" value="562" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/controllers/release.go</url>
           <line>17</line>
           <option name="timeStamp" value="566" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/config/services/config.go</url>
+          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/request.go</url>
+          <line>22</line>
+          <option name="timeStamp" value="623" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/utils.go</url>
+          <line>59</line>
+          <option name="timeStamp" value="629" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/utils.go</url>
+          <line>64</line>
+          <option name="timeStamp" value="631" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/config/controllers/notification.go</url>
+          <line>17</line>
+          <option name="timeStamp" value="664" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/config/controllers/config.go</url>
+          <line>17</line>
+          <option name="timeStamp" value="665" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/data/main.go</url>
+          <line>14</line>
+          <option name="timeStamp" value="668" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/data/appNamespace.go</url>
+          <line>13</line>
+          <option name="timeStamp" value="669" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/data/item.go</url>
+          <line>12</line>
+          <option name="timeStamp" value="670" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/data/release.go</url>
+          <line>12</line>
+          <option name="timeStamp" value="671" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/data/releaseMessage.go</url>
+          <line>12</line>
+          <option name="timeStamp" value="672" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
+          <line>229</line>
+          <option name="timeStamp" value="674" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/release.go</url>
+          <line>68</line>
+          <option name="timeStamp" value="676" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/release.go</url>
+          <line>49</line>
+          <option name="timeStamp" value="677" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
+          <line>266</line>
+          <option name="timeStamp" value="678" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/repositories/item.go</url>
+          <line>95</line>
+          <option name="timeStamp" value="679" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
+          <line>49</line>
+          <option name="timeStamp" value="680" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/item.go</url>
+          <line>38</line>
+          <option name="timeStamp" value="681" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
+          <line>58</line>
+          <option name="timeStamp" value="682" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
+          <line>92</line>
+          <option name="timeStamp" value="684" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
+          <line>65</line>
+          <option name="timeStamp" value="685" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/config/services/consul.go</url>
           <line>24</line>
-          <option name="timeStamp" value="573" />
+          <option name="timeStamp" value="687" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/app/config/services/consul.go</url>
+          <line>46</line>
+          <option name="timeStamp" value="688" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
