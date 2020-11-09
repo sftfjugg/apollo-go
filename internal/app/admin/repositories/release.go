@@ -33,7 +33,7 @@ func (r release) Create(db *gorm.DB, release *models.Release) error {
 
 //物理删除，保持发布数目一直稳定，以防止数据量累积导致速度过慢
 func (r release) Delete(db *gorm.DB, appId, cluster, namespace string) error {
-	if err := db.Table(models.ReleaseTableName).Delete(&models.Release{}, "AppId= ? and Cluster=? and Namespace=? ", appId, cluster, namespace).Error; err != nil {
+	if err := db.Table(models.ReleaseTableName).Delete(&models.Release{}, "AppId= ? and ClusterName=? and NamespaceName=? ", appId, cluster, namespace).Error; err != nil {
 		return errors.Wrap(err, "delete previous release error")
 	}
 	return nil

@@ -19,12 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-599:1 公共配置建立限制">
+    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-599:增加发布之后删除以往配置功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/release_message.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,20 +183,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00021" summary="PMOPP-599:增加公共配置文件功能">
-      <created>1603330426862</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1603330426862</updated>
-    </task>
-    <task id="LOCAL-00022" summary="PMOPP-599:前段结果返回">
-      <created>1603459373719</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1603459373719</updated>
     </task>
     <task id="LOCAL-00023" summary="PMOPP-599:前段调节返回">
       <created>1603711700359</created>
@@ -529,7 +513,21 @@
       <option name="project" value="LOCAL" />
       <updated>1604893585689</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="PMOPP-599:增加发布之后删除以往配置功能">
+      <created>1604914208085</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1604914208085</updated>
+    </task>
+    <task id="LOCAL-00071" summary="PMOPP-599:增加发布之后删除以往配置功能">
+      <created>1604914325729</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1604914325729</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +546,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="mysql&#10;第一页面编写" />
     <MESSAGE value="mysql&#10;最终更新版本" />
     <MESSAGE value="PMOPP-599:增加公共配置文件功能" />
     <MESSAGE value="PMOPP-599:前段结果返回" />
@@ -573,7 +570,8 @@
     <MESSAGE value="PMOPP-599:1 到数据接口" />
     <MESSAGE value="PMOPP-599:1 公共配置不实时bug修改" />
     <MESSAGE value="PMOPP-599:1 公共配置建立限制" />
-    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-599:1 公共配置建立限制" />
+    <MESSAGE value="PMOPP-599:增加发布之后删除以往配置功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-599:增加发布之后删除以往配置功能" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -617,6 +615,10 @@
     <state x="889" y="202" key="#xdebugger.evaluate/0.23.1440.828@0.23.1440.828" timestamp="1604659066840" />
     <state x="891" y="146" key="#xdebugger.evaluate/0.23.1440.829@0.23.1440.829" timestamp="1604661516227" />
     <state x="891" y="146" key="#xdebugger.evaluate/0.23.1440.830@0.23.1440.830" timestamp="1604644357516" />
+    <state x="144" y="96" key="DiffContextDialog" timestamp="1604914226892">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state x="144" y="96" key="DiffContextDialog/0.23.1440.828@0.23.1440.828" timestamp="1604914226892" />
     <state x="526" y="364" key="Gitee.CreateGistDialog" timestamp="1601028770088">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
@@ -711,13 +713,13 @@
     <state x="221" y="77" key="SettingsEditor/0.23.1440.826@0.23.1440.826" timestamp="1604281855245" />
     <state x="221" y="77" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1601028979764" />
     <state x="221" y="77" key="SettingsEditor/0.23.1440.829@0.23.1440.829" timestamp="1604491673555" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1604893595013">
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1604914471963">
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.825@0.23.1440.825" timestamp="1603960112334" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.826@0.23.1440.826" timestamp="1604305512440" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.827@0.23.1440.827" timestamp="1604026011805" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1604893595013" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1604914471963" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1604649788631" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.830@0.23.1440.830" timestamp="1604642340180" />
     <state width="700" height="391" key="XDebugger.FullValuePopup" timestamp="1604892441641">
@@ -825,7 +827,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
-          <line>282</line>
+          <line>266</line>
           <option name="timeStamp" value="678" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
