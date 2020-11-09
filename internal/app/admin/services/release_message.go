@@ -121,6 +121,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 	releaseHistory.ReleaseContext = string(releaseContext)
 	releaseHistory.BranchName = "灰度发布"
 	releaseHistory.Operation = 1
+	//删除以往配置
 	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Delete() error")
@@ -241,13 +242,13 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
 	}
-	//主版本配置
+	//灰度信息
 	appgrey, err := s.appNamespaceRepository.FindAppNamespaceById(namespaceId)
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
 	}
 
-	//主版本配置
+	//主版本信息
 	app, err := s.appNamespaceRepository.FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, "default", name)
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
