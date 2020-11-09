@@ -191,4 +191,8 @@ show tables ;
 # delete from ReleaseMessage;
 # delete from Item;
 
-select * from Item;
+select * from dida_apollo_config.Item;
+select * from ReleaseMessage;
+select * from `Release`;
+select * from AppNamespace;
+select * from `Release`;

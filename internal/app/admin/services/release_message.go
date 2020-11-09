@@ -121,6 +121,10 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 	releaseHistory.ReleaseContext = string(releaseContext)
 	releaseHistory.BranchName = "灰度发布"
 	releaseHistory.Operation = 1
+	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call releaseRepository.Delete() error")
+	}
 	if err := s.releaseRepository.Create(db, release); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
@@ -188,6 +192,12 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
+	//先删除以前发布
+	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call releaseRepository.Delete() error")
+	}
+	//发布，保证只有一个发布
 	if err := s.releaseRepository.Create(db, release); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
@@ -231,6 +241,12 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
 	}
+	//主版本配置
+	appgrey, err := s.appNamespaceRepository.FindAppNamespaceById(namespaceId)
+	if err != nil {
+		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
+	}
+
 	//主版本配置
 	app, err := s.appNamespaceRepository.FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, "default", name)
 	if err != nil {
@@ -326,6 +342,10 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
+	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call releaseRepository.Delete() error")
+	}
 	release.Configurations = string(config)
 	if err := s.releaseRepository.Create(db, release); err != nil {
 		db.Rollback()
@@ -339,6 +359,10 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 		if err := s.appNamespaceRepository.DeleteById(db, namespaceId); err != nil {
 			db.Rollback()
 			return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
+		}
+		if err := s.releaseRepository.Delete(db, appgrey.AppId, appgrey.ClusterName, appgrey.Name); err != nil {
+			db.Rollback()
+			return errors.Wrap(err, "call releaseRepository.Delete() error")
 		}
 	}
 	if err := s.releaseHistoryService.Create(db, releaseHistory); err != nil {
