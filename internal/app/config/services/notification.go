@@ -33,8 +33,8 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications strin
 	for i := range tempMap {
 		namespaceName := tempMap[i]["namespaceName"].(string)
 		max = append(max, tempMap[i]["notificationId"].(float64))
-		key = append(key, appid+"+"+cluster+"+"+namespaceName)                   //自身配置对比
-		keys = append(key, "public_global_config"+"+"+cluster+"+"+namespaceName) //公共配置对比
+		key = append(key, appid+"+"+cluster+"+"+namespaceName)                    //自身配置对比
+		keys = append(keys, "public_global_config"+"+"+cluster+"+"+namespaceName) //公共配置对比
 	}
 
 	m := single_queue.GetV()
@@ -45,13 +45,13 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications strin
 loop:
 	for range ticker.C {
 		for i := range tempMap {
-			if float64(m[key[i]]) > max[i] {
-				max[i] = float64(m[key[i]])
+			if float64(m[keys[i]]) > max[i] {
+				max[i] = float64(m[keys[i]])
 				typ = true
 				break loop
 			}
-			if float64(m[keys[i]]) > max[i] {
-				max[i] = float64(m[keys[i]])
+			if float64(m[key[i]]) > max[i] {
+				max[i] = float64(m[key[i]])
 				typ = true
 				break loop
 			}
