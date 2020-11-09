@@ -10,6 +10,7 @@ func InitControllersFn(
 	itemController *ItemController,
 	releaseHistoryController *ReleaseHistoryController,
 	releaseController *ReleaseController,
+	dataController *DateController, //导数据
 ) http.InitControllers {
 	return func(r *gin.Engine) {
 
@@ -48,6 +49,9 @@ func InitControllersFn(
 			r.GET("/release_history", releaseHistoryController.Find)
 		}
 
+		{
+			r.POST("/import_data", dataController.ImportDate) //导数据
+		}
 	}
 
 }

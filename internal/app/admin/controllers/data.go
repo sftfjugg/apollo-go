@@ -8,6 +8,10 @@ import (
 type DateController struct {
 }
 
+func NewDateController() *DateController {
+	return &DateController{}
+}
+
 func (d DateController) ImportDate(c *gin.Context) {
 	data.ImportData()
 	c.String(200, "倒数据结束")

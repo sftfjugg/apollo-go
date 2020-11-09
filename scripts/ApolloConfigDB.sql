@@ -182,3 +182,13 @@ select * from ReleaseHistory;
 select * from `Release`;
 
 SELECT * FROM `Item`  WHERE (NamespaceId='1086' and IsDeleted=0 ) ;
+show tables ;
+
+
+# delete from `Release`;
+# delete from AppNamespace;
+# delete from ReleaseHistory;
+# delete from ReleaseMessage;
+# delete from Item;
+
+select * from Item;
