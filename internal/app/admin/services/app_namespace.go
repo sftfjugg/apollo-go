@@ -53,8 +53,8 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 		return errors.New("name alrealy exists")
 	}
 	if appNamespace.IsPublic {
-		if app.Name == "application" {
-			return errors.New("If it is public, the name cannot be application")
+		if appNamespace.Name == "application" || appNamespace.AppId != "public_global_config" {
+			return errors.New("公共配置名字不能叫做application，切必须位于公共配置中，暂不支持在其他项目建立公共配置")
 		}
 		appPublic, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndName("public_global_config", appNamespace.ClusterName, appNamespace.Name)
 		if err != nil {
