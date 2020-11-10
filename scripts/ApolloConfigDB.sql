@@ -196,3 +196,6 @@ select * from ReleaseMessage;
 select * from `Release`;
 select * from AppNamespace;
 select * from `Release`;
+SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='application' and OperationContext like '%m%') ORDER BY Id desc LIMIT 20 OFFSET 0;
+SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='application' and OperationContext like '%m%') ORDER BY Id desc LIMIT 20 OFFSET 0;
+Select count(*) as count  from `ReleaseHistory`  where AppId='apollo-test' and NamespaceName='application'and  OperationContext like '%m%' ;

@@ -44,10 +44,10 @@ func (r releaseHistoryRepository) Find(appId, namespaceName, key string, pageSiz
 
 func (r releaseHistoryRepository) FindCount(appId, namespaceName, key string) (int, error) {
 	if key != "" {
-		key = "and Key OperationContext '%" + key + "%'"
+		key = "and  OperationContext like '%" + key + "%'"
 	}
 	var count = new(models2.Count)
-	if err := r.db.Raw("Select count(*) as count  from `ReleaseHistory`  where AppId=? and NamespaceName=?"+key, appId, namespaceName).Scan(&count).Error; err != nil {
+	if err := r.db.Raw("Select count(*) as count  from `ReleaseHistory`  where AppId=? and NamespaceName=?  "+key, appId, namespaceName).Scan(&count).Error; err != nil {
 		return 0, errors.Wrap(err, "ItemRepisitory.FindSum failed")
 	}
 	return count.Count, nil

@@ -261,11 +261,6 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	releaseHistory.AppId = appId
 	releaseHistory.BranchName = "灰度全量发布"
 	releaseHistory.Operation = 2
-	operationContext, err := json.Marshal(items1)
-	if err != nil {
-		return errors.Wrap(err, "json.Marshal(items) error")
-	}
-	releaseHistory.OperationContext = string(operationContext)
 
 	release := new(models.Release)
 	release.AppId = app.AppId
@@ -285,8 +280,10 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 			return errors.New("有未发布的值，只有灰度发布所有值都进行过发布，才能进行全量发布")
 		}
 		if j, ok := m[items1[i].Key]; ok { //item2是主版本配置，因此只需要修改发布值
+			if items2[j].Value != items1[i].Value {
+				items2[j].Status = 2
+			}
 			items2[j].Value = items1[i].Value
-			items2[j].Status = 1
 			items2[j].ReleaseValue = items1[i].ReleaseValue
 			items2[j].Comment = items1[i].Comment
 			items2[j].Describe = items1[i].Describe
@@ -298,11 +295,19 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 			items1[i].DataChange_CreatedBy = operator
 			items1[i].DataChange_LastModifiedBy = operator
 			items1[i].NamespaceId = app.Id
+			items1[i].Status = 0
 			items1[i].DataChange_CreatedTime = time.Now()
 			items = append(items, items1[i])
 		}
 	}
-
+	operationContext, err := json.Marshal(items)
+	if err != nil {
+		return errors.Wrap(err, "json.Marshal(items) error")
+	}
+	releaseHistory.OperationContext = string(operationContext)
+	for i, _ := range items {
+		items[i].Status = 1
+	}
 	appNamespaces, err := s.appNamespaceRepository.FindClusterNameByAppId(release.AppId)
 	if err != nil {
 		return errors.Wrap(err, "call appNamespaceRepository.FindClusterNameByAppId() error")
@@ -326,13 +331,12 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	if err := db.Table(models.ItemTableName).Find(&itemConfig, "NamespaceId=? and IsDeleted=0 and Status=1", app.Id).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
-
 	releaseContext, err := json.Marshal(itemConfig)
 	if err != nil {
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
-
 	releaseHistory.ReleaseContext = string(releaseContext)
+
 	conf := make(map[string]string)
 	for _, i := range itemConfig {
 		if i.ReleaseValue != "" {
