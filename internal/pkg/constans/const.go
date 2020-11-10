@@ -1,5 +1,5 @@
 package constans
 
 const (
-	AppOperatePerm = "apollo_all"
+	AppOperatePerm = "apollo_operate"
 )
