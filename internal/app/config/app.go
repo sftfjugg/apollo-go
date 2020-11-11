@@ -12,7 +12,7 @@ import (
 
 // Options define options
 type Options struct {
-	Name string
+	Id string
 }
 
 // NewOptions is constructor of App options
@@ -32,7 +32,7 @@ func NewOptions(v *viper.Viper, logger *zap.Logger, release services.ReleaseMess
 
 // NewApp is constructor of App
 func NewApp(o *Options, logger *zap.Logger, hs *http.Server) (*app.Application, error) {
-	a, err := app.New(o.Name, logger,
+	a, err := app.New(o.Id, logger,
 		app.HTTPServerOption(hs))
 
 	if err != nil {

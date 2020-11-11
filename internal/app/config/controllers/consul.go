@@ -15,7 +15,7 @@ func NewConsulController(services services.ConsulService) *ConsulController {
 }
 
 func (ctl ConsulController) FindConfigService(c *gin.Context) {
-	consul, err := ctl.services.FindAddress("config-service")
+	consul, err := ctl.services.FindAddress("apollo-plus-configservice")
 	if err != nil {
 		c.String(http.StatusBadRequest, "call ConsulService.FindConsulByName error:%v", err)
 		return
@@ -24,7 +24,7 @@ func (ctl ConsulController) FindConfigService(c *gin.Context) {
 }
 
 func (ctl ConsulController) FindAdminService(c *gin.Context) {
-	consul, err := ctl.services.FindAddress("admin-service")
+	consul, err := ctl.services.FindAddress("apollo-plus-admin-service")
 	if err != nil {
 		c.String(http.StatusBadRequest, "call ConsulService.FindConsulByName error:%v", err)
 		return

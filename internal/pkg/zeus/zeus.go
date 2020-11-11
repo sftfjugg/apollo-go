@@ -11,7 +11,7 @@ import (
 
 // New is constructor of zclients
 func New(v *viper.Viper) (*zeus.Zeus, error) {
-	appName := v.GetString("app.name")
+	appName := v.GetString("app.id")
 	z, err := zeus.New(appName)
 	if err != nil {
 		return nil, errors.Wrap(err, "create zclients error")

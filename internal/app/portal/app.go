@@ -13,7 +13,7 @@ import (
 
 // Options define options
 type Options struct {
-	Name string
+	Id string
 }
 
 // NewOptions is constructor of App options
@@ -31,7 +31,7 @@ func NewOptions(v *viper.Viper, logger *zap.Logger) (*Options, error) {
 
 // NewApp is constructor of App,这里引用addressSerive，使address开始去拉取对应adminservice的IP地址
 func NewApp(o *Options, logger *zap.Logger, hs *http.Server, zs *server.Server, addr *services.AddressService) (*app.Application, error) {
-	a, err := app.New(o.Name, logger,
+	a, err := app.New(o.Id, logger,
 		app.HTTPServerOption(hs), app.ZeusServerOption(zs))
 
 	if err != nil {
