@@ -22,11 +22,7 @@ func NewAddress(meta *address.Meta) *AddressService {
 
 //一直维护更新ip列表，开启即运行
 func (s AddressService) Poll() {
-	s.GetAddress("ONLINE", s.meta.ONLINE)
-	s.GetAddress("M6V", s.meta.M6V)
-	s.GetAddress("ALIYUN", s.meta.ALIYUN)
-	s.GetAddress("TEST", s.meta.TEST)
-	ticker := time.NewTicker(300 * time.Second)
+	ticker := time.NewTicker(100 * time.Second)
 
 	go func(ticker *time.Ticker) {
 		defer ticker.Stop()
