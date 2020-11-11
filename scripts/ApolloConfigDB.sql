@@ -185,17 +185,20 @@ SELECT * FROM `Item`  WHERE (NamespaceId='1086' and IsDeleted=0 ) ;
 show tables ;
 
 
-# delete from `Release`;
-# delete from AppNamespace;
-# delete from ReleaseHistory;
-# delete from ReleaseMessage;
-# delete from Item;
+delete from `Release`;
+delete from AppNamespace;
+delete from ReleaseHistory;
+delete from ReleaseMessage;
+delete from Item;
 
 select * from dida_apollo_config.Item;
 select * from ReleaseMessage;
 select * from `Release`;
 select * from AppNamespace;
 select * from `Release`;
+SELECT * FROM `ReleaseHistory`;
 SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='application' and OperationContext like '%m%') ORDER BY Id desc LIMIT 20 OFFSET 0;
 SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='application' and OperationContext like '%m%') ORDER BY Id desc LIMIT 20 OFFSET 0;
 Select count(*) as count  from `ReleaseHistory`  where AppId='apollo-test' and NamespaceName='application'and  OperationContext like '%m%' ;
+show databases;
+select * from dida_apollo_config.ServerConfig;

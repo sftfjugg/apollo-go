@@ -41,3 +41,7 @@ func (ctl ConfigController) FindConfig(c *gin.Context) {
 	c.JSON(http.StatusOK, config)
 
 }
+
+func (ctl ConfigController) Ping(c *gin.Context) {
+	c.String(http.StatusOK, "")
+}

@@ -190,10 +190,10 @@ func (r itemRepisitory) FindItemByNamespaceIdInKey(namespaceId string, keys []st
 func (r itemRepisitory) FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
 	if format != "" {
-		format = "and Format='" + format + "'"
+		format = "and Format='" + format + "'  "
 	}
 	if comment != "" {
-		comment = "and Comment='" + comment + "'"
+		comment = "and Comment='" + comment + "'  "
 	}
 	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+"", "%"+key+"%", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")

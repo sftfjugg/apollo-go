@@ -24,6 +24,12 @@ func InitControllersFn(
 		{
 			r.GET("/notifications/v2", notificationController.PollNotification)
 		}
+		{
+			r.GET("/health", configController.Ping)
+			r.GET("/ping", configController.Ping)
+			r.GET("/Health", configController.Ping)
+			r.GET("/Ping", configController.Ping)
+		}
 	}
 
 }
