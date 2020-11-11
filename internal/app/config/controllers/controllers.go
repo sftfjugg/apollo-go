@@ -29,6 +29,7 @@ func InitControllersFn(
 			r.GET("/ping", configController.Ping)
 			r.GET("/Health", configController.Ping)
 			r.GET("/Ping", configController.Ping)
+			r.GET("/", configController.Ping)
 		}
 	}
 

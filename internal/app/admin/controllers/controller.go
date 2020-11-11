@@ -52,6 +52,9 @@ func InitControllersFn(
 		{
 			r.POST("/import_data", dataController.ImportDate) //导数据
 		}
+		{
+			r.POST("/health", dataController.ImportDate) //导数据
+		}
 	}
 
 }
