@@ -198,6 +198,24 @@ func (s appNamespaceService) FindAppNamespaceByAppId(appId, format, comment stri
 	if err != nil {
 		return nil, errors.Wrap(err, "call AppNamespaceRepository.FindAppNamespaceByAppId() error")
 	}
+	if len(appNamespaces) < 1 { //如果不存在，则新建一个名为application的
+		appNamespace := new(models.AppNamespace)
+		appNamespace.Name = "application"
+		appNamespace.ClusterName = "default"
+		appNamespace.AppId = appId
+		appNamespace.IsPublic = false
+		appNamespace.Format = "服务"
+		appNamespace.LaneName = "主版本"
+		appNamespace.IsDeleted = false
+		if err := s.Create(appNamespace); err != nil {
+			return nil, errors.Wrap(err, "call appNamespace.Create() error")
+		}
+		appNamespacess, err := s.repository.FindAppNamespaceByAppId(appId, format)
+		if err != nil {
+			return nil, errors.Wrap(err, "call AppNamespaceRepository.FindAppNamespaceByAppId() error")
+		}
+		appNamespaces = appNamespacess
+	}
 	apps := make([]*models2.AppNamespace, 0)
 	names := make(map[string][]int)
 	for i, a := range appNamespaces {

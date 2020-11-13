@@ -202,3 +202,11 @@ SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='ap
 Select count(*) as count  from `ReleaseHistory`  where AppId='apollo-test' and NamespaceName='application'and  OperationContext like '%m%' ;
 show databases;
 select * from dida_apollo_config.ServerConfig;
+
+select * from `Release` R where AppId in (select AppNamespace.AppId from AppNamespace where IsPublic=1 and IsDeleted=0 and Name='server.configure.dev' group by AppId) and Id in (select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName='default') and IsDeleted=0;
+
+select * from `Release` where NamespaceName='server.configure.dev' and AppId='public_global_config';
+
+select * from AppNamespace where IsPublic=1;
+select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName='default' and R.AppId='public_global_config' ;
+select * from `Release`where Id=1019;

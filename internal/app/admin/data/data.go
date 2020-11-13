@@ -36,6 +36,14 @@ func ImportData() {
 		fmt.Println("修改公共配置成功:")
 		fmt.Print(appNamespace[i])
 	}
+	for i := range appNamespace {
+		if err := db2.Exec("update `Release` set AppId='public_global_config' where  AppId=? and NamespaceName=?;", appNamespace[i].AppId, appNamespace[i].Name).Error; err != nil {
+			fmt.Println("修改公共配置发布失败:")
+			fmt.Print(appNamespace[i])
+		}
+		fmt.Println("修改公共配置发布成功:")
+		fmt.Print(appNamespace[i])
+	}
 	fmt.Println("所有数据完成")
 
 }
