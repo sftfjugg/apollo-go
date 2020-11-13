@@ -7,9 +7,9 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 )
 
-var dsn1 = "plat:mTAerlrufO@tcp(192.168.1.205:3600)/dida_apollo_config?charset=utf8mb4&parseTime=True&loc=Local"
+var dsn1 = "dida_plat:4yh4BhbPfwm@tcp(192.168.200.1:3026)/dida_apollo_config?charset=utf8mb4&parseTime=True&loc=Local"
 
-var dsn2 = "plat:mTAerlrufO@tcp(192.168.1.205:3600)/dida_apollo_plus_config?charset=utf8mb4&parseTime=True&loc=Local"
+var dsn2 = "dida_plat:4yh4BhbPfwm@tcp(192.168.200.1:3026)/dida_apollo_plus_config?charset=utf8mb4&parseTime=True&loc=Local"
 
 func ImportData() {
 	db1, err := gorm.Open("mysql", dsn1)
