@@ -11,7 +11,6 @@ type Options struct {
 	TEST   string `yaml:"TEST"`
 	ALIYUN string `yaml:"ALIYUN"`
 	ONLINE string `yaml:"ONLINE"`
-	M6V    string `yaml:"M6V"`
 }
 
 func NewOptions(v *viper.Viper) (*Options, error) {
@@ -29,7 +28,6 @@ type Meta struct {
 	TEST   []string `yaml:"TEST"`
 	ALIYUN []string `yaml:"ALIYUN"`
 	ONLINE []string `yaml:"ONLINE"`
-	M6V    []string `yaml:"M6V"`
 }
 
 func NewMetas(o *Options) (*Meta, error) {
@@ -37,7 +35,6 @@ func NewMetas(o *Options) (*Meta, error) {
 	m := new(Meta)
 	m.TEST = strings.Split(o.TEST, ",")
 	m.ALIYUN = strings.Split(o.ALIYUN, ",")
-	m.M6V = strings.Split(o.M6V, ",")
 	m.ONLINE = strings.Split(o.ONLINE, ",")
 	return m, err
 }

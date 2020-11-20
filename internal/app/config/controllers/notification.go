@@ -15,19 +15,23 @@ func NewNotificationController(service services.NotificationMessageService) *Not
 }
 
 func (ctl NotificationController) PollNotification(c *gin.Context) {
-	params := new(struct {
+	param := new(struct {
 		AppId         string `form:"appId"`
 		Cluster       string `form:"cluster"`
 		Notifications string `form:"notifications"`
 		Ip            string `form:"ip"`
 		DataCenter    string `form:"dataCenter"`
+		Lane          string `form:"lane"`
 	})
-	if err := c.BindQuery(params); err != nil {
+	if err := c.BindQuery(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	if param.Lane != "" && param.Lane != "default" {
+		param.AppId = param.AppId + param.Lane
+	}
 	//c.String(address.StatusNotModified,"")
-	notifications, err := ctl.service.CompareV(params.AppId, params.Cluster, params.Notifications)
+	notifications, err := ctl.service.CompareV(param.AppId, param.Cluster, param.Notifications)
 	if err != nil {
 		c.String(http.StatusBadRequest, "CompareV failed:%v", err)
 		return

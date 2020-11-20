@@ -15,15 +15,15 @@ func InitControllersFn(
 	return func(r *gin.Engine) {
 
 		{
+			r.GET("/cluster", appNamespaceController.FindAllClusterNameByAppId)
+			r.POST("/cluster", appNamespaceController.CreateCluster)
 			r.POST("/app_namespace", appNamespaceController.Create)
 			r.POST("/app_namespace/create_or_find", appNamespaceController.CreateOrFindAppNamespace)
 			r.PUT("/app_namespace", appNamespaceController.Update)
 			r.GET("/app_namespace", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
-			r.GET("/app_namespace/name", appNamespaceController.FindOneAppNamespaceByAppIdAndClusterNameAndName)
-			r.GET("/app_namespace_all", appNamespaceController.FindAppNamespaceByAppId)
+			r.GET("/app_namespace_all", appNamespaceController.FindAppNamespace)
 			r.DELETE("/app_namespace", appNamespaceController.DeleteById)
-			r.DELETE("/app_namespace_by_name", appNamespaceController.DeleteByNameAndAppId)
-			r.POST("/app_namespace_related", appNamespaceController.CreateByRelated)
+			r.DELETE("/app_namespace_by_name", appNamespaceController.DeleteByNameAndAppIdAndCluster)
 		}
 		{
 			r.POST("/item", itemController.Create)

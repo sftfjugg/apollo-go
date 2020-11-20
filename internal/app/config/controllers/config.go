@@ -23,6 +23,7 @@ func (ctl ConfigController) FindConfig(c *gin.Context) {
 		ReleaseKey  string `form:"releaseKey"`
 		Ip          string `form:"ip"`
 		Messages    string `form:"messages"`
+		Lane        string `form:"lane"`
 	})
 	if err := c.ShouldBindUri(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
@@ -32,14 +33,16 @@ func (ctl ConfigController) FindConfig(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	config, err := ctl.service.FindConfigByAppIdandCluster(param.AppId, param.ClusterName, param.Namespace)
+	if param.Lane == "" {
+		param.Lane = "default"
+	}
+	config, err := ctl.service.FindConfigByAppIdandCluster(param.AppId, param.ClusterName, param.Namespace, param.Lane)
 	if err != nil {
 		c.String(http.StatusBadRequest, "get Config failed:%v", err)
 		return
 	}
 	config.NamespaceName = param.Namespace
 	c.JSON(http.StatusOK, config)
-
 }
 
 func (ctl ConfigController) Ping(c *gin.Context) {

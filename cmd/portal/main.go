@@ -7,6 +7,7 @@ import (
 var configFile = flag.String("c", "configs/portal.yaml", "set config file which viper will loading.")
 
 func main() {
+
 	flag.Parse()
 
 	app, err := CreateApp(*configFile)

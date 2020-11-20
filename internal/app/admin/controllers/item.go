@@ -47,7 +47,6 @@ func (ctl ItemController) CreateByText(c *gin.Context) {
 		return
 	}
 	item.Operator = userId
-	item.Operator = "lihang"
 	if err := ctl.service.CreateByText(item); err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.CreateByText() error:%v", err)
 		return
@@ -171,16 +170,17 @@ func (ctl ItemController) FindItemByNamespaceIdAndKey(c *gin.Context) {
 func (ctl ItemController) FindItemByAppIdAndKey(c *gin.Context) {
 
 	param := new(struct {
-		AppId   string `form:"app_id"`
-		Key     string `form:"key"`
-		Format  string `form:"format"`
-		Comment string `form:"comment"`
+		AppId        string `form:"app_id"`
+		Key          string `form:"key"`
+		Cluster_name string `form:"cluster_name"`
+		Format       string `form:"format"`
+		Comment      string `form:"comment"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	items, err := ctl.service.FindItemByAppIdAndKey(param.AppId, param.Key, param.Format, param.Comment)
+	items, err := ctl.service.FindItemByAppIdAndKey(param.AppId, param.Cluster_name, param.Key, param.Format, param.Comment)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.FindItemByAppIdAndKey() error:%v", err)
 		return
@@ -191,16 +191,17 @@ func (ctl ItemController) FindItemByAppIdAndKey(c *gin.Context) {
 func (ctl ItemController) FindItemByKeyForPage(c *gin.Context) {
 
 	param := new(struct {
-		Key      string `form:"key" json:"key"`
-		Format   string `form:"format"`
-		PageSize int    `form:"page_size"`
-		PageNum  int    `form:"page_num"`
+		Key          string `form:"key" json:"key"`
+		Format       string `form:"format"`
+		Cluster_name string `form:"cluster_name"`
+		PageSize     int    `form:"page_size"`
+		PageNum      int    `form:"page_num"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	items, err := ctl.service.FindItemByKeyForPage(param.Key, param.Format, param.PageSize, param.PageNum)
+	items, err := ctl.service.FindItemByKeyForPage(param.Cluster_name, param.Key, param.Format, param.PageSize, param.PageNum)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.FindItemByKeyForPage() error:%v", err)
 		return
@@ -211,16 +212,17 @@ func (ctl ItemController) FindItemByKeyForPage(c *gin.Context) {
 func (ctl ItemController) FindAppItemByKeyForPage(c *gin.Context) {
 
 	param := new(struct {
-		Key      string `form:"key"`
-		Format   string `form:"format"`
-		PageSize int    `form:"page_size"`
-		PageNum  int    `form:"page_num"`
+		Key          string `form:"key"`
+		Format       string `form:"format"`
+		Cluster_name string `form:"cluster_name"`
+		PageSize     int    `form:"page_size"`
+		PageNum      int    `form:"page_num"`
 	})
 	if err := c.ShouldBind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	items, err := ctl.service.FindAppItemByKeyForPage(param.Key, param.Format, param.PageSize, param.PageNum)
+	items, err := ctl.service.FindAppItemByKeyForPage(param.Cluster_name, param.Key, param.Format, param.PageSize, param.PageNum)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call ItemService.FindAppItemByKeyForPage() error:%v", err)
 		return

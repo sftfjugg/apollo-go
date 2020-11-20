@@ -10,7 +10,6 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/address"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/controllers"
-	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zservice"
@@ -47,14 +46,6 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	dbOptions, err := db.NewOptions(viper)
-	if err != nil {
-		return nil, err
-	}
-	gormDB, err := db.New(dbOptions, logger)
-	if err != nil {
-		return nil, err
-	}
 	zeusZeus, err := zeus.New(viper)
 	if err != nil {
 		return nil, err
@@ -67,8 +58,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	appdRepository := repositories.NewAppRepository(gormDB)
-	appService := services.NewAppService(gormDB, tChanLimosService, tChanUicService, appdRepository)
+	appService := services.NewAppService(tChanLimosService, tChanUicService)
 	appController := controllers.NewAppController(appService)
 	uicOptions := uic.NewOptions(viper)
 	api, err := uic.NewApi(uicOptions, logger, tChanUicService)
@@ -77,21 +67,15 @@ func CreateApp(cf string) (*app.Application, error) {
 	}
 	client := httpclient.New()
 	httpClient := zclients.NewHttpClient(client)
-	appNamespaceRelatedRepository := repositories.NewAppNamespaceRelatedRepository(gormDB)
-	itemRelatedRepisitory := repositories.NewItemRelatedRepisitory(gormDB)
-	appNamespaceService := services.NewAppNamespaceService(httpClient, appNamespaceRelatedRepository, itemRelatedRepisitory)
+	appNamespaceService := services.NewAppNamespaceService(httpClient)
 	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemService := services.NewItemService(httpClient)
 	itemController := controllers.NewItemController(itemService)
-	itemRelatedService := services.NewItemRelatedService(gormDB, itemRelatedRepisitory)
-	itemRelatedController := controllers.NewItemRelatedControllerr(itemRelatedService)
 	releaseService := services.NewReleaseService(httpClient)
 	releaseController := controllers.NewReleaseController(releaseService)
 	releaseHistoryService := services.NewReleaseHistoryService(httpClient)
 	releaseHistoryController := controllers.NewReleaseHistoryController(releaseHistoryService)
-	appNamespaceRelatedService := services.NewAppNamespaceRelatedService(gormDB, appNamespaceRelatedRepository, itemRelatedRepisitory)
-	appNamespaceRelatedController := controllers.NewAppNamespaceRelatedController(appNamespaceRelatedService)
-	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, itemRelatedController, releaseController, releaseHistoryController, appNamespaceRelatedController)
+	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, releaseHistoryController)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err
@@ -111,7 +95,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	addressService := services.NewAddress(meta)
+	addressService := services.NewAddress(meta, logger)
 	application, err := portal.NewApp(portalOptions, logger, server, serverServer, addressService)
 	if err != nil {
 		return nil, err
@@ -121,4 +105,4 @@ func CreateApp(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, repositories.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet)

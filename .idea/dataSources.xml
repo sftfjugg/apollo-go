@@ -19,5 +19,23 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://211.151.12.30:4000</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="aliyun" uuid="b4b2709b-12ce-4e40-b3bd-171c08ca492e">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.1.205:3600</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@192.168.200.1" uuid="e47769bf-9a93-4e9e-8a48-7b6b845f8787">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://192.168.200.1:3026</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@localhost" uuid="eb147e1c-1b6b-4ad1-b0a0-a34e1cab8b03">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+    </data-source>
   </component>
 </project>

@@ -8,6 +8,7 @@ const ReleaseTableName = "Release"
 type Release struct {
 	Id                        uint64    `gorm:"column:Id" json:"id" form:"id"`
 	ReleaseKey                string    `gorm:"column:ReleaseKey" json:"release_key" form:"release_key"` //无用，留下备用
+	LaneName                  string    `gorm:"column:LaneName" json:"lane_name" form:"lane_name"`       //灰度名字
 	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
 	AppId                     string    `gorm:"column:AppId" json:"app_id" form:"app_id"`
 	ClusterName               string    `gorm:"column:ClusterName" json:"cluster_name" form:"cluster_name"`

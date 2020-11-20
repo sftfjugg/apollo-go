@@ -31,22 +31,18 @@ func (ctl AppNamespaceController) Create(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
-func (ctl AppNamespaceController) CreateByRelated(c *gin.Context) {
+func (ctl AppNamespaceController) CreateCluster(c *gin.Context) {
 	env := c.Param("env")
-
-	param := new(struct {
-		NamespaceId string `json:"namespace_id"`
-		//ClusterName string `json:"cluster_name"`
-		AppId   string `json:"app_id"`
-		AppName string `json:"app_name"`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind parm error:%v", err)
+	UserID, _ := c.Get("UserID")
+	if UserID.(string) == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
 		return
 	}
-	r, err := ctl.service.CreateByRelated(param.NamespaceId, param.AppName, param.AppId, env)
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
+	r, err := ctl.service.CreateCluster(env, c.Request)
 	if err != nil {
-		c.String(http.StatusBadRequest, "AppNamespaceService.CreateByRelated run failed:%v", err)
+		c.String(http.StatusBadRequest, "AppNamespaceService.CreateCluster run failed:%v", err)
 		return
 	}
 	c.Data(r.Code, r.ContentType, r.Data)
@@ -104,6 +100,15 @@ func (ctl AppNamespaceController) FindAppNamespaceByAppId(c *gin.Context) {
 	r, err := ctl.service.FindAppNamespaceByAppId(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppId run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
+func (ctl AppNamespaceController) FindAllClusterNameByAppId(c *gin.Context) {
+	r, err := ctl.service.FindAllClusterNameByAppId(c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindAllClusterNameByAppId run failed:%v", err)
 		return
 	}
 	c.Data(r.Code, r.ContentType, r.Data)

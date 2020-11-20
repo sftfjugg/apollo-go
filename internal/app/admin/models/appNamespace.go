@@ -10,18 +10,18 @@ type AppNamespacePage struct {
 }
 
 type AppNamespace struct {
-	Name       string       `json:"name"`
-	AppId      string       `json:"app_id"`
-	Format     string       `json:"format"` //类型
-	IsPublic   bool         `json:"is_public"`
-	Namespaces []*Namespace `json:"namespaces"`
+	Name        string       `json:"name"`
+	AppId       string       `json:"app_id"`
+	Format      string       `json:"format"` //类型
+	IsPublic    bool         `json:"is_public"`
+	ClusterName string       `json:"cluster_name"` //集群
+	Namespaces  []*Namespace `json:"namespaces"`
 }
 
 type Namespace struct {
-	Id          uint64         `json:"id"`
-	ClusterName string         `json:"cluster_name"` //灰度使用
-	LaneName    string         `json:"lane_name"`
-	Items       []*models.Item `json:"items"`
+	Id       uint64         `json:"id"`
+	LaneName string         `json:"lane_name"` //泳道名字
+	Items    []*models.Item `json:"items"`
 }
 
 //声明一个Hero结构体切片类型

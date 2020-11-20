@@ -9,7 +9,5 @@ var ProviderSet = wire.NewSet(
 	NewAppNamespaceController,
 	InitControllersFn,
 	NewItemController,
-	NewItemRelatedControllerr,
-	NewAppNamespaceRelatedController,
 	NewReleaseHistoryController,
 	NewReleaseController)

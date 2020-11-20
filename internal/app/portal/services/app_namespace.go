@@ -1,38 +1,33 @@
 package services
 
 import (
+	"encoding/json"
 	"github.com/pkg/errors"
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
-	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"net/http"
 )
 
 type AppNamespaceService interface {
 	Create(env string, r *http.Request) (*models2.Response, error)
+	CreateCluster(env string, r *http.Request) (*models2.Response, error)
 	DeleteById(env string, r *http.Request) (*models2.Response, error)
 	DeleteByNameAndAppId(env string, r *http.Request) (*models2.Response, error)
 	Update(env string, r *http.Request) (*models2.Response, error)
-	CreateByRelated(namespaceId, appName, appId, env string) (*models2.Response, error)
-	FindAppNamespaceByAppId(env string, r *http.Request) (*models2.Response, error)
+	FindAllClusterNameByAppId(r *http.Request) (*models2.Response, error)
+	FindAppNamespaceByAppId(appId string, r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppIdAndClusterName(env string, r *http.Request) (*models2.Response, error)
 }
 
 type appNamespaceService struct {
-	httpClient     *zclients.HttpClient
-	repository     repositories.AppNamespaceRelatedRepository
-	itemRepository repositories.ItemRelatedRepisitory
+	httpClient *zclients.HttpClient
 }
 
 func NewAppNamespaceService(
 	httpClient *zclients.HttpClient,
-	repository repositories.AppNamespaceRelatedRepository,
-	itemRepository repositories.ItemRelatedRepisitory,
 ) AppNamespaceService {
 	return appNamespaceService{
-		httpClient:     httpClient,
-		repository:     repository,
-		itemRepository: itemRepository,
+		httpClient: httpClient,
 	}
 }
 
@@ -44,26 +39,8 @@ func (s appNamespaceService) Create(env string, r *http.Request) (*models2.Respo
 	return response, nil
 }
 
-func (s appNamespaceService) CreateByRelated(namespaceId, appName, appId, env string) (*models2.Response, error) {
-	appNamespace, err := s.repository.FindAppNamespaceById(namespaceId)
-	if err != nil {
-		return nil, errors.Wrap(err, "call AppNamespaceRelatedRepository.FindAppNamespaceById error")
-	}
-	items, err := s.itemRepository.FindItemByNamespaceId(namespaceId)
-	if err != nil {
-		return nil, errors.Wrap(err, "call itemRepository.FindItemByNamespaceId error")
-	}
-	param := new(struct {
-		AppNamespace *models2.AppNamespace `json:"app_namespace"`
-		Items        []*models2.Item       `json:"items"`
-		AppName      string                `json:"app_name"`
-		AppId        string                `json:"app_id"`
-	})
-	param.AppNamespace = appNamespace
-	param.Items = items
-	param.AppName = appName
-	param.AppId = appId
-	response, err := s.httpClient.HttpPost("/app_namespace_related", env, param)
+func (s appNamespaceService) CreateCluster(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/cluster", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
@@ -106,5 +83,63 @@ func (s appNamespaceService) FindAppNamespaceByAppId(env string, r *http.Request
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
+	return response, nil
+}
+
+func (s appNamespaceService) FindAllClusterNameByAppId(r *http.Request) (*models2.Response, error) {
+
+	param := new(struct {
+		TEST   []string `json:"test"`
+		ALIYUN []string `json:"aliyun"`
+		ONLINE []string `json:"online"`
+	})
+	response, err := s.httpClient.HttpDo("/cluster", "TEST", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	tests := make([]string, 0)
+	if err := json.Unmarshal(response.Data, &tests); err != nil {
+		tests = append(tests, "default")
+	}
+	for i, v := range tests {
+		if v == "default" {
+			tests[i] = tests[0]
+			tests[0] = v
+		}
+	}
+	param.TEST = tests
+	response, err = s.httpClient.HttpDo("/cluster", "ALIYUN", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	aliyuns := make([]string, 0)
+	if err := json.Unmarshal(response.Data, &aliyuns); err != nil {
+		aliyuns = append(aliyuns, "default")
+	}
+	for i, v := range aliyuns {
+		if v == "default" {
+			aliyuns[i] = aliyuns[0]
+			aliyuns[0] = v
+		}
+	}
+	param.ALIYUN = aliyuns
+	response, err = s.httpClient.HttpDo("/cluster", "ONLINE", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	online := make([]string, 0)
+	if err := json.Unmarshal(response.Data, &online); err != nil {
+		online = append(online, "default")
+	}
+	for i, v := range online {
+		if v == "default" {
+			online[i] = online[0]
+			online[0] = v
+		}
+	}
+	param.ONLINE = online
+	response.Code = 200
+	response.Data, _ = json.Marshal(param)
+	response.ContentType = "application/json; charset=utf-8"
 	return response, nil
 }

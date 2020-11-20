@@ -47,5 +47,30 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="aliyun" uuid="b4b2709b-12ce-4e40-b3bd-171c08ca492e">
+      <database-info product="MySQL" version="5.5.5-10.2.12-MariaDB-log" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.21 (Revision: 33f65445a1bcc544eb0120491926484da168f199)" dbms="MARIADB" exact-version="10.2.12" exact-driver-version="8.0">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>plat</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" qname="@" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="@192.168.200.1" uuid="e47769bf-9a93-4e9e-8a48-7b6b845f8787">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>dida_plat</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="@localhost" uuid="eb147e1c-1b6b-4ad1-b0a0-a34e1cab8b03">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <schema-mapping />
+    </data-source>
   </component>
 </project>

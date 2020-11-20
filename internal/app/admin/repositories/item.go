@@ -22,10 +22,10 @@ type ItemRepisitory interface {
 	DeleteByNamespaceIds(db *gorm.DB, namespaceIds []string) error
 	FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
-	FindItemByKeyForPage(key, format string, pageSize, pageNum int) ([]*models2.Item, error)
+	FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) ([]*models2.Item, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindItemByNamespaceIdInKey(namespaceId string, keys []string) ([]*models.Item, error)
-	FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.Item, error)
+	FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.Item, error)
 	FindItemCountByKey(key string) (int, error)
 	FindAllComment(appId string) ([]*models.Item, error) //查询所有不同标签
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
@@ -187,26 +187,32 @@ func (r itemRepisitory) FindItemByNamespaceIdInKey(namespaceId string, keys []st
 	return items, nil
 }
 
-func (r itemRepisitory) FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.Item, error) {
+func (r itemRepisitory) FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
 	if format != "" {
-		format = "and Format='" + format + "'  "
+		format = "and A.Format='" + format + "'  "
 	}
 	if comment != "" {
-		comment = "and Comment='" + comment + "'  "
+		comment = "and I.Comment='" + comment + "'  "
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+"", "%"+key+"%", appId).Scan(&items).Error; err != nil {
+	if cluster != "" {
+		cluster = "and A.ClusterName='" + cluster + "'  "
+	}
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+cluster+"", "%"+key+"%", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	return items, nil
 }
 
-func (r itemRepisitory) FindItemByKeyForPage(key, format string, pageSize, pageNum int) ([]*models2.Item, error) {
+func (r itemRepisitory) FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
 	if format != "" {
-		format = "and Format='" + format + "'"
+		format = "and Format='" + format + "'  "
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
+	if cluster != "" {
+		cluster = "and A.ClusterName='" + cluster + "'  "
+	}
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return items, nil

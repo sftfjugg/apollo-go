@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
 	"strconv"
@@ -14,66 +13,6 @@ type AppController struct {
 
 func NewAppController(appService services.AppService) *AppController {
 	return &AppController{service: appService}
-}
-
-func (ctl AppController) Create(c *gin.Context) {
-
-	app := new(models.App)
-	if err := c.Bind(app); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	if err := ctl.service.Create(app); err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.Create() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, app)
-}
-
-func (ctl AppController) Update(c *gin.Context) {
-
-	app := new(models.App)
-	if err := c.Bind(app); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	if err := ctl.service.Update(app); err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.Update() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, app)
-}
-
-func (ctl AppController) DeleteByAppId(c *gin.Context) {
-
-	appId := c.Query("app_id")
-	if err := ctl.service.DeleteByAppId(appId); err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.DeleteByAppId() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, appId)
-}
-
-func (ctl AppController) FindByName(c *gin.Context) {
-
-	name := c.Query("name")
-	app, err := ctl.service.FindByName(name)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindByName() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, app)
-}
-
-func (ctl AppController) FindByAppId(c *gin.Context) {
-
-	appId := c.Query("app_id")
-	app, err := ctl.service.FindByAppId(appId)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindByName() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, app)
 }
 
 func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {

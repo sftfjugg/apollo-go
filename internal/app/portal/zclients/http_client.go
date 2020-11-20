@@ -34,6 +34,9 @@ func (s HttpClient) HttpDo(url, env string, r *http.Request) (*models2.Response,
 	r.RequestURI = ""
 	r.RemoteAddr = ""
 	res, err := s.client.Do(r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpDo request failed")
+	}
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {

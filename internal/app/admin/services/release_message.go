@@ -12,8 +12,8 @@ import (
 
 type ReleaseMessageService interface {
 	//正常发布和灰度发布
-	Create(appId, clusterName, comment, name, namespaceId, operator string, isPublic bool, keys []string) error
-	ReleaseGrayTotal(namespaceId, name, appId, operator string, isDeleted bool) error
+	Create(appId, clusterName, comment, name, namespaceId, laneName, operator string, keys []string) error
+	ReleaseGrayTotal(namespaceId, name, appId, cluster, operator string, isDeleted bool) error
 }
 
 type releaseMessageService struct {
@@ -43,7 +43,7 @@ func NewReleaseMessageService(
 	}
 }
 
-func (s releaseMessageService) Create(appId, clusterName, comment, name, namespaceId, operator string, isPublic bool, keys []string) error {
+func (s releaseMessageService) Create(appId, clusterName, comment, name, namespaceId, laneName, operator string, keys []string) error {
 	release := new(models.Release)
 	if appId == "" {
 		app, err := s.appNamespaceRepository.FindAppNamespaceById(namespaceId)
@@ -52,7 +52,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 		}
 		appId = app.AppId
 		clusterName = app.ClusterName
-		isPublic = app.IsPublic
+		laneName = app.LaneName
 		name = app.Name
 	}
 	release.DataChange_LastModifiedBy = operator
@@ -60,6 +60,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	release.NamespaceName = name
 	release.AppId = appId
 	release.Comment = comment
+	release.LaneName = laneName
 	release.ClusterName = clusterName
 	release.ReleaseKey = name
 	releaseHistory := new(models.ReleaseHistory)
@@ -79,7 +80,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	}
 	releaseHistory.OperationContext = string(operationContext)
 
-	if clusterName == "default" {
+	if laneName == "default" {
 		return s.CreatePublic(release, namespaceId, keys, releaseHistory)
 	} else {
 		return s.CreatePrivate(release, namespaceId, keys, releaseHistory)
@@ -102,7 +103,9 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	var items = make([]*models.Item, 0)
+	//查询的是未提交的事物内容，所以使用db在service层进行查询
 	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	m := make(map[string]string)
@@ -111,11 +114,13 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 	}
 	config, err := json.Marshal(m)
 	if err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	release.Configurations = string(config)
 	releaseContext, err := json.Marshal(items)
 	if err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
@@ -158,7 +163,11 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	messaages := make([]string, 0)
 	for i := range appNamespaces {
 		releaseMessage := new(models.ReleaseMessage)
-		releaseMessage.Message = release.AppId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
+		appId := appNamespaces[i].AppId
+		if appNamespaces[i].LaneName != "default" {
+			appId = appNamespaces[i].AppId + appNamespaces[i].LaneName
+		}
+		releaseMessage.Message = appId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
 		messaages = append(messaages, releaseMessage.Message)
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
@@ -183,6 +192,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	}
 	config, err := json.Marshal(m)
 	if err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	release.Configurations = string(config)
@@ -190,6 +200,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	releaseHistory.Operation = 0
 	releaseContext, err := json.Marshal(items)
 	if err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
@@ -237,7 +248,7 @@ func (s releaseMessageService) FindConfig(namespaceId string) (string, error) {
 }
 
 //灰度全量发布，首先获取灰度配置，然后获取主版本配置，最后灰度配置覆盖主版本配置
-func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operator string, isDeleted bool) error {
+func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluster, operator string, isDeleted bool) error {
 	items1, err := s.itemRepository.FindItemByNamespaceId(namespaceId, "") //灰度的所有配置
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
@@ -249,7 +260,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	}
 
 	//主版本信息
-	app, err := s.appNamespaceRepository.FindOneAppNamespaceByAppIdAndClusterNameAndName(appId, "default", name)
+	app, err := s.appNamespaceRepository.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appId, cluster, "default", name)
 	if err != nil {
 		return errors.Wrap(err, "call ItemRepository.FindItemByNamespaceId() error")
 	}
@@ -333,6 +344,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	}
 	releaseContext, err := json.Marshal(itemConfig)
 	if err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
@@ -345,6 +357,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, operat
 	}
 	config, err := json.Marshal(conf)
 	if err != nil {
+		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {

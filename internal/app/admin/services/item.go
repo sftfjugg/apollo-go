@@ -20,11 +20,11 @@ type ItemService interface {
 	Update(item *models.Item) error
 	DeleteById(id, operator string) error
 	DeleteByNamespaceId(namespaceId string) error
-	FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.AppNamespace, error)
+	FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.AppNamespace, error)
 	FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
-	FindItemByKeyForPage(key, format string, pageSize, pageNum int) (*models2.ItemPage, error)
-	FindAppItemByKeyForPage(key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error)
+	FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.ItemPage, error)
+	FindAppItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
 	FindAllComment(appId string) ([]string, error)
@@ -209,8 +209,8 @@ func (s itemService) FindItemByNamespaceIdOnRelease(namespaceID string) ([]*mode
 	return items, nil
 }
 
-func (s itemService) FindItemByKeyForPage(key, format string, pageSize, pageNum int) (*models2.ItemPage, error) {
-	items, err := s.repository.FindItemByKeyForPage(key, format, pageSize, pageNum)
+func (s itemService) FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.ItemPage, error) {
+	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByKeyForPage() error")
 	}
@@ -224,8 +224,8 @@ func (s itemService) FindItemByKeyForPage(key, format string, pageSize, pageNum 
 	return itemPage, nil
 }
 
-func (s itemService) FindAppItemByKeyForPage(key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error) {
-	items, err := s.repository.FindItemByKeyForPage(key, format, pageSize, pageNum)
+func (s itemService) FindAppItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error) {
+	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByKeyForPage() error")
 	}
@@ -240,8 +240,8 @@ func (s itemService) FindAppItemByKeyForPage(key, format string, pageSize, pageN
 	return appNamespacePage, nil
 }
 
-func (s itemService) FindItemByAppIdAndKey(appId, key, format, comment string) ([]*models2.AppNamespace, error) {
-	items, err := s.repository.FindItemByAppIdAndKey(appId, key, format, comment)
+func (s itemService) FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.AppNamespace, error) {
+	items, err := s.repository.FindItemByAppIdAndKey(appId, cluster, key, format, comment)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByAppIdAndKey() error")
 	}
@@ -283,18 +283,29 @@ func (s itemService) FindAllComment(appId string) ([]string, error) {
 func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.AppNamespace {
 	names := make(map[string][]int)
 	for i, n := range items {
-		names[n.Name] = append(names[n.Name], i)
+		name := n.AppId + n.ClusterName + n.Name
+		if _, ok := names[name]; !ok {
+			names[name] = make([]int, 0)
+		}
+		names[name] = append(names[name], i)
 	}
 	appNamespaces := make([]*models2.AppNamespace, 0)
 	for _, v := range names {
-		clusters := make(map[string][]*models2.Item)
-		for i := range v {
-			clusters[items[i].ClusterName] = append(clusters[items[i].ClusterName], items[i])
-		}
 		appNamespace := new(models2.AppNamespace)
-		for key, c := range clusters {
+		lanes := make(map[string][]*models2.Item)
+		for _, j := range v {
+			if items[j].LaneName == "default" || items[j].LaneName == "主版本" {
+				appNamespace.Format = items[j].Format
+				appNamespace.Name = items[j].Name
+				appNamespace.AppId = items[j].AppId
+				appNamespace.ClusterName = items[j].ClusterName
+				appNamespace.IsPublic = items[j].IsPublic
+			}
+			lanes[items[j].LaneName] = append(lanes[items[j].LaneName], items[j])
+
+		}
+		for _, c := range lanes {
 			namespace := new(models2.Namespace)
-			namespace.ClusterName = key
 			its := make([]*models.Item, 0)
 			for _, s := range c {
 				itemModel := new(models.Item)
@@ -313,13 +324,6 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				its = append(its, itemModel)
 				namespace.LaneName = s.LaneName
 				namespace.Id = s.NamespaceId
-				appNamespace.AppId = s.AppId
-				appNamespace.IsPublic = s.IsPublic
-				//appNamespace.
-				appNamespace.Name = s.Name
-				if s.Format != "" {
-					appNamespace.Format = s.Format
-				}
 			}
 			namespace.Items = its
 			appNamespace.Namespaces = append(appNamespace.Namespaces, namespace)

@@ -10,7 +10,7 @@ import (
 )
 
 type ReleaseHistoryService interface {
-	Find(appId, namespaceName, key string, pageSize, pageNum int) (*models2.ReleaseHistoryPage, error)
+	Find(appId, namespaceName, cluster, key string, pageSize, pageNum int) (*models2.ReleaseHistoryPage, error)
 }
 
 type releaseHistoryService struct {
@@ -28,12 +28,12 @@ func NewReleaseHistoryService(
 	}
 }
 
-func (s releaseHistoryService) Find(appId, namespaceName, key string, pageSize, pageNum int) (*models2.ReleaseHistoryPage, error) {
-	releaseHistorys, err := s.repository.Find(appId, namespaceName, key, pageSize, pageNum)
+func (s releaseHistoryService) Find(appId, namespaceName, cluster, key string, pageSize, pageNum int) (*models2.ReleaseHistoryPage, error) {
+	releaseHistorys, err := s.repository.Find(appId, namespaceName, cluster, key, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ReleaseHistoryReposotory.Find() error")
 	}
-	total, err := s.repository.FindCount(appId, namespaceName, key)
+	total, err := s.repository.FindCount(appId, namespaceName, cluster, key)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ReleaseHistoryReposotory.FindCount() error")
 	}

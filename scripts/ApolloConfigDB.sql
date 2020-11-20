@@ -38,7 +38,8 @@ CREATE TABLE `AppNamespace` (
   KEY `IX_AppId` (`AppId`),
   KEY  `ClusterName` (`ClusterName`(64)),
   KEY `IsPublic` (`IsPublic`),
-  KEY `Name_AppId` (`Name`,`AppId`),
+  KEY  `Name_AppId` (`Name`,`AppId`),
+  KEY  `LaneName` (`ClusterName`(64)),
   KEY `AppId_ClusterName_Name` (`AppId`,`ClusterName`(64),`Name`),
   KEY `DataChange_LastTime` (`DataChange_LastTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用namespace定义';
@@ -85,6 +86,7 @@ CREATE TABLE `Release` (
   `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
   `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
   `NamespaceName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
+  `LaneName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '灰度名字',
   `Configurations` longtext NOT NULL COMMENT '发布配置',
   `IsAbandoned` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '是否废弃',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
@@ -109,7 +111,8 @@ CREATE TABLE `ReleaseHistory` (
   `AppId` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'AppID',
   `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'ClusterName',
   `NamespaceName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'namespaceName',
-  `BranchName` varchar(32) NOT NULL DEFAULT 'default' COMMENT '发布灰度名',
+  `BranchName` varchar(32) NOT NULL DEFAULT 'default' COMMENT '保留字段',
+  `LaneName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '灰度名字',
   `ReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保留字段',
   `PreviousReleaseId` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '保留字段',
   `Operation` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '发布类型，0: 普通发布，1: 灰度发布，2: 灰度全量发布',
@@ -165,48 +168,8 @@ CREATE TABLE `ServerConfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='配置服务自身配置';
 
 
-select * from AppNamespace where IsPublic=1;
-select * from dida_apollo_plus_config.AppNamespace;
-select * from ReleaseHistory;
-select * from `Release`;
 
-show databases ;
-use dida_apollo_plus_config;
-show tables ;
-desc ReleaseHistory;
-
-select * from AppNamespace where AppId='zeus-demo-common' and Name='foundation.zeus-demo-common';
-update AppNamespace set AppId='public_global_config',IsPublic=1 where   AppId='zeus-demo-common' and Name='foundation.zeus-demo-common';
-select * from ReleaseHistory;
-
-select * from `Release`;
-
-SELECT * FROM `Item`  WHERE (NamespaceId='1086' and IsDeleted=0 ) ;
-show tables ;
-
-
-delete from `Release`;
-delete from AppNamespace;
-delete from ReleaseHistory;
-delete from ReleaseMessage;
-delete from Item;
-
-select * from dida_apollo_config.Item;
+update `Release` set  LaneName='default';
+select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where AppId='apollo-test' and ClusterName='default' and IsDeleted=0  and  NamespaceName='application' and LaneName='default' order by Id desc limit 1 ;
+select * from AppNamespace where AppId='apollo-test';
 select * from ReleaseMessage;
-select * from `Release`;
-select * from AppNamespace;
-select * from `Release`;
-SELECT * FROM `ReleaseHistory`;
-SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='application' and OperationContext like '%m%') ORDER BY Id desc LIMIT 20 OFFSET 0;
-SELECT * FROM `ReleaseHistory`  WHERE (AppId='apollo-test' and NamespaceName='application' and OperationContext like '%m%') ORDER BY Id desc LIMIT 20 OFFSET 0;
-Select count(*) as count  from `ReleaseHistory`  where AppId='apollo-test' and NamespaceName='application'and  OperationContext like '%m%' ;
-show databases;
-select * from dida_apollo_config.ServerConfig;
-
-select * from `Release` R where AppId in (select AppNamespace.AppId from AppNamespace where IsPublic=1 and IsDeleted=0 and Name='server.configure.dev' group by AppId) and Id in (select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName='default') and IsDeleted=0;
-
-select * from `Release` where NamespaceName='server.configure.dev' and AppId='public_global_config';
-
-select * from AppNamespace where IsPublic=1;
-select max(Id) from `Release` R group by R.AppId,R.NamespaceName,R.ClusterName having R.ClusterName='default' and R.AppId='public_global_config' ;
-select * from `Release`where Id=1019;

@@ -20,7 +20,7 @@ func NewConsulService() ConsulService {
 	return &consulService{}
 }
 
-//有个bug，config不能发现部署在自己服务器的consul
+//本地consul1.1及以下版本有个bug，config不能发现部署在自己服务器的consul，并且在本地单机模式中长时间下对应服务会掉
 func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 	consul := juno.GetConsulRegistry()
 	consulAddress := consul.ConsulAddress
@@ -44,7 +44,7 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 		consul := new(models.Consul)
 		consul.AppName = services[s].Service.Service
 		ip := services[s].Service.Address
-		if ip != "" || name == "config-service" {
+		if ip != "" || name == "apollo-plus-configservice" || name == "apollo-plus-admin-service" {
 			if ip == "" {
 				appJuno := juno.GetParams()
 				ip = appJuno.Addr + ":" + string(appJuno.Port)
