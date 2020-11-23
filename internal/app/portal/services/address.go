@@ -49,7 +49,7 @@ func (s AddressService) GetAddress(name string, metas []string) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		// handle error
+		return
 	}
 	address := make([]*models.Address, 0)
 	if err := json.Unmarshal(body, &address); err != nil {
