@@ -58,42 +58,40 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 	//解析text
 	texts := strings.Split(itemText.Text, "\n")
 	if len(texts) == 0 {
-		return errors.New("格式错误")
+		return errors.New("格式错误或者内容为空")
 	}
 	itemsSave := make([]*models.Item, 0) //需要新增，修改，删除的
 	for _, t := range texts {            //第一次循环将新增修改的添加itemsSave并剔除于m，使m中只留下需要删除的
-		if strings.Count(t, "=") != 1 {
-			return errors.New("格式错误,一行只能有一个等号" + t)
-		}
-		k := strings.Split(t, "=")
-		key := strings.Trim(k[0], " ")
-		value := strings.Trim(k[1], " ")
-		if key != "" {
-			if _, ok := m[key]; ok {
-				i := m[key]
-				if value != items[i].Value {
-					items[i].Value = value
-					items[i].Status = 2
-					items[i].DataChange_LastModifiedBy = itemText.Operator
-					itemsSave = append(itemsSave, items[i])
-					delete(m, key)
+		if strings.Count(t, "=") >= 1 {
+			k := strings.Split(t, "=")
+			key := strings.Trim(k[0], " ")
+			value := strings.Trim(k[1], " ")
+			if key != "" {
+				if _, ok := m[key]; ok {
+					i := m[key]
+					if value != items[i].Value {
+						items[i].Value = value
+						items[i].Status = 2
+						items[i].DataChange_LastModifiedBy = itemText.Operator
+						itemsSave = append(itemsSave, items[i])
+						delete(m, key)
+					} else {
+						itemsSave = append(itemsSave, items[i])
+						delete(m, key)
+					}
 				} else {
-					itemsSave = append(itemsSave, items[i])
-					delete(m, key)
+					item := new(models.Item)
+					item.Key = key
+					item.Value = value
+					item.Status = 0
+					item.NamespaceId = itemText.NamespaceId
+					item.DataChange_CreatedBy = itemText.Operator
+					item.DataChange_LastModifiedBy = itemText.Operator
+					item.DataChange_CreatedTime = time.Now()
+					itemsSave = append(itemsSave, item)
 				}
-			} else {
-				item := new(models.Item)
-				item.Key = key
-				item.Value = value
-				item.Status = 0
-				item.NamespaceId = itemText.NamespaceId
-				item.DataChange_CreatedBy = itemText.Operator
-				item.DataChange_LastModifiedBy = itemText.Operator
-				item.DataChange_CreatedTime = time.Now()
-				itemsSave = append(itemsSave, item)
 			}
 		}
-
 	}
 	//整理所有需要删除的
 	for _, i := range m {

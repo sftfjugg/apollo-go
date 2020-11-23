@@ -69,6 +69,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	releaseHistory.ClusterName = clusterName
 	releaseHistory.NamespaceName = name
 	releaseHistory.AppId = appId
+	releaseHistory.LaneName = laneName
 	//查询修改的key配置并计入发布历史
 	items, err := s.itemRepository.FindItemByNamespaceIdInKey(namespaceId, keys)
 	if err != nil {
@@ -92,7 +93,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 //泳道发布
 func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceId string, keys []string, releaseHistory *models.ReleaseHistory) error {
 	releaseMessage := new(models.ReleaseMessage)
-	releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+" + release.NamespaceName
+	releaseMessage.Message = release.AppId + release.LaneName + "+" + release.ClusterName + "+" + release.NamespaceName
 	db := s.db.Begin()
 	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
 		db.Rollback()
@@ -127,7 +128,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 	releaseHistory.BranchName = "灰度发布"
 	releaseHistory.Operation = 1
 	//删除以往配置
-	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
+	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName, release.LaneName); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Delete() error")
 	}
@@ -205,7 +206,7 @@ func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
 	//先删除以前发布
-	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
+	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName, release.LaneName); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Delete() error")
 	}
@@ -272,10 +273,11 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 	releaseHistory.AppId = appId
 	releaseHistory.BranchName = "灰度全量发布"
 	releaseHistory.Operation = 2
-
+	releaseHistory.LaneName = app.LaneName
 	release := new(models.Release)
 	release.AppId = app.AppId
 	release.NamespaceName = app.Name
+	release.LaneName = app.LaneName
 	release.ClusterName = app.ClusterName
 	release.ReleaseKey = app.Name
 	release.DataChange_CreatedBy = operator
@@ -328,7 +330,11 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 	messaages := make([]string, 0)
 	for i := range appNamespaces {
 		releaseMessage := new(models.ReleaseMessage)
-		releaseMessage.Message = release.AppId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
+		appId := appNamespaces[i].AppId
+		if appNamespaces[i].LaneName != "default" {
+			appId = appNamespaces[i].AppId + appNamespaces[i].LaneName
+		}
+		releaseMessage.Message = appId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
 		messaages = append(messaages, releaseMessage.Message)
 		releaseMessages = append(releaseMessages, releaseMessage)
 	}
@@ -360,7 +366,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
-	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName); err != nil {
+	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName, release.LaneName); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Delete() error")
 	}
@@ -378,7 +384,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 			db.Rollback()
 			return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
 		}
-		if err := s.releaseRepository.Delete(db, appgrey.AppId, appgrey.ClusterName, appgrey.Name); err != nil {
+		if err := s.releaseRepository.Delete(db, appgrey.AppId, appgrey.ClusterName, appgrey.Name, appgrey.LaneName); err != nil {
 			db.Rollback()
 			return errors.Wrap(err, "call releaseRepository.Delete() error")
 		}

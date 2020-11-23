@@ -173,3 +173,9 @@ update `Release` set  LaneName='default';
 select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where AppId='apollo-test' and ClusterName='default' and IsDeleted=0  and  NamespaceName='application' and LaneName='default' order by Id desc limit 1 ;
 select * from AppNamespace where AppId='apollo-test';
 select * from ReleaseMessage;
+select * from `Release`;
+select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where AppId='apollo-test' and ClusterName='default' and IsDeleted=0  and  NamespaceName='application' and LaneName='default' order by Id desc limit 1  ;
+select  `AppId`,`ReleaseKey`,`ClusterName`,`NamespaceName`,`Configurations` from `Release` where AppId='apollo-test' and ClusterName='222' and IsDeleted=0  and  NamespaceName='application' and LaneName='default' order by Id desc limit 1;
+desc ReleaseHistory;
+select * from AppNamespace where ClusterName!='default';
+

@@ -19,51 +19,20 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-599:ping,health">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-599:添加集群">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/portal/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/portal/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/portal/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/portal/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/portal/wire_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/portal/wire_gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/portal.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/portal.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/app_namespace.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/models/appNamespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/models/appNamespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/app_namespace.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/data.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/appNamespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/appNamespace.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/data.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/item.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/release.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/releaseMessage.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/releaseMessage.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/release.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/admin/services/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/release_history.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/admin/services/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/release_message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/notification.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/notification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/repositories/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/repositories/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/config/services/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/consul.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/consul.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/address/address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/address/address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/app_namespace_related.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/controllers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/item_related.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/repositories/app.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/repositories/app_namespace_related.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/repositories/item_related.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/repositories/wire.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/app_namespace_related.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/item_related.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/zclients/http_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/zclients/http_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/release.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/models/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/release_history.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" afterDir="false" />
     </list>
@@ -232,13 +201,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00034" summary="PMOPP-599:发布bug修改">
-      <created>1604023409414</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1604023409414</updated>
     </task>
     <task id="LOCAL-00035" summary="PMOPP-599:发布bug修改">
       <created>1604024221949</created>
@@ -576,7 +538,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605266491107</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="PMOPP-599:添加集群">
+      <created>1605870013891</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1605870013910</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -609,7 +578,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="PMOPP-599:前段结果返回" />
     <MESSAGE value="PMOPP-599:前段调节返回" />
     <MESSAGE value="PMOPP-599:前段连调，bug修改" />
     <MESSAGE value="PMOPP-599:zeus端掉用添加" />
@@ -634,7 +602,8 @@
     <MESSAGE value="PMOPP-599:增加发布之后删除以往配置功能" />
     <MESSAGE value="PMOPP-599:权限配置" />
     <MESSAGE value="PMOPP-599:ping,health" />
-    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-599:ping,health" />
+    <MESSAGE value="PMOPP-599:添加集群" />
+    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-599:添加集群" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -696,98 +665,98 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="573" y="345" key="Gitee.ShareDialog/0.23.1440.828@0.23.1440.828" timestamp="1601029317266" />
-    <state width="1256" height="200" key="GridCell.Tab.0.bottom" timestamp="1605869762553">
+    <state width="1398" height="199" key="GridCell.Tab.0.bottom" timestamp="1606111739599">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.bottom/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
     <state width="1358" height="249" key="GridCell.Tab.0.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604307264114" />
     <state width="1358" height="205" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604660109587" />
     <state width="1358" height="205" key="GridCell.Tab.0.bottom/0.23.1440.828@0.23.1440.828" timestamp="1604916697609" />
-    <state width="1256" height="200" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1605869762553" />
+    <state width="1398" height="199" key="GridCell.Tab.0.bottom/0.23.1440.829@0.23.1440.829" timestamp="1606111739599" />
     <state width="1398" height="201" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1605864571650" />
     <state width="1358" height="204" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.0.bottom/0.23.1440.833@0.23.1440.833" timestamp="1605781341263" />
     <state width="1358" height="205" key="GridCell.Tab.0.bottom/0.23.1440.834@0.23.1440.834" timestamp="1605763253637" />
-    <state width="1256" height="200" key="GridCell.Tab.0.center" timestamp="1605869762552">
+    <state width="1398" height="199" key="GridCell.Tab.0.center" timestamp="1606111739599">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.center/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
     <state width="1358" height="249" key="GridCell.Tab.0.center/0.23.1440.826@0.23.1440.826" timestamp="1604307264114" />
     <state width="1358" height="205" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1604660109585" />
     <state width="1358" height="205" key="GridCell.Tab.0.center/0.23.1440.828@0.23.1440.828" timestamp="1604916697608" />
-    <state width="1256" height="200" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1605869762552" />
+    <state width="1398" height="199" key="GridCell.Tab.0.center/0.23.1440.829@0.23.1440.829" timestamp="1606111739599" />
     <state width="1398" height="201" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1605864571649" />
     <state width="1358" height="204" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.0.center/0.23.1440.833@0.23.1440.833" timestamp="1605781341262" />
     <state width="1358" height="205" key="GridCell.Tab.0.center/0.23.1440.834@0.23.1440.834" timestamp="1605763253636" />
-    <state width="1256" height="200" key="GridCell.Tab.0.left" timestamp="1605869762551">
+    <state width="1398" height="199" key="GridCell.Tab.0.left" timestamp="1606111739599">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.left/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
     <state width="1358" height="249" key="GridCell.Tab.0.left/0.23.1440.826@0.23.1440.826" timestamp="1604307264113" />
     <state width="1358" height="205" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1604660109584" />
     <state width="1358" height="205" key="GridCell.Tab.0.left/0.23.1440.828@0.23.1440.828" timestamp="1604916697608" />
-    <state width="1256" height="200" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1605869762551" />
+    <state width="1398" height="199" key="GridCell.Tab.0.left/0.23.1440.829@0.23.1440.829" timestamp="1606111739599" />
     <state width="1398" height="201" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1605864571649" />
     <state width="1358" height="204" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.0.left/0.23.1440.833@0.23.1440.833" timestamp="1605781341262" />
     <state width="1358" height="205" key="GridCell.Tab.0.left/0.23.1440.834@0.23.1440.834" timestamp="1605763253636" />
-    <state width="1256" height="200" key="GridCell.Tab.0.right" timestamp="1605869762552">
+    <state width="1398" height="199" key="GridCell.Tab.0.right" timestamp="1606111739599">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.0.right/0.23.1440.825@0.23.1440.825" timestamp="1603963741786" />
     <state width="1358" height="249" key="GridCell.Tab.0.right/0.23.1440.826@0.23.1440.826" timestamp="1604307264114" />
     <state width="1358" height="205" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1604660109586" />
     <state width="1358" height="205" key="GridCell.Tab.0.right/0.23.1440.828@0.23.1440.828" timestamp="1604916697609" />
-    <state width="1256" height="200" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1605869762552" />
+    <state width="1398" height="199" key="GridCell.Tab.0.right/0.23.1440.829@0.23.1440.829" timestamp="1606111739599" />
     <state width="1398" height="201" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1605864571650" />
     <state width="1358" height="204" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.0.right/0.23.1440.833@0.23.1440.833" timestamp="1605781341263" />
     <state width="1358" height="205" key="GridCell.Tab.0.right/0.23.1440.834@0.23.1440.834" timestamp="1605763253636" />
-    <state width="1256" height="200" key="GridCell.Tab.1.bottom" timestamp="1605869762553">
+    <state width="1398" height="199" key="GridCell.Tab.1.bottom" timestamp="1606111761887">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.bottom/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
     <state width="1358" height="249" key="GridCell.Tab.1.bottom/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="205" key="GridCell.Tab.1.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604660109589" />
     <state width="1358" height="205" key="GridCell.Tab.1.bottom/0.23.1440.828@0.23.1440.828" timestamp="1604916699291" />
-    <state width="1256" height="200" key="GridCell.Tab.1.bottom/0.23.1440.829@0.23.1440.829" timestamp="1605869762553" />
+    <state width="1398" height="199" key="GridCell.Tab.1.bottom/0.23.1440.829@0.23.1440.829" timestamp="1606111761887" />
     <state width="1398" height="201" key="GridCell.Tab.1.bottom/0.23.1440.830@0.23.1440.830" timestamp="1605864571651" />
     <state width="1358" height="204" key="GridCell.Tab.1.bottom/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.1.bottom/0.23.1440.833@0.23.1440.833" timestamp="1605781338459" />
     <state width="1358" height="205" key="GridCell.Tab.1.bottom/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
-    <state width="1256" height="200" key="GridCell.Tab.1.center" timestamp="1605869762553">
+    <state width="1398" height="199" key="GridCell.Tab.1.center" timestamp="1606111761887">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.center/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
     <state width="1358" height="249" key="GridCell.Tab.1.center/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="205" key="GridCell.Tab.1.center/0.23.1440.827@0.23.1440.827" timestamp="1604660109588" />
     <state width="1358" height="205" key="GridCell.Tab.1.center/0.23.1440.828@0.23.1440.828" timestamp="1604916699290" />
-    <state width="1256" height="200" key="GridCell.Tab.1.center/0.23.1440.829@0.23.1440.829" timestamp="1605869762553" />
+    <state width="1398" height="199" key="GridCell.Tab.1.center/0.23.1440.829@0.23.1440.829" timestamp="1606111761887" />
     <state width="1398" height="201" key="GridCell.Tab.1.center/0.23.1440.830@0.23.1440.830" timestamp="1605864571651" />
     <state width="1358" height="204" key="GridCell.Tab.1.center/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.1.center/0.23.1440.833@0.23.1440.833" timestamp="1605781338458" />
     <state width="1358" height="205" key="GridCell.Tab.1.center/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
-    <state width="1256" height="200" key="GridCell.Tab.1.left" timestamp="1605869762553">
+    <state width="1398" height="199" key="GridCell.Tab.1.left" timestamp="1606111761886">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.left/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
     <state width="1358" height="249" key="GridCell.Tab.1.left/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="205" key="GridCell.Tab.1.left/0.23.1440.827@0.23.1440.827" timestamp="1604660109587" />
     <state width="1358" height="205" key="GridCell.Tab.1.left/0.23.1440.828@0.23.1440.828" timestamp="1604916699290" />
-    <state width="1256" height="200" key="GridCell.Tab.1.left/0.23.1440.829@0.23.1440.829" timestamp="1605869762553" />
+    <state width="1398" height="199" key="GridCell.Tab.1.left/0.23.1440.829@0.23.1440.829" timestamp="1606111761886" />
     <state width="1398" height="201" key="GridCell.Tab.1.left/0.23.1440.830@0.23.1440.830" timestamp="1605864571650" />
     <state width="1358" height="204" key="GridCell.Tab.1.left/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.1.left/0.23.1440.833@0.23.1440.833" timestamp="1605781338458" />
     <state width="1358" height="205" key="GridCell.Tab.1.left/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
-    <state width="1256" height="200" key="GridCell.Tab.1.right" timestamp="1605869762553">
+    <state width="1398" height="199" key="GridCell.Tab.1.right" timestamp="1606111761887">
       <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state width="1358" height="246" key="GridCell.Tab.1.right/0.23.1440.825@0.23.1440.825" timestamp="1603963741787" />
     <state width="1358" height="249" key="GridCell.Tab.1.right/0.23.1440.826@0.23.1440.826" timestamp="1604307264893" />
     <state width="1358" height="205" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1604660109589" />
     <state width="1358" height="205" key="GridCell.Tab.1.right/0.23.1440.828@0.23.1440.828" timestamp="1604916699290" />
-    <state width="1256" height="200" key="GridCell.Tab.1.right/0.23.1440.829@0.23.1440.829" timestamp="1605869762553" />
+    <state width="1398" height="199" key="GridCell.Tab.1.right/0.23.1440.829@0.23.1440.829" timestamp="1606111761887" />
     <state width="1398" height="201" key="GridCell.Tab.1.right/0.23.1440.830@0.23.1440.830" timestamp="1605864571651" />
     <state width="1358" height="204" key="GridCell.Tab.1.right/0.23.1440.831@0.23.1440.831" timestamp="1605839029396" />
     <state width="1358" height="212" key="GridCell.Tab.1.right/0.23.1440.833@0.23.1440.833" timestamp="1605781338458" />
@@ -803,14 +772,14 @@
     <state x="221" y="77" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1601028979764" />
     <state x="221" y="77" key="SettingsEditor/0.23.1440.829@0.23.1440.829" timestamp="1605869773224" />
     <state x="221" y="77" key="SettingsEditor/0.23.1440.830@0.23.1440.830" timestamp="1605851635232" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1605266505957">
-      <screen x="0" y="23" width="1440" height="831" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1605870178429">
+      <screen x="0" y="23" width="1440" height="829" />
     </state>
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.825@0.23.1440.825" timestamp="1603960112334" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.826@0.23.1440.826" timestamp="1604305512440" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.827@0.23.1440.827" timestamp="1604026011805" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.828@0.23.1440.828" timestamp="1604977128255" />
-    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605105101689" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.829@0.23.1440.829" timestamp="1605870178429" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.830@0.23.1440.830" timestamp="1605075018944" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.831@0.23.1440.831" timestamp="1605266505957" />
     <state width="700" height="393" key="XDebugger.FullValuePopup" timestamp="1605837899421">
@@ -830,26 +799,27 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="120" y="149" width="1200" height="578" key="dock-window-1/0.23.1440.828@0.23.1440.828" timestamp="1601191739660" />
-    <state x="418" y="195" width="720" height="494" key="find.popup" timestamp="1605838076935">
-      <screen x="0" y="23" width="1440" height="831" />
+    <state x="418" y="195" width="720" height="494" key="find.popup" timestamp="1606112201757">
+      <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="418" y="193" width="604" height="490" key="find.popup/0.23.1440.825@0.23.1440.825" timestamp="1603789690925" />
     <state x="418" y="193" width="604" height="490" key="find.popup/0.23.1440.826@0.23.1440.826" timestamp="1602825651273" />
     <state x="418" y="194" width="604" height="492" key="find.popup/0.23.1440.828@0.23.1440.828" timestamp="1604650341970" />
+    <state x="418" y="195" width="720" height="494" key="find.popup/0.23.1440.830@0.23.1440.830" timestamp="1606112201757" />
     <state x="418" y="195" width="720" height="494" key="find.popup/0.23.1440.831@0.23.1440.831" timestamp="1605838076935" />
     <state x="509" y="334" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1603459486035">
       <screen x="0" y="23" width="1440" height="825" />
     </state>
     <state x="509" y="334" key="git4idea.remote.GitConfigureRemotesDialog/0.23.1440.825@0.23.1440.825" timestamp="1603459486035" />
-    <state x="385" y="176" width="670" height="681" key="search.everywhere.popup" timestamp="1605754189522">
-      <screen x="0" y="23" width="1440" height="834" />
+    <state x="385" y="175" width="670" height="678" key="search.everywhere.popup" timestamp="1606112126246">
+      <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.825@0.23.1440.825" timestamp="1603690365119" />
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.826@0.23.1440.826" timestamp="1602725328259" />
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.827@0.23.1440.827" timestamp="1603707949522" />
     <state x="385" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.828@0.23.1440.828" timestamp="1604914139112" />
     <state x="385" y="175" width="670" height="678" key="search.everywhere.popup/0.23.1440.829@0.23.1440.829" timestamp="1604492057911" />
-    <state x="385" y="175" width="670" height="678" key="search.everywhere.popup/0.23.1440.830@0.23.1440.830" timestamp="1604633359249" />
+    <state x="385" y="175" width="670" height="678" key="search.everywhere.popup/0.23.1440.830@0.23.1440.830" timestamp="1606112126246" />
     <state x="385" y="176" width="670" height="681" key="search.everywhere.popup/0.23.1440.834@0.23.1440.834" timestamp="1605754189522" />
     <state x="450" y="357" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1604287023895">
       <screen x="0" y="23" width="1440" height="826" />
@@ -881,13 +851,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/admin/data/data.go</url>
-          <line>14</line>
+          <line>31</line>
           <option name="timeStamp" value="668" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/appNamespace.go</url>
-          <line>13</line>
-          <option name="timeStamp" value="669" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/admin/data/item.go</url>
@@ -905,69 +870,24 @@
           <option name="timeStamp" value="672" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>49</line>
-          <option name="timeStamp" value="680" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/item.go</url>
-          <line>38</line>
-          <option name="timeStamp" value="681" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>58</line>
-          <option name="timeStamp" value="682" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>65</line>
-          <option name="timeStamp" value="685" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>50</line>
-          <option name="timeStamp" value="692" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>53</line>
-          <option name="timeStamp" value="693" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>98</line>
-          <option name="timeStamp" value="694" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/portal/main.go</url>
-          <line>10</line>
-          <option name="timeStamp" value="747" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/services/app_namespace.go</url>
           <line>30</line>
           <option name="timeStamp" value="757" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
-          <line>156</line>
-          <option name="timeStamp" value="764" />
+          <url>file://$PROJECT_DIR$/internal/app/admin/data/data.go</url>
+          <line>68</line>
+          <option name="timeStamp" value="776" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
-          <line>46</line>
-          <option name="timeStamp" value="765" />
+          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/data.go</url>
+          <line>36</line>
+          <option name="timeStamp" value="777" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
-          <line>83</line>
-          <option name="timeStamp" value="766" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/release_message.go</url>
-          <line>157</line>
-          <option name="timeStamp" value="768" />
+          <url>file://$PROJECT_DIR$/internal/app/admin/data/data.go</url>
+          <line>65</line>
+          <option name="timeStamp" value="778" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

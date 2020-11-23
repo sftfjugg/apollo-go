@@ -23,7 +23,7 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace, laneName string) (*models.ConfigResponse, error) {
 	m := make(map[string]string, 0)
 	configResponse := new(models.ConfigResponse)
-	//查询默认集群配置下的非泳道配置
+	//查询默认集群配置下的非泳道配置(公共)
 	configsGlobal, err := s.repository.FindGlobalConfig(namespace, "default", "default")
 	if err != nil {
 		return nil, errors.Wrap(err, "find config names failed")
@@ -38,9 +38,9 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace, la
 			m[k] = config[k]
 		}
 	}
-	//如果不是默认集群，则查找自己集群下的配置并覆盖默认集群下的配置
+	//如果不是默认集群，则查找自己集群下的配置并覆盖默认集群下的配置（公共）
 	if cluster != "default" {
-		configsGlobal, err := s.repository.FindGlobalConfig(namespace, cluster, laneName)
+		configsGlobal, err := s.repository.FindGlobalConfig(namespace, cluster, "default")
 		if err != nil {
 			return nil, errors.Wrap(err, "find config names failed")
 		}
@@ -55,7 +55,7 @@ func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace, la
 			}
 		}
 	}
-	//查询自己集群下的灰度配置
+	//查询自己集群下的灰度配置（公共）
 	configsLane, err := s.repository.FindGlobalConfig(namespace, cluster, laneName)
 	if err != nil {
 		return nil, errors.Wrap(err, "find config names failed")

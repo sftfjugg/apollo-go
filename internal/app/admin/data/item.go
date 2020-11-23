@@ -15,13 +15,11 @@ func Item(db1 *gorm.DB, db2 *gorm.DB) {
 		appNamespace := new(models.AppNamespace)
 		db1.Raw("select AppId,ClusterName,NamespaceName Name from Namespace where IsDeleted=0 and Id=?;", item[i].NamespaceId).Scan(&appNamespace)
 		if appNamespace.AppId == "" {
-			fmt.Println("item导入失败，失败原因无法查询到旧的AppId")
-			fmt.Print(item)
+			log.Info("修改公共配置成功:" + fmt.Sprint(item[i]))
 		}
 		db2.Raw("select Id from AppNamespace where IsDeleted=0 and AppId=? and ClusterName=? and Name=?;", appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name).Scan(&appNamespace)
 		if appNamespace.Id == 0 {
-			fmt.Println("item导入失败，失败原因无法查询到新的Id")
-			fmt.Print(item)
+			log.Error("修改公共配置失败:" + fmt.Sprint(item[i]))
 		}
 		item[i].NamespaceId = appNamespace.Id
 		item[i].Id = 0
@@ -34,13 +32,11 @@ func Item(db1 *gorm.DB, db2 *gorm.DB) {
 		db := db2.Begin()
 		if err := db.Create(item[i]).Error; err != nil {
 			db.Rollback()
-			fmt.Println("item导入失败，失败原因无法insert")
-			fmt.Print(item[i])
+			log.Error("修改公共配置失败:" + fmt.Sprint(item[i]))
 		}
 		db.Commit()
-		fmt.Println("item导入成功")
-		fmt.Print(item[i])
+		log.Info("修改公共配置成功:" + fmt.Sprint(item[i]))
 	}
-	fmt.Println("AppNamespaceId end")
+	log.Info("AppNamespaceId end")
 
 }

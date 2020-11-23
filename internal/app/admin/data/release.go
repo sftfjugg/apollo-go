@@ -17,16 +17,15 @@ func Release(db1 *gorm.DB, db2 *gorm.DB) {
 		release[i].DataChange_LastTime = time.Now()
 		release[i].IsDeleted = false
 		release[i].IsAbandoned = false
+		release[i].LaneName = "default"
 		db := db2.Begin()
 		if err := db.Create(release[i]).Error; err != nil {
 			db.Rollback()
-			fmt.Println("release导入失败，失败原因无法insert")
-			fmt.Print(release[i])
+			log.Error("修改公共配置成功:" + fmt.Sprint(release[i]))
 		}
 		db.Commit()
-		fmt.Println("release导入成功")
-		fmt.Print(release[i])
+		log.Info("修改公共配置成功:" + fmt.Sprint(release[i]))
 	}
-	fmt.Println("AppNamespaceId successed")
+	log.Info("AppNamespaceId successed")
 
 }

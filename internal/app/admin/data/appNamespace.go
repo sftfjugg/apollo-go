@@ -21,7 +21,7 @@ func AppNamespace(db1 *gorm.DB, db2 *gorm.DB) {
 		appNamespace[i].IsDeleted = false
 		appNamespace[i].IsPublic = false
 		if appNamespace[i].ClusterName == "default" {
-			appNamespace[i].LaneName = "主版本"
+			appNamespace[i].LaneName = "default"
 		} else {
 			appNamespace[i].LaneName = appNamespace[i].ClusterName
 		}
@@ -31,13 +31,11 @@ func AppNamespace(db1 *gorm.DB, db2 *gorm.DB) {
 			appNamespace[i].Format = "业务"
 		}
 		if err := db.Create(appNamespace[i]).Error; err != nil {
-			fmt.Println("appNamespace倒入失败")
-			fmt.Print(appNamespace[i])
+			log.Info("修改公共配置成功:" + fmt.Sprint(appNamespace[i]))
 			db.Rollback()
 		}
-		fmt.Println("倒入成功")
-		fmt.Print(appNamespace[i])
+		log.Info("倒入成功" + fmt.Sprint(appNamespace[i]))
 		db.Commit()
 	}
-	fmt.Println("ReleaseMessage successed")
+	log.Info("ReleaseMessage successed")
 }

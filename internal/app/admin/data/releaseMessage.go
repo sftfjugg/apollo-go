@@ -18,13 +18,11 @@ func ReleaseMessage(db1 *gorm.DB, db2 *gorm.DB) {
 		db := db2.Begin()
 		if err := db.Create(releaseMessage[i]).Error; err != nil {
 			db.Rollback()
-			fmt.Println("releaseMessage倒入失败，失败原因无法insert")
-			fmt.Println(releaseMessage[i])
+			log.Error("修改公共配置失败:" + fmt.Sprint(releaseMessage[i]))
 		}
 		db.Commit()
-		fmt.Println("releaseMessage倒入成功")
-		fmt.Println(releaseMessage[i])
+		log.Error("修改公共配置成功:" + fmt.Sprint(releaseMessage[i]))
 	}
-	fmt.Println("ReleaseMessage successed")
+	log.Info("ReleaseMessage successed")
 
 }

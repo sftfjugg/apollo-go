@@ -10,6 +10,7 @@ type ReleaseHistory struct {
 	AppId                     string    `gorm:"column:AppId" json:"app_id" form:"app_id"`
 	ClusterName               string    `gorm:"column:ClusterName" json:"cluster_name" form:"cluster_name"`
 	NamespaceName             string    `gorm:"column:NamespaceName" json:"namespace_name" form:"namespace_name"`
+	LaneName                  string    `gorm:"column:LaneName" json:"lane_name" form:"lane_name"`
 	BranchName                string    `gorm:"column:BranchName" json:"branch_name" form:"branch_name"` //保留字段，暂时为普通发布，灰度发布，灰度全量发布
 	ReleaseId                 uint64    `gorm:"column:ReleaseId" json:"release_id" form:"release_id"`
 	PreviousReleaseId         uint64    `gorm:"column:PreviousReleaseId" json:"previous_release_id" form:"previous_release_id"`
