@@ -44,7 +44,9 @@ func (s consulService) FindAddress(name string) ([]*models.Consul, error) {
 		consul := new(models.Consul)
 		consul.AppName = services[s].Service.Service
 		ip := services[s].Service.Address
-		if ip != "" || name == "apollo-plus-configservice" || name == "apollo-plus-admin-service" {
+
+		//|| name == "apollo-plus-admin-service"本地需加
+		if ip != "" || name == "apollo-plus-configservice" {
 			if ip == "" {
 				appJuno := juno.GetParams()
 				ip = appJuno.Addr + ":" + string(appJuno.Port)

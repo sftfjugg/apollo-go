@@ -70,14 +70,18 @@ func UpadteDate(dbs2 string) {
 	}
 
 	if err := db2.Exec("update `Release` set LaneName='default'").Error; err != nil {
-		log.Error("修改公共配置失败:")
+		log.Error("修改发布失败")
 	}
 	log.Info("修改公共配置成功:")
 	if err := db2.Exec("Delete from `AppNamespace` where ClusterName!='default'").Error; err != nil {
-		log.Error("修改公共配置失败:")
+		log.Error("删除灰度配置失败")
 	}
 	log.Info("修改公共配置成功:")
 	if err := db2.Exec("update `AppNamespace` set LaneName='default'").Error; err != nil {
+		log.Error("修改配置失败:")
+	}
+	log.Info("修改历史置成功:")
+	if err := db2.Exec("update `ReleaseHistory` set LaneName='default'").Error; err != nil {
 		log.Error("修改公共配置失败:")
 	}
 	log.Info("修改公共配置成功:")
