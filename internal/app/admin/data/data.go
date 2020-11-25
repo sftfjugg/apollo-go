@@ -9,10 +9,10 @@ import (
 )
 
 //data包只是在老版本与新版本apollo数据迁移过程中使用，不需要进行代码检查
-var dsn1 = "dida_plat:4yh4BhbPfwm@tcp(192.168.200.1:3026)/dida_apollo_config?charset=utf8mb4&parseTime=True&loc=Local"
+var dsn1 = "dida_fi_db_account:10uRngklzbthAqnzgynn@tcp(192.168.201.202:3308)/dida_apollo_config?charset=utf8mb4&parseTime=True&loc=Local"
 
 //需要导入的mysql
-var dsn2 = "dida_plat:4yh4BhbPfwm@tcp(192.168.200.1:3026)/dida_apollo_plus_config?charset=utf8mb4&parseTime=True&loc=Local"
+var dsn2 = "dida_fi_db_account:10uRngklzbthAqnzgynn@tcp(192.168.201.202:3308)/dida_apollo_plus_config?charset=utf8mb4&parseTime=True&loc=Local"
 
 //
 var log, _ = zap.NewDevelopment()

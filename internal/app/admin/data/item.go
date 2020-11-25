@@ -17,7 +17,7 @@ func Item(db1 *gorm.DB, db2 *gorm.DB) {
 		if appNamespace.AppId == "" {
 			log.Info("修改公共配置成功:" + fmt.Sprint(item[i]))
 		}
-		db2.Raw("select Id from AppNamespace where IsDeleted=0 and AppId=? and ClusterName=? and Name=?;", appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name).Scan(&appNamespace)
+		db2.Raw("select Id from AppNamespace where IsDeleted=0 and AppId=? and ClusterName=? and Name=? and LaneName=?;", appNamespace.AppId, appNamespace.ClusterName, appNamespace.Name, "default").Scan(&appNamespace)
 		if appNamespace.Id == 0 {
 			log.Error("修改公共配置失败:" + fmt.Sprint(item[i]))
 		}

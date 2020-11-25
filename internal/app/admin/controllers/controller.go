@@ -49,7 +49,7 @@ func InitControllersFn(
 			r.GET("/release_history", releaseHistoryController.Find)
 		}
 		{
-			//	r.POST("/import_data", dataController.ImportDate) //导数据
+			r.POST("/import_data", dataController.ImportDate) //导数据
 			r.POST("/update_data", dataController.UpdateDate) //导数据
 		}
 		{

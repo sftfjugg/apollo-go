@@ -63,9 +63,10 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 	itemsSave := make([]*models.Item, 0) //需要新增，修改，删除的
 	for _, t := range texts {            //第一次循环将新增修改的添加itemsSave并剔除于m，使m中只留下需要删除的
 		if strings.Count(t, "=") >= 1 {
-			k := strings.Split(t, "=")
-			key := strings.Trim(k[0], " ")
-			value := strings.Trim(k[1], " ")
+
+			k := strings.Index(t, "=")
+			key := strings.Trim(t[0:k], " ")
+			value := strings.Trim(t[k+1:len(t)], " ")
 			if key != "" {
 				if _, ok := m[key]; ok {
 					i := m[key]
