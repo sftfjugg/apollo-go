@@ -3,10 +3,25 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"go.didapinche.com/foundation/agollo"
 )
 
+func test() (errs error) {
+	defer func() {
+		if err := recover(); err != nil {
+			errs = errors.New("test")
+		}
+	}()
+
+	a := 1
+	a++
+	fmt.Println("start")
+	panic("Big Error")
+	fmt.Println("stop")
+	return nil
+}
 func main() {
 
 	//idc := os.Getenv("IDC")
@@ -30,10 +45,10 @@ func main() {
 	//	viper.Set("apollo.backupConfigPath", configPath)
 	//}
 
-	viper.Set("apollo.appId", "apollo-test")
-	viper.Set("apollo.ip", "http://apollo-meta.didapinche.com")
-	viper.Set("apollo.cluster", "22")
-	viper.Set("apollo.namespaceName", "application,test,bigdata.test")
+	//viper.Set("apollo.appId", "apollo-test")
+	//viper.Set("apollo.meta", "http://10.10.30.74:9090")
+	//viper.Set("apollo.cluster", "default")
+	//viper.Set("apollo.namespaceName", "application,test,bigdata.test")
 	viper.SetConfigName("configs/app")
 	viper.AddConfigPath("./")
 	err := viper.ReadInConfig()

@@ -169,3 +169,9 @@ CREATE TABLE `ServerConfig` (
 
 
 
+
+USE dida_apollo_plus_config;
+update `Release` set LaneName='default';
+update `ReleaseHistory` set LaneName='default';
+delete from AppNamespace where ClusterName!='default';
+select * from ReleaseMessage where Message='public_global_config+default+server.configure.dev';

@@ -9,7 +9,7 @@ import (
 )
 
 type NotificationMessageService interface {
-	CompareV(appid, cluster, notifications string) ([]*models.Notification, error)
+	CompareV(appid, cluster, notifications, lane string) ([]*models.Notification, error)
 }
 
 type notificationMessageService struct {
@@ -20,7 +20,7 @@ func NewNotificationMessageService() NotificationMessageService {
 }
 
 //监视配置文件是否改变
-func (s notificationMessageService) CompareV(appid, cluster, notifications string) ([]*models.Notification, error) {
+func (s notificationMessageService) CompareV(appid, cluster, notifications, lane string) ([]*models.Notification, error) {
 	tempMap := make([]map[string]interface{}, 0)
 	params := make([]*models.Notification, 0) //返回值为了匹配客户端使用数组，但是数组中只有一组数据
 	err := json.Unmarshal([]byte(notifications), &tempMap)
@@ -30,10 +30,16 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications strin
 	max := make([]float64, 0)
 	key := make([]string, 0)
 	keys := make([]string, 0)
+
 	for i := range tempMap {
 		namespaceName := tempMap[i]["namespaceName"].(string)
 		max = append(max, tempMap[i]["notificationId"].(float64))
-		key = append(key, appid+"+"+cluster+"+"+namespaceName)                    //自身配置对比
+		if lane == "default" {
+			key = append(key, appid+"+"+cluster+"+"+namespaceName) //自身配置对比
+		} else {
+			key = append(key, appid+lane+"+"+cluster+"+"+namespaceName) //泳道自身配置对比
+		}
+		//	key = append(key, appid+"+"+cluster+"+"+namespaceName)                    //自身配置对比
 		keys = append(keys, "public_global_config"+"+"+cluster+"+"+namespaceName) //公共配置对比
 	}
 

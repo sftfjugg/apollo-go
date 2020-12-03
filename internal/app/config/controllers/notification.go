@@ -27,11 +27,11 @@ func (ctl NotificationController) PollNotification(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	if param.Lane != "" && param.Lane != "default" {
-		param.AppId = param.AppId + param.Lane
+	if param.Lane == "" {
+		param.Lane = "default"
 	}
 	//c.String(address.StatusNotModified,"")
-	notifications, err := ctl.service.CompareV(param.AppId, param.Cluster, param.Notifications)
+	notifications, err := ctl.service.CompareV(param.AppId, param.Cluster, param.Notifications, param.Lane)
 	if err != nil {
 		c.String(http.StatusBadRequest, "CompareV failed:%v", err)
 		return

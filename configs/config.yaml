@@ -2,7 +2,7 @@ app:
   id: apollo-plus-configservice
 db:
   url:   "plat:mTAerlrufO@tcp(192.168.1.205:3600)/dida_apollo_plus_config?charset=utf8mb4&parseTime=True&loc=Local"
-  debug: true
+  debug: false
 log:
   filename:  logs/server.log
   maxSize: 500
