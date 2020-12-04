@@ -9,3 +9,8 @@ type Notification struct {
 type Messages struct {
 	Details map[string]int `json:"details"`
 }
+
+type Version struct {
+	Max   float64
+	Index int
+}

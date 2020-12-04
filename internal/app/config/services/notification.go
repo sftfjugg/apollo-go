@@ -27,20 +27,23 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications, lane
 	if err != nil {
 		return nil, errors.Wrap(err, "json bind failed")
 	}
-	max := make([]float64, 0)
-	key := make([]string, 0)
-	keys := make([]string, 0)
 
+	mav := make(map[string]models.Version)
 	for i := range tempMap {
 		namespaceName := tempMap[i]["namespaceName"].(string)
-		max = append(max, tempMap[i]["notificationId"].(float64))
-		if lane == "default" {
-			key = append(key, appid+"+"+cluster+"+"+namespaceName) //自身配置对比
-		} else {
-			key = append(key, appid+lane+"+"+cluster+"+"+namespaceName) //泳道自身配置对比
+		v := models.Version{Max: tempMap[i]["notificationId"].(float64), Index: i}
+		//这里添加6个监视，分别为默认配置，公共默认配置，如果存在非默认集群，添加非默认集群配置，非默认集群灰度配置，存在灰度则在添加2个
+		mav[appid+"+"+cluster+"+"+namespaceName] = v
+		mav["public_global_config"+"+"+cluster+"+"+namespaceName] = v
+		if cluster != "default" {
+			mav[appid+"+"+"default"+"+"+namespaceName] = v
+			mav["public_global_config"+"+"+"default"+"+"+namespaceName] = v
 		}
-		//	key = append(key, appid+"+"+cluster+"+"+namespaceName)                    //自身配置对比
-		keys = append(keys, "public_global_config"+"+"+cluster+"+"+namespaceName) //公共配置对比
+		if lane != "default" {
+			mav[appid+"+"+lane+"default"+"+"+namespaceName] = v
+			mav["public_global_config"+lane+"+"+cluster+"+"+namespaceName] = v
+		}
+
 	}
 
 	m := single_queue.GetV()
@@ -50,14 +53,9 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications, lane
 	defer ticker.Stop()
 loop:
 	for range ticker.C {
-		for i := range tempMap {
-			if float64(m[keys[i]]) > max[i] {
-				max[i] = float64(m[keys[i]])
-				typ = true
-				break loop
-			}
-			if float64(m[key[i]]) > max[i] {
-				max[i] = float64(m[key[i]])
+		for k, v := range mav {
+			if float64(m[k]) > v.Max {
+				tempMap[v.Index]["notificationId"] = float64(m[k])
 				typ = true
 				break loop
 			}
@@ -67,10 +65,11 @@ loop:
 			break loop
 		}
 	}
+
 	for i := range tempMap {
 		notification := new(models.Notification)
 		notification.NamespaceName = tempMap[i]["namespaceName"].(string)
-		notification.NotificationId = int(max[i])
+		notification.NotificationId = int(tempMap[i]["notificationId"].(float64))
 		message := new(models.Messages)
 		message.Details = make(map[string]int)
 		message.Details[notification.NamespaceName] = notification.NotificationId

@@ -79,21 +79,21 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	if err != nil {
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
+	//return s.CreatePublic(release, namespaceId, keys, releaseHistory)
+	//	return s.CreatePrivate(release, namespaceId, keys, releaseHistory)
+	releaseMessage := new(models.ReleaseMessage)
 	releaseHistory.OperationContext = string(operationContext)
 
 	if laneName == "default" {
-		return s.CreatePublic(release, namespaceId, keys, releaseHistory)
+		releaseHistory.BranchName = "普通发布"
+		releaseHistory.Operation = 0
+		releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+" + release.NamespaceName
 	} else {
-		return s.CreatePrivate(release, namespaceId, keys, releaseHistory)
+		releaseHistory.BranchName = "灰度发布"
+		releaseHistory.Operation = 1
+		releaseMessage.Message = release.AppId + release.LaneName + "+" + release.ClusterName + "+" + release.NamespaceName
 	}
 
-	return nil
-}
-
-//泳道发布
-func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceId string, keys []string, releaseHistory *models.ReleaseHistory) error {
-	releaseMessage := new(models.ReleaseMessage)
-	releaseMessage.Message = release.AppId + release.LaneName + "+" + release.ClusterName + "+" + release.NamespaceName
 	db := s.db.Begin()
 	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
 		db.Rollback()
@@ -103,15 +103,15 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 		db.Rollback()
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
-	var items = make([]*models.Item, 0)
+	var itemsRelease = make([]*models.Item, 0)
 	//查询的是未提交的事物内容，所以使用db在service层进行查询
-	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Find(&itemsRelease, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	m := make(map[string]string)
-	for i := range items {
-		m[items[i].Key] = items[i].ReleaseValue
+	for i := range itemsRelease {
+		m[itemsRelease[i].Key] = itemsRelease[i].ReleaseValue
 	}
 	config, err := json.Marshal(m)
 	if err != nil {
@@ -119,14 +119,12 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	release.Configurations = string(config)
-	releaseContext, err := json.Marshal(items)
+	releaseContext, err := json.Marshal(itemsRelease)
 	if err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "json.Marshal(items) error")
 	}
 	releaseHistory.ReleaseContext = string(releaseContext)
-	releaseHistory.BranchName = "灰度发布"
-	releaseHistory.Operation = 1
 	//删除以往配置
 	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName, release.LaneName); err != nil {
 		db.Rollback()
@@ -150,84 +148,7 @@ func (s releaseMessageService) CreatePrivate(release *models.Release, namespaceI
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	db.Commit()
-	return nil
-}
 
-//正常发布，正常发布分为正常发布和通过灰度进行全量发布
-func (s releaseMessageService) CreatePublic(release *models.Release, namespaceId string, keys []string, releaseHistory *models.ReleaseHistory) error {
-	appNamespaces, err := s.appNamespaceRepository.FindClusterNameByAppId(release.AppId)
-	if err != nil {
-		return errors.Wrap(err, "call appNamespaceRepository.FindClusterNameByAppId() error")
-	}
-	//通知所有泳道的数据库模型
-	releaseMessages := make([]*models.ReleaseMessage, 0)
-	messaages := make([]string, 0)
-	for i := range appNamespaces {
-		releaseMessage := new(models.ReleaseMessage)
-		appId := appNamespaces[i].AppId
-		if appNamespaces[i].LaneName != "default" {
-			appId = appNamespaces[i].AppId + appNamespaces[i].LaneName
-		}
-		releaseMessage.Message = appId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
-		messaages = append(messaages, releaseMessage.Message)
-		releaseMessages = append(releaseMessages, releaseMessage)
-	}
-	db := s.db.Begin()
-	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
-	}
-	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId, keys); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
-	}
-	var items = make([]*models.Item, 0)
-	if err := db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
-		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
-	}
-	m := make(map[string]string)
-	for _, i := range items {
-		if i.ReleaseValue != "" {
-			m[i.Key] = i.ReleaseValue
-		}
-	}
-	config, err := json.Marshal(m)
-	if err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call ItemRepository.Create() error")
-	}
-	release.Configurations = string(config)
-	releaseHistory.BranchName = "普通发布"
-	releaseHistory.Operation = 0
-	releaseContext, err := json.Marshal(items)
-	if err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "json.Marshal(items) error")
-	}
-	releaseHistory.ReleaseContext = string(releaseContext)
-	//先删除以前发布
-	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName, release.LaneName); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call releaseRepository.Delete() error")
-	}
-	//发布，保证只有一个发布
-	if err := s.releaseRepository.Create(db, release); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call releaseRepository.Create() error")
-	}
-	if err := s.releaseHistoryService.Create(db, releaseHistory); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call releaseHistoryService.Create() error")
-	}
-	if err := s.repository.DeleteByMessages(db, messaages); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call ItemRepository.DeleteByMessage() error")
-	}
-	if err := s.repository.Creates(db, releaseMessages); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call ItemRepository.Create() error")
-	}
-	db.Commit()
 	return nil
 }
 
@@ -321,23 +242,10 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 	for i, _ := range items {
 		items[i].Status = 1
 	}
-	appNamespaces, err := s.appNamespaceRepository.FindClusterNameByAppId(release.AppId)
-	if err != nil {
-		return errors.Wrap(err, "call appNamespaceRepository.FindClusterNameByAppId() error")
-	}
-	//通知所有泳道的数据库模型
-	releaseMessages := make([]*models.ReleaseMessage, 0)
-	messaages := make([]string, 0)
-	for i := range appNamespaces {
-		releaseMessage := new(models.ReleaseMessage)
-		appId := appNamespaces[i].AppId
-		if appNamespaces[i].LaneName != "default" {
-			appId = appNamespaces[i].AppId + appNamespaces[i].LaneName
-		}
-		releaseMessage.Message = appId + "+" + appNamespaces[i].ClusterName + "+" + release.NamespaceName
-		messaages = append(messaages, releaseMessage.Message)
-		releaseMessages = append(releaseMessages, releaseMessage)
-	}
+
+	//通知泳道
+	releaseMessage := new(models.ReleaseMessage)
+	releaseMessage.Message = appId + "+" + app.ClusterName + "+" + app.Name
 
 	db := s.db.Begin()
 	if err := s.itemRepository.Saves(db, items); err != nil {
@@ -366,6 +274,7 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
+
 	if err := s.releaseRepository.Delete(db, release.AppId, release.ClusterName, release.NamespaceName, release.LaneName); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Delete() error")
@@ -393,11 +302,11 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 		db.Rollback()
 		return errors.Wrap(err, "call releaseHistoryService.Create() error")
 	}
-	if err := s.repository.DeleteByMessages(db, messaages); err != nil {
+	if err := s.repository.DeleteByMessage(db, releaseMessage.Message); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.DeleteByMessage() error")
 	}
-	if err := s.repository.Creates(db, releaseMessages); err != nil {
+	if err := s.repository.Create(db, releaseMessage); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}

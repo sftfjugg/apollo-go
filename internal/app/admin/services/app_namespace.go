@@ -24,10 +24,11 @@ type AppNamespaceService interface {
 }
 
 type appNamespaceService struct {
-	db             *gorm.DB
-	repository     repositories.AppNamespaceRepository
-	itemRepository repositories.ItemRepisitory
-	itemService    ItemService
+	db                *gorm.DB
+	repository        repositories.AppNamespaceRepository
+	itemRepository    repositories.ItemRepisitory
+	itemService       ItemService
+	releaseRepository repositories.Release
 }
 
 func NewAppNamespaceService(
@@ -35,12 +36,14 @@ func NewAppNamespaceService(
 	itemRepository repositories.ItemRepisitory,
 	itemService ItemService,
 	repository repositories.AppNamespaceRepository,
+	releaseRepository repositories.Release,
 ) AppNamespaceService {
 	return &appNamespaceService{
-		db:             db,
-		itemRepository: itemRepository,
-		itemService:    itemService,
-		repository:     repository,
+		db:                db,
+		itemRepository:    itemRepository,
+		itemService:       itemService,
+		repository:        repository,
+		releaseRepository: releaseRepository,
 	}
 }
 
@@ -89,6 +92,10 @@ func (s appNamespaceService) CreateOrFindAppNamespace(appNamespace *models.AppNa
 }
 
 func (s appNamespaceService) DeleteById(id string) error {
+	app, err := s.repository.FindAppNamespaceById(id)
+	if err != nil {
+		return errors.Wrap(err, "call repository.FindAppNamespaceById() error")
+	}
 	db := s.db.Begin()
 	if err := s.itemRepository.DeleteByNamespaceId(db, id); err != nil {
 		db.Rollback()
@@ -98,11 +105,15 @@ func (s appNamespaceService) DeleteById(id string) error {
 		db.Rollback()
 		return errors.Wrap(err, "call AppNamespaceRepository.DeleteById() error")
 	}
+	if err := s.releaseRepository.Delete(db, app.AppId, app.ClusterName, app.Name, app.LaneName); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call releaseRepository.Delete() error")
+	}
 	db.Commit()
 	return nil
 }
 
-//删除配置文件和对应配置
+//删除配置文件和对应配置以及发布
 func (s appNamespaceService) DeleteByNameAndAppIdAndCluster(name, appId, cluster string) error {
 	namespaces, err := s.repository.FindAppNamespaceByAppIdAndName(appId, name)
 	if err != nil {
@@ -120,6 +131,10 @@ func (s appNamespaceService) DeleteByNameAndAppIdAndCluster(name, appId, cluster
 	if err := s.repository.DeleteByNameAndAppIdAndCluster(db, name, appId, cluster); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call repository.DeleteByNameAndAppIdAndCluster() error")
+	}
+	if err := s.releaseRepository.DeleteByName(db, appId, cluster, name); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call releaseRepository.DeleteByName error")
 	}
 	db.Commit()
 	return nil
