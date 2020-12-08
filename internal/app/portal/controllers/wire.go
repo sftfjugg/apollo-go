@@ -10,4 +10,5 @@ var ProviderSet = wire.NewSet(
 	InitControllersFn,
 	NewItemController,
 	NewReleaseHistoryController,
+	NewRoleController,
 	NewReleaseController)

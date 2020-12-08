@@ -10,6 +10,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/address"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/controllers"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zservice"
@@ -58,7 +59,17 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	appService := services.NewAppService(tChanLimosService, tChanUicService)
+	dbOptions, err := db.NewOptions(viper)
+	if err != nil {
+		return nil, err
+	}
+	gormDB, err := db.New(dbOptions, logger)
+	if err != nil {
+		return nil, err
+	}
+	roleRepository := repositories.NewRoleReposotory(gormDB)
+	roleService := services.NewRoleService(roleRepository, gormDB)
+	appService := services.NewAppService(tChanLimosService, tChanUicService, roleService)
 	appController := controllers.NewAppController(appService)
 	uicOptions := uic.NewOptions(viper)
 	api, err := uic.NewApi(uicOptions, logger, tChanUicService)
@@ -73,9 +84,10 @@ func CreateApp(cf string) (*app.Application, error) {
 	itemController := controllers.NewItemController(itemService)
 	releaseService := services.NewReleaseService(httpClient)
 	releaseController := controllers.NewReleaseController(releaseService)
+	roleController := controllers.NewRoleController(roleService)
 	releaseHistoryService := services.NewReleaseHistoryService(httpClient)
 	releaseHistoryController := controllers.NewReleaseHistoryController(releaseHistoryService)
-	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, releaseHistoryController)
+	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, roleController, releaseHistoryController)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err
@@ -105,4 +117,4 @@ func CreateApp(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, repositories.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet)

@@ -7,6 +7,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/address"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/controllers"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zservice"
@@ -27,6 +28,7 @@ var providerSet = wire.NewSet(
 	zeus.ProviderSet,
 	zclients.ProviderSet,
 	services.ProviderSet,
+	repositories.ProviderSet,
 	controllers.ProviderSet,
 	address.ProviderSet,
 	http.ProviderSet,

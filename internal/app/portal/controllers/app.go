@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
-	"strconv"
 )
 
 type AppController struct {
@@ -15,6 +14,27 @@ func NewAppController(appService services.AppService) *AppController {
 	return &AppController{service: appService}
 }
 
+//验证编辑权限
+func (ctl AppController) FindAuth(c *gin.Context) {
+	userId, _ := c.Get("UserID")
+	appId := c.GetHeader("AppId")
+	i, err := ctl.service.FindAuth(appId, userId.(string))
+	if err != nil {
+		c.String(http.StatusForbidden, "call app.FindAuth failed:%v", err)
+		return
+	}
+	param := new(struct {
+		Level int `json:"level"`
+	})
+	param.Level = i
+	c.JSON(http.StatusOK, param)
+}
+
+//验证发布权限
+
+//验证授权权限
+
+//查看所有分组
 func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {
 
 	groups, err := ctl.service.FindGroupsOfDevelopment()
@@ -25,9 +45,11 @@ func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {
 	c.JSON(http.StatusOK, groups)
 }
 
+//查看limos所有项目
 func (ctl AppController) FindLimosAppForPage(c *gin.Context) {
 	param := new(struct {
 		Name     string `form:"name"`
+		Owner    string `form:"owner"`
 		PageNum  int32  `form:"page_num"`
 		PageSize int32  `form:"page_size"`
 	})
@@ -35,7 +57,7 @@ func (ctl AppController) FindLimosAppForPage(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	apps, err := ctl.service.FindLimosAppForPage(param.Name, param.PageSize, param.PageNum)
+	apps, err := ctl.service.FindLimosAppForPage(param.Name, param.Owner, param.PageSize, param.PageNum)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppForPage() error:%v", err)
 		return
@@ -43,6 +65,7 @@ func (ctl AppController) FindLimosAppForPage(c *gin.Context) {
 	c.JSON(http.StatusOK, apps)
 }
 
+//获得所有用户
 func (ctl AppController) GetAllUsers(c *gin.Context) {
 	param := new(struct {
 		Name string `form:"name"`
@@ -57,37 +80,4 @@ func (ctl AppController) GetAllUsers(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, names)
-}
-
-func (ctl AppController) FindLimosAppById(c *gin.Context) {
-	param := new(struct {
-		AppId int64 `form:"app_id""`
-	})
-	if err := c.Bind(param); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	app, err := ctl.service.FindLimosAppById(param.AppId)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, app)
-}
-
-func (ctl AppController) FindAuth(c *gin.Context) {
-
-	id := c.GetHeader("AppId")
-	Name := c.GetHeader("UserName")
-	appId, err := strconv.ParseInt(id, 10, 64)
-	auth, err := ctl.service.FindAuth(appId, Name)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "call AppService.FindLimosAppById() error:%v", err)
-		return
-	}
-	if !auth {
-		c.AbortWithStatus(http.StatusForbidden)
-		c.String(http.StatusForbidden, "call AppService.FindLimosAppById() error:%v")
-		return
-	}
 }

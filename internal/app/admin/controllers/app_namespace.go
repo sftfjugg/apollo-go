@@ -93,6 +93,25 @@ func (ctl AppNamespaceController) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, appNamespace)
 }
 
+func (ctl AppNamespaceController) UpdateIsDisply(c *gin.Context) {
+	appNamespace := new(models.AppNamespace)
+	if err := c.Bind(appNamespace); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+		return
+	}
+	appNamespace.DataChange_LastModifiedBy = userId
+	if err := ctl.service.UpdateIsDisply(appNamespace); err != nil {
+		c.String(http.StatusBadRequest, "UpdateIdDisply.Update error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, appNamespace)
+}
+
 func (ctl AppNamespaceController) DeleteById(c *gin.Context) {
 	appId := c.Query("id")
 	if err := ctl.service.DeleteById(appId); err != nil {
@@ -164,6 +183,22 @@ func (ctl AppNamespaceController) FindAllClusterNameByAppId(c *gin.Context) {
 	clusters, err := ctl.service.FindAllClusterNameByAppId(param.AppId)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAllClusterNameByAppId error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, clusters)
+}
+
+func (ctl AppNamespaceController) FindByLaneName(c *gin.Context) {
+	param := new(struct {
+		Lane string `form:"lane" json:"lane"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	clusters, err := ctl.service.FindByLaneName(param.Lane)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindByLaneName error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, clusters)

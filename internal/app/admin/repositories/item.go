@@ -198,7 +198,7 @@ func (r itemRepisitory) FindItemByAppIdAndKey(appId, cluster, key, format, comme
 	if cluster != "" {
 		cluster = "and A.ClusterName='" + cluster + "'  "
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+cluster+"", "%"+key+"%", appId).Scan(&items).Error; err != nil {
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.DeptName,A.IsDisplay,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+cluster+"", "%"+key+"%", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	return items, nil
@@ -212,7 +212,7 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, format string, pageSi
 	if cluster != "" {
 		cluster = "and A.ClusterName='" + cluster + "'  "
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return items, nil

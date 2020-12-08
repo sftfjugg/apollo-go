@@ -20,8 +20,10 @@ func InitControllersFn(
 			r.POST("/app_namespace", appNamespaceController.Create)
 			r.POST("/app_namespace/create_or_find", appNamespaceController.CreateOrFindAppNamespace)
 			r.PUT("/app_namespace", appNamespaceController.Update)
+			r.PUT("/app_namespace_is_dispaly", appNamespaceController.UpdateIsDisply)
 			r.GET("/app_namespace", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
 			r.GET("/app_namespace_all", appNamespaceController.FindAppNamespace)
+			r.GET("/app_by_lane", appNamespaceController.FindByLaneName)
 			r.DELETE("/app_namespace", appNamespaceController.DeleteById)
 			r.DELETE("/app_namespace_by_name", appNamespaceController.DeleteByNameAndAppIdAndCluster)
 		}
@@ -48,10 +50,10 @@ func InitControllersFn(
 		{
 			r.GET("/release_history", releaseHistoryController.Find)
 		}
-		{
-			r.POST("/import_data", dataController.ImportDate) //导数据
-			r.POST("/update_data", dataController.UpdateDate) //导数据
-		}
+		//{
+		//	r.POST("/import_data", dataController.ImportDate) //导数据
+		//	r.POST("/update_data", dataController.UpdateDate) //导数据
+		//}
 		{
 			r.POST("/health", dataController.Health)
 			r.GET("/health", dataController.Health)

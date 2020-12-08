@@ -85,6 +85,23 @@ func (ctl AppNamespaceController) Update(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
+func (ctl AppNamespaceController) UpdateIsDisply(c *gin.Context) {
+	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	if UserID.(string) == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
+		return
+	}
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	c.Request.AddCookie(cookie)
+	r, err := ctl.service.UpdateIsDisply(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.UpdateIdDisply run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
 func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.Context) {
 	env := c.Param("env")
 	r, err := ctl.service.FindAppNamespaceByAppIdAndClusterName(env, c.Request)
@@ -109,6 +126,16 @@ func (ctl AppNamespaceController) FindAllClusterNameByAppId(c *gin.Context) {
 	r, err := ctl.service.FindAllClusterNameByAppId(c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAllClusterNameByAppId run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
+func (ctl AppNamespaceController) FindByLaneName(c *gin.Context) {
+	env := c.Param("env")
+	r, err := ctl.service.FindByLaneName(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindByLaneName run failed:%v", err)
 		return
 	}
 	c.Data(r.Code, r.ContentType, r.Data)

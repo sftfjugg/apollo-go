@@ -18,6 +18,8 @@ type Item struct {
 	ClusterName               string    `gorm:"column:ClusterName" json:"cluster_name" form:"cluster_name"` //灰度使用
 	LaneName                  string    `gorm:"column:LaneName" json:"lane_name" form:"lane_name"`
 	NamespaceId               uint64    `gorm:"column:NamespaceId" json:"namespace_id" form:"namespace_id"`
+	DeptName                  string    `gorm:"column:DeptName" json:"dept_name" form:"dept_name"`
+	IsDisplay                 bool      `gorm:"column:IsDisplay" json:"is_display" form:"is_display"`
 	Key                       string    `gorm:"column:Key" json:"key" form:"value"`
 	Value                     string    `gorm:"column:Value" json:"value" form:"value"`
 	ReleaseValue              string    `gorm:"column:ReleaseValue" json:"release_value" form:"release_value"`

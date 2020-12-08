@@ -12,6 +12,7 @@ type AppNamespaceRepository interface {
 	DeleteById(db *gorm.DB, id string) error
 	DeleteByNameAndAppIdAndCluster(db *gorm.DB, name, appId, cluster string) error
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
+	UpdateIsDisply(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceById(id string) (*models.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appId, clusterName, laneName, name string) (*models.AppNamespace, error)
@@ -19,6 +20,7 @@ type AppNamespaceRepository interface {
 	FindAppNamespaceByAppIdAndName(appId, name string) ([]*models.AppNamespace, error)
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 	FindAllClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
+	FindByLaneName(lane string) ([]*models.AppNamespace, error)
 }
 
 type appNamespaceRepository struct {
@@ -63,6 +65,14 @@ func (r appNamespaceRepository) Update(db *gorm.DB, appNamespace *models.AppName
 	return nil
 }
 
+func (r appNamespaceRepository) UpdateIsDisply(db *gorm.DB, appNamespace *models.AppNamespace) error {
+	appNamespace.DataChange_LastTime = time.Now()
+	if err := db.Table(models.AppNamespaceTableName).Where("Name=? and AppId=? and ClusterName=?", appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Update("IsDisplay", appNamespace.IsDisplay).Error; err != nil {
+		return errors.Wrap(err, "update appNamespace error")
+	}
+	return nil
+}
+
 func (r appNamespaceRepository) FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
 	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and ClusterName=?  and IsDeleted=0", appId, clusterName).Error; err != nil {
@@ -74,7 +84,7 @@ func (r appNamespaceRepository) FindAppNamespaceByAppIdAndClusterName(appId, clu
 func (r appNamespaceRepository) FindAppNamespaceById(id string) (*models.AppNamespace, error) {
 	appNamespace := new(models.AppNamespace)
 	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "Id=?  and IsDeleted=0", id).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppNamespaceByAppIdAndClusterName appNamespace error")
+		return nil, errors.Wrap(err, "FindAppNamespaceById appNamespace error")
 	}
 	return appNamespace, nil
 }
@@ -82,7 +92,7 @@ func (r appNamespaceRepository) FindAppNamespaceById(id string) (*models.AppName
 func (r appNamespaceRepository) FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appId, clusterName, laneName, name string) (*models.AppNamespace, error) {
 	appNamespace := new(models.AppNamespace)
 	if err := r.db.Table(models.AppNamespaceTableName).First(&appNamespace, "AppId=? and ClusterName=? and name=? and laneName=?  and IsDeleted=0", appId, clusterName, name, laneName).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
-		return nil, errors.Wrap(err, "FindOneAppNamespaceByAppIdAndClusterName appNamespace error")
+		return nil, errors.Wrap(err, "FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane appNamespace error")
 	}
 	return appNamespace, nil
 }
@@ -97,7 +107,7 @@ func (r appNamespaceRepository) FindAppNamespace(appId, cluster, format string) 
 	}
 	appNamespaces := make([]*models.AppNamespace, 0)
 	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0 "+format+cluster+" ", appId).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
+		return nil, errors.Wrap(err, "FindAppNamespace appNamespace error")
 	}
 	return appNamespaces, nil
 }
@@ -106,7 +116,7 @@ func (r appNamespaceRepository) FindAppNamespace(appId, cluster, format string) 
 func (r appNamespaceRepository) FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
 	if err := r.db.Raw("select * from AppNamespace where AppId=? and IsDeleted=0;", appId).Scan(&appNamespaces).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppNamespaceIsPublic appNamespace error")
+		return nil, errors.Wrap(err, "FindClusterNameByAppId appNamespace error")
 	}
 	return appNamespaces, nil
 }
@@ -114,7 +124,7 @@ func (r appNamespaceRepository) FindClusterNameByAppId(appId string) ([]*models.
 func (r appNamespaceRepository) FindAppNamespaceByAppIdAndName(appId, name string) ([]*models.AppNamespace, error) {
 	appNamespaces := make([]*models.AppNamespace, 0)
 	if err := r.db.Table(models.AppNamespaceTableName).Find(&appNamespaces, "AppId=? and IsDeleted=0 and Name=?", appId, name).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
+		return nil, errors.Wrap(err, "FindAppNamespaceByAppIdAndName appNamespace error")
 	}
 	return appNamespaces, nil
 }
@@ -125,7 +135,18 @@ func (r appNamespaceRepository) FindAllClusterNameByAppId(appId string) ([]*mode
 		appId = "and AppId=" + "'" + appId + "' "
 	}
 	if err := r.db.Raw(" select ClusterName FROM `AppNamespace`  WHERE IsDeleted=0 " + appId + "  group by ClusterName").Scan(&appNamespaces).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppNamespaceByAppId appNamespace error")
+		return nil, errors.Wrap(err, "FindAllClusterNameByAppId appNamespace error")
+	}
+	return appNamespaces, nil
+}
+
+func (r appNamespaceRepository) FindByLaneName(lane string) ([]*models.AppNamespace, error) {
+	appNamespaces := make([]*models.AppNamespace, 0)
+	if lane != "" {
+		lane = "and LaneName='" + lane + "'"
+	}
+	if err := r.db.Raw(" select * FROM `AppNamespace`  WHERE IsDeleted=0 " + lane).Scan(&appNamespaces).Error; err != nil {
+		return nil, errors.Wrap(err, "FindByLaneName appNamespace error")
 	}
 	return appNamespaces, nil
 }

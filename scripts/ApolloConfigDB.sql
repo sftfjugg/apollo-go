@@ -27,8 +27,10 @@ CREATE TABLE `AppNamespace` (
   `IsPublic` tinyint(1) NOT NULL DEFAULT b'0' COMMENT 'namespace是否为公共',
   `ClusterName` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'Cluster Name',
   `LaneName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '泳道名字',
+  `DeptName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '部门名字',
   `Comment` varchar(500) NOT NULL DEFAULT '' COMMENT '注释',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
+  `IsDisplay` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `IsRelease` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '0: 未发布, 1: 已发布',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人邮箱前缀',
   `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -174,5 +176,8 @@ USE dida_apollo_plus_config;
 select * from ReleaseMessage where Message='public_global_config+default+server.configure.dev';
 show databases;
 select * from `Release`;
+select * from AppNamespace where LaneName!='default';
 select * from ReleaseMessage;
-select * from ReleaseMessage;
+select * from AppNamespace;
+select * from AppNamespace;
+update AppNamespace set DeptName='default' where DeptName is null;

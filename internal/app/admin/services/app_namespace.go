@@ -17,10 +17,12 @@ type AppNamespaceService interface {
 	DeleteById(id string) error
 	DeleteByNameAndAppIdAndCluster(name, appId, cluster string) error
 	Update(appNamespace *models.AppNamespace) error
+	UpdateIsDisply(appNamespace *models.AppNamespace) error
 	FindAllClusterNameByAppId(appId string) ([]string, error)
 	FindAppNamespace(appId, cluster, format, comment string) ([]*models2.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appId, clusterName, laneName, name string) (*models.AppNamespace, error)
+	FindByLaneName(lane string) (*models2.AppPage, error)
 }
 
 type appNamespaceService struct {
@@ -60,9 +62,21 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 			return errors.New("公共配置名字不能叫做application，切必须位于公共配置中，暂不支持在其他项目建立公共配置")
 		}
 	}
+	if appNamespace.DeptName == "" {
+		dept, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appNamespace.AppId, appNamespace.ClusterName, "default", appNamespace.Name)
+		if err != nil {
+			return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+		}
+		if dept != nil && dept.DeptName != "" {
+			appNamespace.DeptName = dept.DeptName
+		} else {
+			appNamespace.DeptName = "default"
+		}
+	}
 	if appNamespace.Format == "" {
 		appNamespace.Format = "服务"
 	}
+
 	db := s.db.Begin()
 	if err := s.repository.Create(db, appNamespace); err != nil {
 		db.Rollback()
@@ -157,6 +171,16 @@ func (s appNamespaceService) Update(appNamespace *models.AppNamespace) error {
 	return nil
 }
 
+func (s appNamespaceService) UpdateIsDisply(appNamespace *models.AppNamespace) error {
+	db := s.db.Begin()
+	if err := s.repository.UpdateIsDisply(db, appNamespace); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call AppNamespaceRepository.UpdateIsDisply() error")
+	}
+	db.Commit()
+	return nil
+}
+
 func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error) {
 	appNamespaces, err := s.repository.FindAppNamespaceByAppIdAndClusterName(appId, clusterName)
 	if err != nil {
@@ -181,6 +205,8 @@ func (s appNamespaceService) FindAppNamespace(appId, cluster, format, comment st
 		appNamespace.IsPublic = false
 		appNamespace.Format = "服务"
 		appNamespace.LaneName = "default"
+		appNamespace.DeptName = "default"
+		appNamespace.IsDisplay = true
 		appNamespace.IsDeleted = false
 		if err := s.Create(appNamespace); err != nil {
 			return nil, errors.Wrap(err, "call appNamespace.Create() error")
@@ -209,6 +235,8 @@ func (s appNamespaceService) FindAppNamespace(appId, cluster, format, comment st
 				app.AppId = appNamespaces[i].AppId
 				app.ClusterName = appNamespaces[i].ClusterName
 				app.IsPublic = appNamespaces[i].IsPublic
+				app.DeptName = appNamespaces[i].DeptName
+				app.IsDisplay = appNamespaces[i].IsDisplay
 			}
 			namespace.Id = appNamespaces[i].Id
 			namespace.LaneName = appNamespaces[i].LaneName
@@ -243,4 +271,15 @@ func (s appNamespaceService) FindAllClusterNameByAppId(appId string) ([]string, 
 		names = append(names, n.ClusterName)
 	}
 	return names, nil
+}
+
+func (s appNamespaceService) FindByLaneName(lane string) (*models2.AppPage, error) {
+	apps, err := s.repository.FindByLaneName(lane)
+	if err != nil {
+		return nil, errors.Wrap(err, "call repository.FindByLaneName failed")
+	}
+	appPage := new(models2.AppPage)
+	appPage.Total = len(apps)
+	appPage.AppNamespaces = apps
+	return appPage, nil
 }

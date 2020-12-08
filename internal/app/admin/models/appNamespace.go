@@ -14,6 +14,8 @@ type AppNamespace struct {
 	AppId       string       `json:"app_id"`
 	Format      string       `json:"format"` //类型
 	IsPublic    bool         `json:"is_public"`
+	DeptName    string       `gorm:"column:DeptName" json:"dept_name" form:"dept_name"`
+	IsDisplay   bool         `gorm:"column:IsDisplay" json:"is_display" form:"is_display"`
 	ClusterName string       `json:"cluster_name"` //集群
 	Namespaces  []*Namespace `json:"namespaces"`
 }
@@ -41,4 +43,9 @@ func (m AppNamespaceSlice) Less(i, j int) bool {
 //3.Swap(i, j int) :Less(i, j int)返回true时进行交换
 func (m AppNamespaceSlice) Swap(i, j int) {
 	m[i], m[j] = m[j], m[i]
+}
+
+type AppPage struct {
+	AppNamespaces []*models.AppNamespace `json:"app_namespaces"`
+	Total         int                    `json:"total"`
 }

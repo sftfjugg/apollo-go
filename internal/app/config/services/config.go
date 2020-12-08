@@ -19,7 +19,7 @@ func NewConfigService(repository repositories.ConfigRepository) ConfigService {
 	return &configService{repository: repository}
 }
 
-//这里吃进行4次查询，先查询是否有公共配置，在查询公共配置的灰度，在查询自己对应配置，最后查询自己灰度
+//这里吃进行6次查询，先查询是否有公共配置，在查询公共配置的灰度，在查询自己对应配置，最后查询自己灰度
 func (s configService) FindConfigByAppIdandCluster(appId, cluster, namespace, laneName string) (*models.ConfigResponse, error) {
 	m := make(map[string]string, 0)
 	configResponse := new(models.ConfigResponse)

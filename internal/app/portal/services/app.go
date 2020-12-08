@@ -5,7 +5,6 @@ import (
 	"github.com/uber/tchannel-go"
 	"go.didapinche.com/goapi/plat_limos_rpc"
 	"go.didapinche.com/goapi/uic_service_api"
-	"strings"
 	"time"
 )
 
@@ -14,24 +13,26 @@ import (
 
 type AppService interface {
 	FindGroupsOfDevelopment() (*uic_service_api.Node, error)
-	FindLimosAppForPage(name string, pageSize, pageNum int32) (*plat_limos_rpc.AppsForPage, error)
+	FindLimosAppForPage(name, owner string, pageSize, pageNum int32) (*plat_limos_rpc.AppsForPage, error)
 	GetAllUsers(name string) ([]*uic_service_api.UserData, error)
-	FindLimosAppById(appID int64) (*plat_limos_rpc.App, error)
-	FindAuth(appId int64, name string) (bool, error)
+	FindAuth(appId, userId string) (int, error)
 }
 
 type appService struct {
 	limosService plat_limos_rpc.TChanLimosService
 	uicService   uic_service_api.TChanUicService
+	roleService  RoleService
 }
 
 func NewAppService(
 	limosService plat_limos_rpc.TChanLimosService,
 	uicService uic_service_api.TChanUicService,
+	roleService RoleService,
 ) AppService {
 	return &appService{
 		limosService: limosService,
 		uicService:   uicService,
+		roleService:  roleService,
 	}
 }
 
@@ -53,33 +54,29 @@ func (s appService) GetAllUsers(name string) ([]*uic_service_api.UserData, error
 	return names, nil
 }
 
-func (s appService) FindLimosAppForPage(name string, pageSize, pageNum int32) (*plat_limos_rpc.AppsForPage, error) {
+func (s appService) FindLimosAppForPage(name, owner string, pageSize, pageNum int32) (*plat_limos_rpc.AppsForPage, error) {
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
-	apps, err := s.limosService.FindAppForPage(ctx, name, "", "", "", "", 0, "all", pageSize, pageNum, "", 0)
+	apps, err := s.limosService.FindAppForPage(ctx, name, "", "", owner, "", 0, "all", pageSize, pageNum, "", 0)
 	if err != nil {
 		return nil, errors.Wrap(err, "call zclients uic.FindAppForPage() error")
 	}
 	return apps, nil
 }
 
-func (s appService) FindLimosAppById(appID int64) (*plat_limos_rpc.App, error) {
-	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
-	app, err := s.limosService.GetAppByID(ctx, appID)
-	if err != nil {
-		return nil, errors.Wrap(err, "call zclients uic.GetAppByID() error")
-	}
-	return app, nil
-}
+func (s appService) FindAuth(appId, userId string) (int, error) {
 
-func (s appService) FindAuth(appId int64, name string) (bool, error) {
-	app, err := s.FindLimosAppById(appId)
+	//验证owner权限
+	app, err := s.FindLimosAppForPage(appId, userId, 20, 1)
 	if err != nil {
-		return false, errors.Wrap(err, "call zclients uic.GetAppByID() error")
+		return 0, errors.Wrap(err, "call zclients uic.GetAppByID() error")
 	}
-	for o := range app.Owner {
-		if strings.Compare(app.Owner[o], name) == 0 {
-			return true, nil
-		}
+	if app.TotalCount > 0 {
+		return 4, nil
 	}
-	return false, nil
+
+	i, err := s.roleService.Find(appId, userId)
+	if err != nil {
+		return 0, errors.Wrap(err, "call RoleService.Find error")
+	}
+	return i, nil
 }

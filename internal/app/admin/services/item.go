@@ -299,6 +299,8 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				appNamespace.AppId = items[j].AppId
 				appNamespace.ClusterName = items[j].ClusterName
 				appNamespace.IsPublic = items[j].IsPublic
+				appNamespace.DeptName = items[j].DeptName
+				appNamespace.IsDisplay = items[j].IsDisplay
 			}
 			lanes[items[j].LaneName] = append(lanes[items[j].LaneName], items[j])
 

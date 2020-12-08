@@ -14,8 +14,10 @@ type AppNamespaceService interface {
 	DeleteById(env string, r *http.Request) (*models2.Response, error)
 	DeleteByNameAndAppId(env string, r *http.Request) (*models2.Response, error)
 	Update(env string, r *http.Request) (*models2.Response, error)
+	UpdateIsDisply(env string, r *http.Request) (*models2.Response, error)
 	FindAllClusterNameByAppId(r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppId(appId string, r *http.Request) (*models2.Response, error)
+	FindByLaneName(env string, r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppIdAndClusterName(env string, r *http.Request) (*models2.Response, error)
 }
 
@@ -71,6 +73,14 @@ func (s appNamespaceService) Update(env string, r *http.Request) (*models2.Respo
 	return response, nil
 }
 
+func (s appNamespaceService) UpdateIsDisply(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/app_namespace_is_dispaly", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
 func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/app_namespace", env, r)
 	if err != nil {
@@ -80,6 +90,14 @@ func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(env string, r
 }
 func (s appNamespaceService) FindAppNamespaceByAppId(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/app_namespace_all", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s appNamespaceService) FindByLaneName(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/app_by_lane", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
