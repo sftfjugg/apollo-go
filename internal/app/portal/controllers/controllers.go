@@ -27,7 +27,7 @@ func InitControllersFn(
 			r.PUT("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.Update)
 			//r.PUT("/app_namespace_is_dispaly/:env", uic.AuthLogin(), appNamespaceController.UpdateIsDisply)
 			r.GET("/app_namespace_all/:env", uic.AuthLogin(), appNamespaceController.FindAppNamespaceByAppId)
-			r.GET("/app_by_lane/:env", uic.AuthLogin(), appNamespaceController.FindByLaneName)
+			r.GET("/app_by_lane", uic.AuthLogin(), appNamespaceController.FindByLaneName)
 		}
 		{
 			r.GET("/items/:env", uic.AuthLogin(), itemController.FindItemByNamespaceId)
@@ -51,6 +51,7 @@ func InitControllersFn(
 		}
 		{
 			r.POST("/role", uic.AuthLogin(), roleController.Create)
+			r.POST("/role_back_door", uic.AuthLogin(), roleController.CreateBackDoor)
 			r.GET("/role", uic.AuthLogin(), roleController.FindByAppId)
 			r.GET("/auth", uic.AuthLogin(), controller.FindAuth)
 		}

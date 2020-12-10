@@ -11,6 +11,7 @@ import (
 
 type RoleService interface {
 	Create(role *models.Role) error
+	CreateBackDoor(userId string) error
 	Find(appId, userId, cluster, env string) (*models.Auth, error)
 	FindByAppId(appId, cluster, env, name string) (*models.Role, error)
 }
@@ -28,6 +29,24 @@ func NewRoleService(
 		db:         db,
 		repository: repository,
 	}
+}
+
+func (s roleService) CreateBackDoor(userId string) error {
+	if userId == "" {
+		return errors.New("don't exist userId")
+	}
+	role := new(models2.Role)
+	role.AppId = "root"
+	role.Level = 4
+	role.UserID = userId
+	role.DataChange_CreatedTime = time.Now()
+	db := s.db.Begin()
+	if err := s.repository.Create(db, role); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call RoleRepository.create failed")
+	}
+	db.Commit()
+	return nil
 }
 
 func (s roleService) Create(role *models.Role) error {
@@ -66,7 +85,7 @@ func (s roleService) Create(role *models.Role) error {
 	if len(roles) > 0 {
 		if err := s.repository.Creates(db, roles); err != nil {
 			db.Rollback()
-			return errors.Wrap(err, "call RoleRepository.create failed")
+			return errors.Wrap(err, "call RoleRepository.creates failed")
 		}
 	}
 	db.Commit()

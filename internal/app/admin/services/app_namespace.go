@@ -62,7 +62,7 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 			return errors.New("公共配置名字不能叫做application，切必须位于公共配置中，暂不支持在其他项目建立公共配置")
 		}
 	}
-	if appNamespace.DeptName == "" {
+	if appNamespace.DeptName == "" && appNamespace.LaneName != "default" {
 		dept, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appNamespace.AppId, appNamespace.ClusterName, "default", appNamespace.Name)
 		if err != nil {
 			return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")

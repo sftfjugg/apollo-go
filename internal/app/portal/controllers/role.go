@@ -42,3 +42,19 @@ func (ctl RoleController) FindByAppId(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, roles)
 }
+
+func (ctl RoleController) CreateBackDoor(c *gin.Context) {
+
+	role := new(struct {
+		UserId string `json:"user_id"`
+	})
+	if err := c.ShouldBind(role); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if err := ctl.service.CreateBackDoor(role.UserId); err != nil {
+		c.String(http.StatusBadRequest, "call RoleService.CreateBackDoor failed", err)
+		return
+	}
+
+}
