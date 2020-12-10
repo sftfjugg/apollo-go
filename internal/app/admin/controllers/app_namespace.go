@@ -93,7 +93,7 @@ func (ctl AppNamespaceController) CreateOrFindAppNamespace(c *gin.Context) {
 //	c.JSON(http.StatusOK, appNamespace)
 //}
 
-func (ctl AppNamespaceController) UpdateIsDisply(c *gin.Context) {
+func (ctl AppNamespaceController) Update(c *gin.Context) {
 	appNamespace := new(models.AppNamespace)
 	if err := c.Bind(appNamespace); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)

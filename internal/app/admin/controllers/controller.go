@@ -20,7 +20,7 @@ func InitControllersFn(
 			r.POST("/app_namespace", appNamespaceController.Create)
 			r.POST("/app_namespace/create_or_find", appNamespaceController.CreateOrFindAppNamespace)
 			//r.PUT("/app_namespace", appNamespaceController.Update)
-			r.PUT("/app_namespace", appNamespaceController.UpdateIsDisply)
+			r.PUT("/app_namespace", appNamespaceController.Update)
 			r.GET("/app_namespace", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
 			r.GET("/app_namespace_all", appNamespaceController.FindAppNamespace)
 			r.GET("/app_by_lane", appNamespaceController.FindByLaneName)
