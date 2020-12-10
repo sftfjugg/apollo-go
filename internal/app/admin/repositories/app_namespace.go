@@ -67,7 +67,7 @@ func (r appNamespaceRepository) DeleteByNameAndAppIdAndCluster(db *gorm.DB, name
 
 func (r appNamespaceRepository) Update(db *gorm.DB, appNamespace *models.AppNamespace) error {
 	appNamespace.DataChange_LastTime = time.Now()
-	if err := db.Table(models.AppNamespaceTableName).Where("Name=? and AppId=? and ClusterName=?", appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Update("IsDisplay", appNamespace.IsDisplay, "DeptName", appNamespace.DeptName, "Comment", appNamespace.Comment, "Format", appNamespace.Format, "IsPublic", appNamespace.IsPublic).Error; err != nil {
+	if err := db.Exec(" UPDATE `AppNamespace` SET  `Comment` = ?, `DataChange_LastModifiedBy` = ?, `DataChange_LastTime` = ?, `DeptName` = ?, `Format` = ?, `IsDisplay` = ?   WHERE (Name=? and AppId=? and ClusterName=? and IsDeleted=0)", appNamespace.Comment, appNamespace.DataChange_LastModifiedBy, time.Now(), appNamespace.DeptName, appNamespace.Format, appNamespace.IsDisplay, appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Error; err != nil {
 		return errors.Wrap(err, "update appNamespace error")
 	}
 	return nil

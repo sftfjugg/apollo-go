@@ -179,6 +179,6 @@ select * from `Release`;
 select * from AppNamespace where LaneName!='default';
 select * from ReleaseMessage;
 select * from AppNamespace;
-select * from AppNamespace where Comment !='';
+select * from AppNamespace where AppId='apollo-test';
 update AppNamespace set DeptName='';
 
