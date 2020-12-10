@@ -19,14 +19,15 @@ type Item struct {
 	LaneName                  string    `gorm:"column:LaneName" json:"lane_name" form:"lane_name"`
 	NamespaceId               uint64    `gorm:"column:NamespaceId" json:"namespace_id" form:"namespace_id"`
 	DeptName                  string    `gorm:"column:DeptName" json:"dept_name" form:"dept_name"`
+	NamespaceComment          string    `gorm:"column:NamespaceComment" json:"namespace_comment" form:"namespace_comment"` //namcespace描述
 	IsDisplay                 bool      `gorm:"column:IsDisplay" json:"is_display" form:"is_display"`
 	Key                       string    `gorm:"column:Key" json:"key" form:"value"`
 	Value                     string    `gorm:"column:Value" json:"value" form:"value"`
 	ReleaseValue              string    `gorm:"column:ReleaseValue" json:"release_value" form:"release_value"`
 	Status                    uint64    `gorm:"column:Status" json:"status" from:"status"`
-	Format                    string    `gorm:"column:Format" json:"format" form:"format"` //类型
-	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
-	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"`
+	Format                    string    `gorm:"column:Format" json:"format" form:"format"`       //类型：服务，业务
+	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`    //标签
+	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"` //描述
 	DataChange_CreatedBy      string    `gorm:"column:DataChange_CreatedBy" json:"data_change_created_by" form:"data_change_created_by"`
 	DataChange_LastModifiedBy string    `gorm:"column:DataChange_LastModifiedBy" json:"data_change_last_modified_by" form:"data_change_last_modified_by"`
 	DataChange_CreatedTime    time.Time `gorm:"column:DataChange_CreatedTime" json:"data_change_created_time" form:"data_change_created_time"`

@@ -21,6 +21,8 @@ CREATE TABLE `Role` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
   `UserId` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserId',
+  `Namespace` varchar(100) NOT NULL DEFAULT 'application' COMMENT 'UserName',
+  `Cluster`   varchar(64) NOT NULL DEFAULT 'default' COMMENT 'Cluster',
   `UserName` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserName',
   `Level` int(10) NOT NULL DEFAULT 0 COMMENT '权限级别',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
@@ -38,3 +40,4 @@ CREATE TABLE `Role` (
 use dida_apollo_plus_portal;
 show tables ;
 desc Role;
+select * from Role;

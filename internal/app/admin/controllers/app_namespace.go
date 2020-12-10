@@ -74,24 +74,24 @@ func (ctl AppNamespaceController) CreateOrFindAppNamespace(c *gin.Context) {
 	c.JSON(http.StatusOK, id)
 }
 
-func (ctl AppNamespaceController) Update(c *gin.Context) {
-	appNamespace := new(models.AppNamespace)
-	if err := c.Bind(appNamespace); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	userId, err := c.Cookie("UserID")
-	if err != nil {
-		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
-		return
-	}
-	appNamespace.DataChange_LastModifiedBy = userId
-	if err := ctl.service.Update(appNamespace); err != nil {
-		c.String(http.StatusBadRequest, "AppNamespaceService.Update error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, appNamespace)
-}
+//func (ctl AppNamespaceController) Update(c *gin.Context) {
+//	appNamespace := new(models.AppNamespace)
+//	if err := c.Bind(appNamespace); err != nil {
+//		c.String(http.StatusBadRequest, "bind params error:%v", err)
+//		return
+//	}
+//	userId, err := c.Cookie("UserID")
+//	if err != nil {
+//		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
+//		return
+//	}
+//	appNamespace.DataChange_LastModifiedBy = userId
+//	if err := ctl.service.Update(appNamespace); err != nil {
+//		c.String(http.StatusBadRequest, "AppNamespaceService.Update error:%v", err)
+//		return
+//	}
+//	c.JSON(http.StatusOK, appNamespace)
+//}
 
 func (ctl AppNamespaceController) UpdateIsDisply(c *gin.Context) {
 	appNamespace := new(models.AppNamespace)
@@ -105,8 +105,8 @@ func (ctl AppNamespaceController) UpdateIsDisply(c *gin.Context) {
 		return
 	}
 	appNamespace.DataChange_LastModifiedBy = userId
-	if err := ctl.service.UpdateIsDisply(appNamespace); err != nil {
-		c.String(http.StatusBadRequest, "UpdateIdDisply.Update error:%v", err)
+	if err := ctl.service.Update(appNamespace); err != nil {
+		c.String(http.StatusBadRequest, "service.Update error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, appNamespace)
@@ -196,10 +196,10 @@ func (ctl AppNamespaceController) FindByLaneName(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	clusters, err := ctl.service.FindByLaneName(param.Lane)
+	apps, err := ctl.service.FindByLaneName(param.Lane)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindByLaneName error:%v", err)
 		return
 	}
-	c.JSON(http.StatusOK, clusters)
+	c.JSON(http.StatusOK, apps)
 }

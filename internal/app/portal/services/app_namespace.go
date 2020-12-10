@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"github.com/pkg/errors"
+	models22 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
 	"net/http"
@@ -17,7 +18,7 @@ type AppNamespaceService interface {
 	UpdateIsDisply(env string, r *http.Request) (*models2.Response, error)
 	FindAllClusterNameByAppId(r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppId(appId string, r *http.Request) (*models2.Response, error)
-	FindByLaneName(env string, r *http.Request) (*models2.Response, error)
+	FindByLaneName(r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppIdAndClusterName(env string, r *http.Request) (*models2.Response, error)
 }
 
@@ -96,11 +97,55 @@ func (s appNamespaceService) FindAppNamespaceByAppId(env string, r *http.Request
 	return response, nil
 }
 
-func (s appNamespaceService) FindByLaneName(env string, r *http.Request) (*models2.Response, error) {
-	response, err := s.httpClient.HttpDo("/app_by_lane", env, r)
+//查询某泳道在所有环境下的数目
+func (s appNamespaceService) FindByLaneName(r *http.Request) (*models2.Response, error) {
+	param := new(struct {
+		Test   *models22.AppPage `json:"test"`
+		Aliyun *models22.AppPage `json:"aliyun"`
+		Online *models22.AppPage `json:"online"`
+		Total  int               `json:"total"`
+	})
+	total := 0
+	response, err := s.httpClient.HttpDo("/app_by_lane", "TEST", r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
+	if response.Code == 200 {
+		test := new(models22.AppPage)
+		if err := json.Unmarshal(response.Data, &test); err != nil {
+			return nil, errors.Wrap(err, "json.Unmarshal falied")
+		}
+		param.Test = test
+		total += test.Total
+	}
+
+	response2, err := s.httpClient.HttpDo("/app_by_lane", "ONLINE", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	if response2.Code == 200 {
+		online := new(models22.AppPage)
+		if err := json.Unmarshal(response2.Data, &online); err != nil {
+
+		}
+		param.Online = online
+		total += online.Total
+	}
+
+	response3, err := s.httpClient.HttpDo("/app_by_lane", "ALIYUN", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	if response3.Code == 200 {
+		aliyun := new(models22.AppPage)
+		if err := json.Unmarshal(response3.Data, &aliyun); err != nil {
+
+		}
+		param.Aliyun = aliyun
+		total += aliyun.Total
+	}
+	param.Total = total
+	response.Data, _ = json.Marshal(param)
 	return response, nil
 }
 

@@ -16,8 +16,8 @@ type AppNamespaceService interface {
 	CreateOrFindAppNamespace(appNamespace *models.AppNamespace) (int64, error)
 	DeleteById(id string) error
 	DeleteByNameAndAppIdAndCluster(name, appId, cluster string) error
+	//Update(appNamespace *models.AppNamespace) error
 	Update(appNamespace *models.AppNamespace) error
-	UpdateIsDisply(appNamespace *models.AppNamespace) error
 	FindAllClusterNameByAppId(appId string) ([]string, error)
 	FindAppNamespace(appId, cluster, format, comment string) ([]*models2.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
@@ -69,8 +69,9 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 		}
 		if dept != nil && dept.DeptName != "" {
 			appNamespace.DeptName = dept.DeptName
+			appNamespace.Format = dept.Format
 		} else {
-			appNamespace.DeptName = "default"
+			appNamespace.DeptName = ""
 		}
 	}
 	if appNamespace.Format == "" {
@@ -154,28 +155,28 @@ func (s appNamespaceService) DeleteByNameAndAppIdAndCluster(name, appId, cluster
 	return nil
 }
 
+//func (s appNamespaceService) Update(appNamespace *models.AppNamespace) error {
+//	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appNamespace.AppId, appNamespace.ClusterName, appNamespace.LaneName, appNamespace.Name)
+//	if err != nil {
+//		return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
+//	}
+//	if app.Name != "" && app.Id != appNamespace.Id {
+//		return errors.New("name alrealy exists")
+//	}
+//	db := s.db.Begin()
+//	if err := s.repository.Update(db, appNamespace); err != nil {
+//		db.Rollback()
+//		return errors.Wrap(err, "call AppNamespaceRepository.Update() error")
+//	}
+//	db.Commit()
+//	return nil
+//}
+
 func (s appNamespaceService) Update(appNamespace *models.AppNamespace) error {
-	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appNamespace.AppId, appNamespace.ClusterName, appNamespace.LaneName, appNamespace.Name)
-	if err != nil {
-		return errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
-	}
-	if app.Name != "" && app.Id != appNamespace.Id {
-		return errors.New("name alrealy exists")
-	}
 	db := s.db.Begin()
 	if err := s.repository.Update(db, appNamespace); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call AppNamespaceRepository.Update() error")
-	}
-	db.Commit()
-	return nil
-}
-
-func (s appNamespaceService) UpdateIsDisply(appNamespace *models.AppNamespace) error {
-	db := s.db.Begin()
-	if err := s.repository.UpdateIsDisply(db, appNamespace); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call AppNamespaceRepository.UpdateIsDisply() error")
 	}
 	db.Commit()
 	return nil
@@ -236,6 +237,7 @@ func (s appNamespaceService) FindAppNamespace(appId, cluster, format, comment st
 				app.ClusterName = appNamespaces[i].ClusterName
 				app.IsPublic = appNamespaces[i].IsPublic
 				app.DeptName = appNamespaces[i].DeptName
+				app.Comment = appNamespaces[i].Comment
 				app.IsDisplay = appNamespaces[i].IsDisplay
 			}
 			namespace.Id = appNamespaces[i].Id

@@ -25,7 +25,7 @@ func InitControllersFn(
 			r.DELETE("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.DeleteById)
 			r.DELETE("/app_namespace_by_name/:env", uic.AuthLogin(), appNamespaceController.DeleteByNameAndAppId)
 			r.PUT("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.Update)
-			r.PUT("/app_namespace_is_dispaly/:env", uic.AuthLogin(), appNamespaceController.UpdateIsDisply)
+			//r.PUT("/app_namespace_is_dispaly/:env", uic.AuthLogin(), appNamespaceController.UpdateIsDisply)
 			r.GET("/app_namespace_all/:env", uic.AuthLogin(), appNamespaceController.FindAppNamespaceByAppId)
 			r.GET("/app_by_lane/:env", uic.AuthLogin(), appNamespaceController.FindByLaneName)
 		}

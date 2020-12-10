@@ -64,7 +64,7 @@ func NewRouter(o *Options, logger *zap.Logger, init InitControllers) (*gin.Engin
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"address://*", "https://*"},
 		AllowMethods:     []string{"PUT", "GET", "POST", "DELETE", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Origins", "X-Requested-With", "Content-Type", "Accept", "Authorization"},
+		AllowHeaders:     []string{"Origins", "X-Requested-With", "Content-Type", "Accept", "Authorization", "AppId"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {

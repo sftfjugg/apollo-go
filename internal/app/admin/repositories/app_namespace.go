@@ -11,8 +11,8 @@ type AppNamespaceRepository interface {
 	Create(db *gorm.DB, appNamespace *models.AppNamespace) error
 	DeleteById(db *gorm.DB, id string) error
 	DeleteByNameAndAppIdAndCluster(db *gorm.DB, name, appId, cluster string) error
+	//Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
-	UpdateIsDisply(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceById(id string) (*models.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appId, clusterName, laneName, name string) (*models.AppNamespace, error)
@@ -57,17 +57,17 @@ func (r appNamespaceRepository) DeleteByNameAndAppIdAndCluster(db *gorm.DB, name
 	return nil
 }
 
+//func (r appNamespaceRepository) Update(db *gorm.DB, appNamespace *models.AppNamespace) error {
+//	appNamespace.DataChange_LastTime = time.Now()
+//	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", appNamespace.Id).Update(appNamespace).Error; err != nil {
+//		return errors.Wrap(err, "update appNamespace error")
+//	}
+//	return nil
+//}
+
 func (r appNamespaceRepository) Update(db *gorm.DB, appNamespace *models.AppNamespace) error {
 	appNamespace.DataChange_LastTime = time.Now()
-	if err := db.Table(models.AppNamespaceTableName).Where("Id=?", appNamespace.Id).Update(appNamespace).Error; err != nil {
-		return errors.Wrap(err, "update appNamespace error")
-	}
-	return nil
-}
-
-func (r appNamespaceRepository) UpdateIsDisply(db *gorm.DB, appNamespace *models.AppNamespace) error {
-	appNamespace.DataChange_LastTime = time.Now()
-	if err := db.Table(models.AppNamespaceTableName).Where("Name=? and AppId=? and ClusterName=?", appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Update("IsDisplay", appNamespace.IsDisplay).Error; err != nil {
+	if err := db.Table(models.AppNamespaceTableName).Where("Name=? and AppId=? and ClusterName=?", appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Update("IsDisplay", appNamespace.IsDisplay, "DeptName", appNamespace.DeptName, "Comment", appNamespace.Comment, "Format", appNamespace.Format, "IsPublic", appNamespace.IsPublic).Error; err != nil {
 		return errors.Wrap(err, "update appNamespace error")
 	}
 	return nil

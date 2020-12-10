@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
 	"net/http"
@@ -133,7 +134,10 @@ func (ctl AppNamespaceController) FindAllClusterNameByAppId(c *gin.Context) {
 
 func (ctl AppNamespaceController) FindByLaneName(c *gin.Context) {
 	env := c.Param("env")
-	r, err := ctl.service.FindByLaneName(env, c.Request)
+	env1 := c.Param("env")
+	fmt.Println(env)
+	fmt.Println(env1)
+	r, err := ctl.service.FindByLaneName(c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindByLaneName run failed:%v", err)
 		return

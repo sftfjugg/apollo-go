@@ -23,9 +23,6 @@ func test() (errs error) {
 	return nil
 }
 func main() {
-	i := 0
-	i += 1
-	i = +2
 
 	//idc := os.Getenv("IDC")
 	//if idc != "" {

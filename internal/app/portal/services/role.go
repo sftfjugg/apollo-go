@@ -11,8 +11,8 @@ import (
 
 type RoleService interface {
 	Create(role *models.Role) error
-	Find(appId, userId string) (int, error)
-	FindByAppId(appId string) (*models.Role, error)
+	Find(appId, userId, cluster, env string) (*models.Auth, error)
+	FindByAppId(appId, cluster, env, name string) (*models.Role, error)
 }
 
 type roleService struct {
@@ -35,6 +35,9 @@ func (s roleService) Create(role *models.Role) error {
 	for _, r := range role.Release {
 		release := new(models2.Role)
 		release.AppId = role.AppId
+		release.Namespace = role.Namespace
+		release.Env = role.Env
+		release.Cluster = role.Cluster
 		release.UserID = r.UserId
 		release.UserName = r.UserName
 		release.DataChange_CreatedTime = time.Now()
@@ -45,44 +48,64 @@ func (s roleService) Create(role *models.Role) error {
 	for _, r := range role.Write {
 		write := new(models2.Role)
 		write.AppId = role.AppId
+		write.Cluster = role.Cluster
+		write.Namespace = role.Namespace
+		write.Env = role.Env
 		write.UserID = r.UserId
 		write.UserName = r.UserName
 		write.DataChange_CreatedTime = time.Now()
 		write.DataChange_CreatedBy = role.Operator
-		write.Level = 2
+		write.Level = 1
 		roles = append(roles, write)
 	}
 	db := s.db.Begin()
-	if err := s.repository.Delete(db, role.AppId); err != nil {
+	if err := s.repository.Delete(db, role.AppId, role.Cluster, role.Env, role.Namespace); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call RoleRepository.deleted failed")
 	}
-	if err := s.repository.Creates(db, roles); err != nil {
-		db.Rollback()
-		return errors.Wrap(err, "call RoleRepository.create failed")
+	if len(roles) > 0 {
+		if err := s.repository.Creates(db, roles); err != nil {
+			db.Rollback()
+			return errors.Wrap(err, "call RoleRepository.create failed")
+		}
 	}
 	db.Commit()
 	return nil
 }
 
-func (s roleService) Find(appId, userId string) (int, error) {
-
-	roles, err := s.repository.Find(appId, userId)
+//前端控制按钮用
+func (s roleService) Find(appId, userId, cluster, env string) (*models.Auth, error) {
+	auths := new(models.Auth)
+	namespaceRole := make([]*models.NamespaceRole, 0)
+	m := make(map[string]int)
+	roles, err := s.repository.Find(appId, userId, cluster, env)
 	if err != nil {
-		return 0, errors.Wrap(err, "call RoleSitory.Find failed")
+		return nil, errors.Wrap(err, "call RoleSitory.Find failed")
 	}
-	i := 0
-	for _, r := range roles {
-		i = +r.Level
+	for i, r := range roles {
+		if _, ok := m[r.Namespace]; !ok {
+			namespace := new(models.NamespaceRole)
+			namespace.Name = r.Namespace
+			namespace.Level = r.Level
+			if r.Level >= 4 {
+				auths.IsOwner = true
+				r := make([]*models.NamespaceRole, 0)
+				auths.Role = r
+				return auths, nil
+			}
+			namespaceRole = append(namespaceRole, namespace)
+			m[r.Namespace] = i
+		} else {
+			namespaceRole[m[r.Namespace]].Level += r.Level
+		}
 	}
-	if i >= 4 {
-		i = 4
-	}
-	return i, nil
+	auths.Role = namespaceRole
+	auths.IsOwner = false
+	return auths, nil
 }
 
-func (s roleService) FindByAppId(appId string) (*models.Role, error) {
-	roles, err := s.repository.FindByAppId(appId)
+func (s roleService) FindByAppId(appId, cluster, env, name string) (*models.Role, error) {
+	roles, err := s.repository.FindByAppId(appId, cluster, env, name)
 	if err != nil {
 		return nil, errors.Wrap(err, "call RoleSitory.Find failed")
 	}

@@ -14,25 +14,19 @@ func NewAppController(appService services.AppService) *AppController {
 	return &AppController{service: appService}
 }
 
-//验证编辑权限
+//查看当前用户权限
 func (ctl AppController) FindAuth(c *gin.Context) {
 	userId, _ := c.Get("UserID")
 	appId := c.GetHeader("AppId")
-	i, err := ctl.service.FindAuth(appId, userId.(string))
+	cluster := c.Query("cluster")
+	env := c.Query("env")
+	auth, err := ctl.service.FindAuth(appId, userId.(string), cluster, env)
 	if err != nil {
 		c.String(http.StatusForbidden, "call app.FindAuth failed:%v", err)
 		return
 	}
-	param := new(struct {
-		Level int `json:"level"`
-	})
-	param.Level = i
-	c.JSON(http.StatusOK, param)
+	c.JSON(http.StatusOK, auth)
 }
-
-//验证发布权限
-
-//验证授权权限
 
 //查看所有分组
 func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {

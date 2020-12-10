@@ -32,7 +32,10 @@ func (ctl RoleController) Create(c *gin.Context) {
 //查看当前项目的编辑和发布用户
 func (ctl RoleController) FindByAppId(c *gin.Context) {
 	appId := c.GetHeader("AppId")
-	roles, err := ctl.service.FindByAppId(appId)
+	cluster := c.Query("cluster")
+	env := c.Query("env")
+	name := c.Query("name")
+	roles, err := ctl.service.FindByAppId(appId, cluster, env, name)
 	if err != nil {
 		c.String(http.StatusBadRequest, "call RoleService.Create failed", err)
 		return

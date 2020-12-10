@@ -3,6 +3,8 @@ package services
 import (
 	"github.com/pkg/errors"
 	"github.com/uber/tchannel-go"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/constans"
 	"go.didapinche.com/goapi/plat_limos_rpc"
 	"go.didapinche.com/goapi/uic_service_api"
 	"time"
@@ -15,7 +17,7 @@ type AppService interface {
 	FindGroupsOfDevelopment() (*uic_service_api.Node, error)
 	FindLimosAppForPage(name, owner string, pageSize, pageNum int32) (*plat_limos_rpc.AppsForPage, error)
 	GetAllUsers(name string) ([]*uic_service_api.UserData, error)
-	FindAuth(appId, userId string) (int, error)
+	FindAuth(appId, userId, cluster, env string) (*models.Auth, error)
 }
 
 type appService struct {
@@ -63,20 +65,48 @@ func (s appService) FindLimosAppForPage(name, owner string, pageSize, pageNum in
 	return apps, nil
 }
 
-func (s appService) FindAuth(appId, userId string) (int, error) {
+func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, error) {
 
 	//验证owner权限
-	app, err := s.FindLimosAppForPage(appId, userId, 20, 1)
-	if err != nil {
-		return 0, errors.Wrap(err, "call zclients uic.GetAppByID() error")
-	}
-	if app.TotalCount > 0 {
-		return 4, nil
+	if appId != "public_global_config" {
+		app, err := s.FindLimosAppForPage(appId, userId, 20, 0)
+		if err != nil {
+			return nil, errors.Wrap(err, "call zclients uic.GetAppByID() error")
+		}
+		if app.TotalCount > 0 {
+			auth := new(models.Auth)
+			auth.IsOwner = true
+			r := make([]*models.NamespaceRole, 0)
+			auth.Role = r
+			return auth, nil
+		}
+	} else {
+		b, err := s.AuthPerm(userId, constans.ApolloPublicOperate)
+		if err != nil {
+			return nil, errors.Wrap(err, "call zclients uic.Auth() error")
+		}
+		if b {
+			auth := new(models.Auth)
+			auth.IsOwner = true
+			r := make([]*models.NamespaceRole, 0)
+			auth.Role = r
+			return auth, nil
+		}
 	}
 
-	i, err := s.roleService.Find(appId, userId)
+	//从数据库验证权限
+	auth, err := s.roleService.Find(appId, userId, cluster, env)
 	if err != nil {
-		return 0, errors.Wrap(err, "call RoleService.Find error")
+		return nil, errors.Wrap(err, "call RoleService.Find error")
 	}
-	return i, nil
+	return auth, nil
+}
+
+func (s appService) AuthPerm(userID, perm string) (bool, error) {
+	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
+	b, err := s.uicService.Auth(ctx, userID, perm, 3)
+	if err != nil {
+		return false, errors.Wrap(err, "call zclients uic.Auth() error")
+	}
+	return b, nil
 }

@@ -16,6 +16,7 @@ type AppNamespace struct {
 	IsPublic    bool         `json:"is_public"`
 	DeptName    string       `gorm:"column:DeptName" json:"dept_name" form:"dept_name"`
 	IsDisplay   bool         `gorm:"column:IsDisplay" json:"is_display" form:"is_display"`
+	Comment     string       `gorm:"column:Comment" json:"comment" form:"comment"`
 	ClusterName string       `json:"cluster_name"` //集群
 	Namespaces  []*Namespace `json:"namespaces"`
 }

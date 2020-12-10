@@ -179,5 +179,6 @@ select * from `Release`;
 select * from AppNamespace where LaneName!='default';
 select * from ReleaseMessage;
 select * from AppNamespace;
-select * from AppNamespace;
-update AppNamespace set DeptName='default' where DeptName is null;
+select * from AppNamespace where Comment !='';
+update AppNamespace set DeptName='';
+
