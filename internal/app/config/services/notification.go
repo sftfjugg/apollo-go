@@ -40,7 +40,7 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications, lane
 			mav["public_global_config"+"+"+"default"+"+"+namespaceName] = v
 		}
 		if lane != "default" {
-			mav[appid+"+"+lane+"default"+"+"+namespaceName] = v
+			mav[appid+lane+"+"+"default"+"+"+namespaceName] = v
 			mav["public_global_config"+lane+"+"+cluster+"+"+namespaceName] = v
 		}
 
