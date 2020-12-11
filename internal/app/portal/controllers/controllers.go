@@ -3,6 +3,9 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
+	"go.didapinche.com/foundation/ophis"
+	_ "go.didapinche.com/foundation/ophis"
+	_ "go.didapinche.com/goapi/plat_operate_history_api"
 	"go.didapinche.com/uic"
 )
 
@@ -14,14 +17,15 @@ func InitControllersFn(
 	releaseController *ReleaseController,
 	roleController *RoleController,
 	historyController *ReleaseHistoryController,
+	ophis *ophis.Api,
 ) http.InitControllers {
 	return func(r *gin.Engine) {
 
 		{
 			r.GET("/cluster", uic.AuthLogin(), appNamespaceController.FindAllClusterNameByAppId)
-			r.POST("/cluster/:env", uic.AuthLogin(), appNamespaceController.CreateCluster)
+			r.POST("/cluster/:env", uic.AuthLogin(), ophis.OpenWriter(), appNamespaceController.CreateCluster, ophis.Record())
 			r.GET("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
-			r.POST("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.Create)
+			r.POST("/app_namespace/:env", uic.AuthLogin(), ophis.OpenWriter(), appNamespaceController.Create, ophis.Record())
 			r.DELETE("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.DeleteById)
 			r.DELETE("/app_namespace_by_name/:env", uic.AuthLogin(), appNamespaceController.DeleteByNameAndAppId)
 			r.PUT("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.Update)

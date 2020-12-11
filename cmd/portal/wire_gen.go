@@ -21,6 +21,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/zeus"
+	"go.didapinche.com/foundation/ophis"
 	"go.didapinche.com/uic"
 )
 
@@ -87,7 +88,16 @@ func CreateApp(cf string) (*app.Application, error) {
 	roleController := controllers.NewRoleController(roleService)
 	releaseHistoryService := services.NewReleaseHistoryService(httpClient)
 	releaseHistoryController := controllers.NewReleaseHistoryController(releaseHistoryService)
-	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, roleController, releaseHistoryController)
+	ophisOptions := ophis.NewOptions(viper)
+	tChanOperateHistoryService, err := zeus.NewOphisService(zeusZeus)
+	if err != nil {
+		return nil, err
+	}
+	ophisApi, err := ophis.NewApi(ophisOptions, logger, tChanOperateHistoryService, tChanUicService)
+	if err != nil {
+		return nil, err
+	}
+	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, roleController, releaseHistoryController, ophisApi)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err
@@ -117,4 +127,4 @@ func CreateApp(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, repositories.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, repositories.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet, ophis.ProviderSet)

@@ -18,6 +18,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/zeus"
+	"go.didapinche.com/foundation/ophis"
 	"go.didapinche.com/uic"
 )
 
@@ -36,6 +37,7 @@ var providerSet = wire.NewSet(
 	portal.ProviderSet,
 	uic.ProviderSet,
 	zservice.ProviderSet,
+	ophis.ProviderSet,
 )
 
 func CreateApp(cf string) (*app.Application, error) {

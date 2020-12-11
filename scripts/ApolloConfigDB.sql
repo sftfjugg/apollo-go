@@ -183,3 +183,4 @@ select * from AppNamespace where AppId='apollo-test';
 update AppNamespace set DeptName='';
 
 select * from ReleaseMessage;
+select * from `Release`;
