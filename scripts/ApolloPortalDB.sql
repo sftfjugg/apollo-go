@@ -22,6 +22,7 @@ CREATE TABLE `Role` (
   `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
   `UserId` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserId',
   `Namespace` varchar(100) NOT NULL DEFAULT 'application' COMMENT 'UserName',
+  `Env` varchar(64) NOT NULL DEFAULT 'TEST' COMMENT '环境',
   `Cluster`   varchar(64) NOT NULL DEFAULT 'default' COMMENT 'Cluster',
   `UserName` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserName',
   `Level` int(10) NOT NULL DEFAULT 0 COMMENT '权限级别',
@@ -41,3 +42,17 @@ use dida_apollo_plus_portal;
 show tables ;
 desc Role;
 select * from Role;
+
+
+
+
+
+
+
+
+USE dida_apollo_plus_config;
+alter table AppNamespace add DeptName varchar(64) DEFAULT '' COMMENT '部门名字' after LaneName, add IsDisplay tinyint(1) NOT NULL DEFAULT b'1' COMMENT '0:Hide , 1: Dispaly'  after IsDeleted
+
+
+
+
