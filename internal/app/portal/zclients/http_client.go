@@ -27,6 +27,28 @@ func (s HttpClient) HttpDo(url, env string, r *http.Request) (*models2.Response,
 		return nil, errors.New("There is no adminservcie to call")
 	}
 	i := rand.Intn(len(m[env]))
+
+	//添加操作记录，操作记录需要env_id的参数和配置env_name的参数
+	if env == "TEST" {
+		if r.URL.RawQuery != "" {
+			r.URL.RawQuery += "&env_id=1&env_name=TEST"
+		} else {
+			r.URL.RawQuery += "env_id=1&env_name=TEST"
+		}
+	} else if env == "ALIYUN" {
+		if r.URL.RawQuery != "" {
+			r.URL.RawQuery += "&env_id=4&env_name=ALIYUN"
+		} else {
+			r.URL.RawQuery += "env_id=4&env_name=ALIYUN"
+		}
+	} else {
+		if r.URL.RawQuery != "" {
+			r.URL.RawQuery += "&env_id=3&env_name=ONLINE"
+		} else {
+			r.URL.RawQuery += "env_id=3&env_name=ONLINE"
+		}
+	}
+
 	r.URL.Path = url
 	r.URL.Host = m[env][i].InstanceId
 	r.Host = m[env][i].InstanceId

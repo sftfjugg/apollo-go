@@ -18,6 +18,7 @@ func InitControllersFn(
 			r.GET("/cluster", appNamespaceController.FindAllClusterNameByAppId)
 			r.POST("/cluster", appNamespaceController.CreateCluster)
 			r.POST("/app_namespace", appNamespaceController.Create)
+			r.POST("/app_namespace_by_lane", appNamespaceController.Create)
 			r.POST("/app_namespace/create_or_find", appNamespaceController.CreateOrFindAppNamespace)
 			//r.PUT("/app_namespace", appNamespaceController.Update)
 			r.PUT("/app_namespace", appNamespaceController.Update)

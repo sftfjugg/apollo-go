@@ -11,6 +11,7 @@ import (
 
 type AppNamespaceService interface {
 	Create(env string, r *http.Request) (*models2.Response, error)
+	CreateLane(env string, r *http.Request) (*models2.Response, error)
 	CreateCluster(env string, r *http.Request) (*models2.Response, error)
 	DeleteById(env string, r *http.Request) (*models2.Response, error)
 	DeleteByNameAndAppId(env string, r *http.Request) (*models2.Response, error)
@@ -36,6 +37,14 @@ func NewAppNamespaceService(
 
 func (s appNamespaceService) Create(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/app_namespace", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s appNamespaceService) CreateLane(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/app_namespace_by_lane", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
