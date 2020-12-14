@@ -23,10 +23,18 @@ func (ctl RoleController) Create(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	writerJson, err := json.Marshal(role.Write)
+	writeNames := make([]string, 0)
+	for _, w := range role.Write {
+		writeNames = append(writeNames, w.UserName)
+	}
+	writerJson, err := json.Marshal(writeNames)
 	if err != nil {
 		c.String(http.StatusBadRequest, "bind write json error:%v", err)
 		return
+	}
+	releaseNames := make([]string, 0)
+	for _, w := range role.Release {
+		releaseNames = append(releaseNames, w.UserName)
 	}
 	releaseJson, err := json.Marshal(role.Write)
 	if err != nil {
