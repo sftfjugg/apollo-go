@@ -418,8 +418,8 @@ go.didapinche.com/aurora-go/v2 v2.0.1 h1:kKCCkdZuXwvAXOI/qXqf4P2RiMllJUrV2D9OJ1+
 go.didapinche.com/aurora-go/v2 v2.0.1/go.mod h1:Wa5rv5psmtl8CaKvVxuGLBDGWaQsdTymPc1rojgRGl0=
 go.didapinche.com/foundation/agollo v1.2.3-0.20201130021840-13ffb705cc98 h1:V5LD9/w65U0In7JUkNWdRRbql6ZXbFhsGwoIPbu9YIE=
 go.didapinche.com/foundation/agollo v1.2.3-0.20201130021840-13ffb705cc98/go.mod h1:/eIVggWhKcrKcFhEynOwA1el7nZ5nRhF3sqp9LIlRyY=
-go.didapinche.com/foundation/ophis v1.5.0 h1:B066cfdaQn8HTxqpZ8OTf0Q+KQXvx5HqZ8/EwUkNwSA=
-go.didapinche.com/foundation/ophis v1.5.0/go.mod h1:Ci5t/VakuhZ5kuoN/psSSOpN0hCUfgPXGWr/gtKoCOY=
+go.didapinche.com/foundation/ophis v1.5.1 h1:xS/ylbCIqoIDYWuMm8EAcbtZOQnf9kuiip1OQXWqUrw=
+go.didapinche.com/foundation/ophis v1.5.1/go.mod h1:Ci5t/VakuhZ5kuoN/psSSOpN0hCUfgPXGWr/gtKoCOY=
 go.didapinche.com/glibs v1.0.2 h1:m4RIksqf7AsQDaPLJsO25S65qvFtPaixcrupyJIua78=
 go.didapinche.com/glibs v1.0.2/go.mod h1:CeVN1tsDSl/dE6lyDHPfR8Rm4pLa+EAmrb8RqpCDNo8=
 go.didapinche.com/go_thrift v1.0.4 h1:BW05YLpDraJ4zBLSxZU7bWaZCDdCledduX0I9mdkuy8=
