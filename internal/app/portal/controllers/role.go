@@ -22,6 +22,26 @@ func (ctl RoleController) Create(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	// 操作记录
+	if role.Env == "TEST" {
+		if c.Request.URL.RawQuery != "" {
+			c.Request.URL.RawQuery += "&env_id=1&env_name=TEST"
+		} else {
+			c.Request.URL.RawQuery += "env_id=1&env_name=TEST"
+		}
+	} else if role.Env == "ALIYUN" {
+		if c.Request.URL.RawQuery != "" {
+			c.Request.URL.RawQuery += "&env_id=4&env_name=ALIYUN"
+		} else {
+			c.Request.URL.RawQuery += "env_id=4&env_name=ALIYUN"
+		}
+	} else {
+		if c.Request.URL.RawQuery != "" {
+			c.Request.URL.RawQuery += "&env_id=3&env_name=ONLINE"
+		} else {
+			c.Request.URL.RawQuery += "env_id=3&env_name=ONLINE"
+		}
+	}
 	if err := ctl.service.Create(role); err != nil {
 		c.String(http.StatusBadRequest, "call RoleService.Create failed", err)
 		return
