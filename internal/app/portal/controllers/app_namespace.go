@@ -40,7 +40,7 @@ func (ctl AppNamespaceController) CreateLane(c *gin.Context) {
 	}
 	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
 	c.Request.AddCookie(cookie)
-	r, err := ctl.service.Create(env, c.Request)
+	r, err := ctl.service.CreateLane(env, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.Create run failed:%v", err)
 		return
