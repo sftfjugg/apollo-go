@@ -36,7 +36,7 @@ func (ctl RoleController) Create(c *gin.Context) {
 	for _, w := range role.Release {
 		releaseNames = append(releaseNames, w.UserName)
 	}
-	releaseJson, err := json.Marshal(role.Write)
+	releaseJson, err := json.Marshal(releaseNames)
 	if err != nil {
 		c.String(http.StatusBadRequest, "bind write json error:%v", err)
 		return
