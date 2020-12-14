@@ -56,9 +56,9 @@ func InitControllersFn(
 			r.GET("/release_history/:env", uic.AuthLogin(), historyController.Find)
 		}
 		{
-			r.POST("/role", ophis.OpenWriter(), uic.AuthPerm(constans.AppOperate), roleController.Create, ophis.Record()) //授权
+			r.POST("/roles", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), roleController.Create, ophis.Record()) //授权
 			r.POST("/role_back_door", uic.AuthPerm(constans.AppOperate), roleController.CreateBackDoor)
-			r.GET("/role", uic.AuthLogin(), roleController.FindByAppId)
+			r.GET("/roles", uic.AuthLogin(), roleController.FindByAppId)
 			r.GET("/auth", uic.AuthLogin(), controller.FindAuth)
 		}
 
