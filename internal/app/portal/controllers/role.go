@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/services"
@@ -22,24 +23,37 @@ func (ctl RoleController) Create(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
+	writerJson, err := json.Marshal(role.Write)
+	if err != nil {
+		c.String(http.StatusBadRequest, "bind write json error:%v", err)
+		return
+	}
+	releaseJson, err := json.Marshal(role.Write)
+	if err != nil {
+		c.String(http.StatusBadRequest, "bind write json error:%v", err)
+		return
+	}
+	writes := string(writerJson)
+	releases := string(releaseJson)
+	query := "&writes=" + writes + "&releases=" + releases
 	// 操作记录
 	if role.Env == "TEST" {
 		if c.Request.URL.RawQuery != "" {
-			c.Request.URL.RawQuery += "&env_id=1&env_name=TEST"
+			c.Request.URL.RawQuery += "&env_id=1&env_name=TEST" + query
 		} else {
-			c.Request.URL.RawQuery += "env_id=1&env_name=TEST"
+			c.Request.URL.RawQuery += "env_id=1&env_name=TEST" + query
 		}
 	} else if role.Env == "ALIYUN" {
 		if c.Request.URL.RawQuery != "" {
-			c.Request.URL.RawQuery += "&env_id=4&env_name=ALIYUN"
+			c.Request.URL.RawQuery += "&env_id=4&env_name=ALIYUN" + query
 		} else {
-			c.Request.URL.RawQuery += "env_id=4&env_name=ALIYUN"
+			c.Request.URL.RawQuery += "env_id=4&env_name=ALIYUN" + query
 		}
 	} else {
 		if c.Request.URL.RawQuery != "" {
-			c.Request.URL.RawQuery += "&env_id=3&env_name=ONLINE"
+			c.Request.URL.RawQuery += "&env_id=3&env_name=ONLINE" + query
 		} else {
-			c.Request.URL.RawQuery += "env_id=3&env_name=ONLINE"
+			c.Request.URL.RawQuery += "env_id=3&env_name=ONLINE" + query
 		}
 	}
 	if err := ctl.service.Create(role); err != nil {
