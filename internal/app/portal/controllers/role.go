@@ -100,3 +100,19 @@ func (ctl RoleController) CreateBackDoor(c *gin.Context) {
 	}
 
 }
+
+func (ctl RoleController) DeleteByUserId(c *gin.Context) {
+
+	role := new(struct {
+		UserId string `json:"user_id"`
+	})
+	if err := c.ShouldBind(role); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	if err := ctl.service.DeleteByUserId(role.UserId); err != nil {
+		c.String(http.StatusBadRequest, "call RoleService.CreateBackDoor failed", err)
+		return
+	}
+
+}

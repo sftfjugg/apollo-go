@@ -41,8 +41,8 @@ CREATE TABLE `Role` (
 use dida_apollo_plus_portal;
 show tables ;
 desc Role;
-select * from Role;
-
+select * from Role where UserId='lihang' and IsDeleted=0;
+delete from Role where AppId='root';
 
 
 

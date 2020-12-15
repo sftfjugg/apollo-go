@@ -13,6 +13,7 @@ type RoleRepository interface {
 	Creates(db *gorm.DB, role []*models.Role) error
 	//Update(db *gorm.DB, role *models.Role) error
 	Delete(db *gorm.DB, appId, cluster, env, name string) error
+	DeleteByUserId(db *gorm.DB, userId string) error
 	Find(appId, userId, cluster, env string) ([]*models.Role, error) //查找用户在对应项目下权限
 	FindByAppId(appId, cluster, env, name string) ([]*models.Role, error)
 	Create(db *gorm.DB, role *models.Role) error
@@ -55,6 +56,13 @@ func (r roleRepository) Creates(db *gorm.DB, role []*models.Role) error {
 func (r roleRepository) Delete(db *gorm.DB, appId, cluster, env, name string) error {
 	if err := db.Table(models.RoleTableName).Where("AppId= ? and Level<4 and IsDeleted=0 and Cluster=? and Env=? and Namespace=?", appId, cluster, env, name).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "roleRepository.Delete failed")
+	}
+	return nil
+}
+
+func (r roleRepository) DeleteByUserId(db *gorm.DB, userId string) error {
+	if err := db.Table(models.RoleTableName).Where("AppId= 'root' and UserId=? and IsDeleted=0", userId).Update("IsDeleted", 1).Error; err != nil {
+		return errors.Wrap(err, "roleRepository.DeleteByUserId failed")
 	}
 	return nil
 }

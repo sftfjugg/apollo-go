@@ -58,6 +58,7 @@ func InitControllersFn(
 		{
 			r.POST("/roles", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), roleController.Create, ophis.Record("apollo-plus-portal")) //授权
 			r.POST("/role_back_door", uic.AuthPerm(constans.AppOperate), roleController.CreateBackDoor)
+			r.DELETE("/role_back_door", uic.AuthPerm(constans.AppOperate), roleController.DeleteByUserId)
 			r.GET("/roles", uic.AuthLogin(), roleController.FindByAppId)
 			r.GET("/auth", uic.AuthLogin(), controller.FindAuth)
 		}

@@ -12,6 +12,7 @@ import (
 type RoleService interface {
 	Create(role *models.Role) error
 	CreateBackDoor(userId string) error
+	DeleteByUserId(userId string) error
 	Find(appId, userId, cluster, env string) (*models.Auth, error)
 	FindByAppId(appId, cluster, env, name string) (*models.Role, error)
 }
@@ -147,4 +148,14 @@ func (s roleService) FindByAppId(appId, cluster, env, name string) (*models.Role
 	rs.Release = release
 	return rs, nil
 
+}
+
+func (s roleService) DeleteByUserId(userId string) error {
+	db := s.db.Begin()
+	if err := s.repository.DeleteByUserId(db, userId); err != nil {
+		db.Rollback()
+		return errors.Wrap(err, "call RoleRepository.DeleteByUserId failed")
+	}
+	db.Commit()
+	return nil
 }
