@@ -23,14 +23,14 @@ func InitControllersFn(
 	return func(r *gin.Engine) {
 
 		{
-			r.GET("/cluster", uic.AuthLogin(), appNamespaceController.FindAllClusterNameByAppId)                                                 //查找集群
-			r.POST("/cluster/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.CreateCluster, ophis.Record()) //创建集群
+			r.GET("/cluster", uic.AuthLogin(), appNamespaceController.FindAllClusterNameByAppId)                                                                     //查找集群
+			r.POST("/cluster/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.CreateCluster, ophis.Record("apollo-plus-portal")) //创建集群
 			r.GET("/app_namespace/:env", uic.AuthLogin(), appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
-			r.POST("/app_namespace/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.Create, ophis.Record())                         //创建namespace
-			r.POST("/app_namespace_by_lane/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.CreateLane, ophis.Record())             //关联泳道
-			r.DELETE("/app_namespace/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.DeleteById, ophis.Record())                   //删除泳道
-			r.DELETE("/app_namespace_by_name/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.DeleteByNameAndAppId, ophis.Record()) //删除集群
-			r.PUT("/app_namespace/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.Update, ophis.Record())                          //修改集群
+			r.POST("/app_namespace/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.Create, ophis.Record("apollo-plus-portal"))                         //创建namespace
+			r.POST("/app_namespace_by_lane/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.CreateLane, ophis.Record("apollo-plus-portal"))             //关联泳道
+			r.DELETE("/app_namespace/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.DeleteById, ophis.Record("apollo-plus-portal"))                   //删除泳道
+			r.DELETE("/app_namespace_by_name/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.DeleteByNameAndAppId, ophis.Record("apollo-plus-portal")) //删除集群
+			r.PUT("/app_namespace/:env", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), appNamespaceController.Update, ophis.Record("apollo-plus-portal"))                          //修改集群
 			//r.PUT("/app_namespace_is_dispaly/:env", uic.AuthLogin(), appNamespaceController.UpdateIsDisply)
 			r.GET("/app_namespace_all/:env", uic.AuthLogin(), appNamespaceController.FindAppNamespaceByAppId)
 			r.GET("/app_by_lane", uic.AuthLogin(), appNamespaceController.FindByLaneName)
@@ -56,7 +56,7 @@ func InitControllersFn(
 			r.GET("/release_history/:env", uic.AuthLogin(), historyController.Find)
 		}
 		{
-			r.POST("/roles", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), roleController.Create, ophis.Record()) //授权
+			r.POST("/roles", uic.AuthPerm(constans.AppOperate), ophis.OpenWriter(), roleController.Create, ophis.Record("apollo-plus-portal")) //授权
 			r.POST("/role_back_door", uic.AuthPerm(constans.AppOperate), roleController.CreateBackDoor)
 			r.GET("/roles", uic.AuthLogin(), roleController.FindByAppId)
 			r.GET("/auth", uic.AuthLogin(), controller.FindAuth)
