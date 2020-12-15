@@ -61,7 +61,7 @@ func (r roleRepository) Delete(db *gorm.DB, appId, cluster, env, name string) er
 
 func (r roleRepository) Find(appId, userId, cluster, env string) ([]*models.Role, error) {
 	role := make([]*models.Role, 0)
-	if err := r.db.Table(models.RoleTableName).Find(&role, "(AppId=? and UserId=? and IsDeleted=0 and Cluster=? and Env=?) or (AppId='root' and IsDeleted=0)", appId, userId, cluster, env).Error; err != nil {
+	if err := r.db.Table(models.RoleTableName).Find(&role, "(AppId=? and UserId=? and IsDeleted=0 and Cluster=? and Env=?) or (AppId='root' and IsDeleted=0 and UserId=?)", appId, userId, cluster, env, userId).Error; err != nil {
 		return nil, errors.Wrap(err, "roleRepository.FindByAppId failed")
 	}
 	return role, nil
