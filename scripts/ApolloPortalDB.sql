@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `Role`;
 
 CREATE TABLE `Role` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `AppId` varchar(500) NOT NULL DEFAULT 'default' COMMENT 'AppID',
+  `AppId` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'AppID',
   `UserId` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserId',
   `Namespace` varchar(100) NOT NULL DEFAULT 'application' COMMENT 'UserName',
   `Env` varchar(64) NOT NULL DEFAULT 'TEST' COMMENT '环境',
@@ -41,7 +41,7 @@ CREATE TABLE `Role` (
 use dida_apollo_plus_portal;
 show tables ;
 desc Role;
-select * from Role where UserId='lihang' and IsDeleted=0;
+select * from Role;
 delete from Role where AppId='root';
 
 

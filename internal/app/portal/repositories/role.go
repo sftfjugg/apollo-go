@@ -60,6 +60,7 @@ func (r roleRepository) Delete(db *gorm.DB, appId, cluster, env, name string) er
 	return nil
 }
 
+//删除超级root权限
 func (r roleRepository) DeleteByUserId(db *gorm.DB, userId string) error {
 	if err := db.Table(models.RoleTableName).Where("AppId= 'root' and UserId=? and IsDeleted=0", userId).Update("IsDeleted", 1).Error; err != nil {
 		return errors.Wrap(err, "roleRepository.DeleteByUserId failed")
