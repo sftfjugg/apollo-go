@@ -60,39 +60,6 @@ func (ctl AppNamespaceController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, appNamespace)
 }
 
-func (ctl AppNamespaceController) CreateOrFindAppNamespace(c *gin.Context) {
-	appNamespace := new(models.AppNamespace)
-	if err := c.ShouldBind(appNamespace); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	id, err := ctl.service.CreateOrFindAppNamespace(appNamespace)
-	if err != nil {
-		c.String(http.StatusBadRequest, "AppNamespaceService.CreateOrFindAppNamespace error:%v", err)
-		return
-	}
-	c.JSON(http.StatusOK, id)
-}
-
-//func (ctl AppNamespaceController) Update(c *gin.Context) {
-//	appNamespace := new(models.AppNamespace)
-//	if err := c.Bind(appNamespace); err != nil {
-//		c.String(http.StatusBadRequest, "bind params error:%v", err)
-//		return
-//	}
-//	userId, err := c.Cookie("UserID")
-//	if err != nil {
-//		c.String(http.StatusBadRequest, "AppNamespaceService.Create error:%v")
-//		return
-//	}
-//	appNamespace.DataChange_LastModifiedBy = userId
-//	if err := ctl.service.Update(appNamespace); err != nil {
-//		c.String(http.StatusBadRequest, "AppNamespaceService.Update error:%v", err)
-//		return
-//	}
-//	c.JSON(http.StatusOK, appNamespace)
-//}
-
 func (ctl AppNamespaceController) Update(c *gin.Context) {
 	appNamespace := new(models.AppNamespace)
 	if err := c.Bind(appNamespace); err != nil {

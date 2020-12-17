@@ -53,18 +53,6 @@ func (ctl ItemController) CreateByText(c *gin.Context) {
 	}
 }
 
-func (ctl ItemController) CreateOrUpdateItem(c *gin.Context) {
-	item := new(models.Item)
-	if err := c.ShouldBind(item); err != nil {
-		c.String(http.StatusBadRequest, "bind params error:%v", err)
-		return
-	}
-	if err := ctl.service.CreateOrUpdateItem(item); err != nil {
-		c.String(http.StatusInternalServerError, "call ItemService.CreateOrUpdateItem() error:%v", err)
-		return
-	}
-}
-
 func (ctl ItemController) Creates(c *gin.Context) {
 	item := make([]*models.Item, 0)
 	if err := c.ShouldBind(item); err != nil {

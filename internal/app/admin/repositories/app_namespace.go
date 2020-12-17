@@ -11,7 +11,6 @@ type AppNamespaceRepository interface {
 	Create(db *gorm.DB, appNamespace *models.AppNamespace) error
 	DeleteById(db *gorm.DB, id string) error
 	DeleteByNameAndAppIdAndCluster(db *gorm.DB, name, appId, cluster string) error
-	//Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	Update(db *gorm.DB, appNamespace *models.AppNamespace) error
 	FindAppNamespaceById(id string) (*models.AppNamespace, error)
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)

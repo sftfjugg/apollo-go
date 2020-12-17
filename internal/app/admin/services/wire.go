@@ -7,4 +7,5 @@ var ProviderSet = wire.NewSet(
 	NewAppNamespaceService,
 	NewItemService,
 	NewReleaseHistoryService,
+	NewZService,
 )

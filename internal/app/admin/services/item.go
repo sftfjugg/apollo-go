@@ -15,7 +15,6 @@ import (
 type ItemService interface {
 	Create(item *models.Item) error
 	CreateByText(items *models2.ItemText) error
-	CreateOrUpdateItem(item *models.Item) error
 	Creates(item []*models.Item) error
 	Update(item *models.Item) error
 	DeleteById(id, operator string) error
@@ -61,12 +60,17 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 		return errors.New("格式错误或者内容为空")
 	}
 	itemsSave := make([]*models.Item, 0) //需要新增，修改，删除的
-	for _, t := range texts {            //第一次循环将新增修改的添加itemsSave并剔除于m，使m中只留下需要删除的
+	mrepeat := make(map[string]int)
+	for _, t := range texts { //第一次循环将新增修改的添加itemsSave并剔除于m，使m中只留下需要删除的
 		if strings.Count(t, "=") >= 1 {
 
 			k := strings.Index(t, "=")
 			key := strings.Trim(t[0:k], " ")
 			value := strings.Trim(t[k+1:len(t)], " ")
+			if _, ok := mrepeat[key]; ok {
+				return errors.New("存在重复的key")
+			}
+			mrepeat[key] = 0
 			if key != "" {
 				if _, ok := m[key]; ok {
 					i := m[key]
@@ -123,25 +127,6 @@ func (s itemService) Create(item *models.Item) error {
 		return errors.Wrap(err, "call ItemRepository.Create() error")
 	}
 	db.Commit()
-	return nil
-}
-
-func (s itemService) CreateOrUpdateItem(item *models.Item) error {
-	item2, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
-	if err != nil {
-		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
-	}
-	item.Id = item2.Id
-	if item2.Key != "" {
-		if err := s.Update(item); err != nil {
-			return errors.Wrap(err, "call itemService.Update() error")
-		}
-	} else {
-		item.DataChange_CreatedBy = item.DataChange_LastModifiedBy
-		if err := s.Create(item); err != nil {
-			return errors.Wrap(err, "call itemService.Create() error")
-		}
-	}
 	return nil
 }
 

@@ -13,7 +13,6 @@ import (
 
 type AppNamespaceService interface {
 	Create(appNamespace *models.AppNamespace) error
-	CreateOrFindAppNamespace(appNamespace *models.AppNamespace) (int64, error)
 	DeleteById(id string) error
 	DeleteByNameAndAppIdAndCluster(name, appId, cluster string) error
 	//Update(appNamespace *models.AppNamespace) error
@@ -85,25 +84,6 @@ func (s appNamespaceService) Create(appNamespace *models.AppNamespace) error {
 	}
 	db.Commit()
 	return nil
-}
-
-//外部rpc调用
-func (s appNamespaceService) CreateOrFindAppNamespace(appNamespace *models.AppNamespace) (int64, error) {
-	app, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appNamespace.AppId, appNamespace.ClusterName, appNamespace.LaneName, appNamespace.Name)
-	if err != nil {
-		return 0, errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
-	}
-	if app.Name != "" {
-		return int64(app.Id), nil
-	}
-	if err := s.Create(appNamespace); err != nil {
-		return 0, errors.Wrap(err, "call appNamespaceService.Create() error")
-	}
-	createApp, err := s.FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appNamespace.AppId, appNamespace.ClusterName, appNamespace.LaneName, appNamespace.Name)
-	if err != nil {
-		return 0, errors.Wrap(err, "call appNamespaceService.FindOneAppNamespaceByAppIdAndClusterNameAndName() error")
-	}
-	return int64(createApp.Id), nil
 }
 
 func (s appNamespaceService) DeleteById(id string) error {

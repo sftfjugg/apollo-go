@@ -23,8 +23,8 @@ func (z ZserviceApi) CreateOrUpdateItem(ctx thrift.Context, item *apollo_thrift_
 	return z.service.CreateOrUpdateItem(item)
 }
 
-func (z ZserviceApi) PublicNamespace(ctx thrift.Context, release *apollo_thrift_service.Release) error {
-	return z.service.PublicNamespace(release)
+func (z ZserviceApi) PublishNamespace(ctx thrift.Context, release *apollo_thrift_service.Release) error {
+	return z.service.PublishNamespace(release)
 }
 
 var ProviderSet = wire.NewSet(

@@ -22,7 +22,7 @@ require (
 	github.com/uber/tchannel-go v1.18.0
 	go.didapinche.com/foundation/agollo v1.2.3-0.20201130021840-13ffb705cc98
 	go.didapinche.com/foundation/ophis v1.5.1
-	go.didapinche.com/goapi/apollo_thrift_service/v2 v2.0.0-beta.2
+	go.didapinche.com/goapi/apollo_thrift_service/v2 v2.0.0-beta.5
 	go.didapinche.com/goapi/plat_limos_rpc v1.0.0-beta.8
 	go.didapinche.com/goapi/plat_operate_history_api v1.0.0-beta.3
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1

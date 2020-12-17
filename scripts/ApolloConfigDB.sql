@@ -173,6 +173,7 @@ CREATE TABLE `ServerConfig` (
 
 
 USE dida_apollo_plus_config;
+select * from AppNamespace;
 select * from ReleaseMessage where Message='public_global_config+default+server.configure.dev';
 show databases;
 select * from `Release`;
@@ -180,7 +181,7 @@ select * from AppNamespace where LaneName!='default';
 select * from ReleaseMessage;
 select * from AppNamespace;
 select * from AppNamespace where AppId='apollo-test';
-update AppNamespace set DeptName='';
+update AppNamespace set IsDisplay=1 where IsDisplay=0;
 
 select * from ReleaseMessage;
 select * from `Release`;
@@ -189,3 +190,5 @@ use plat_operate_history;
 show tables ;
 select * from t_history order by Id desc ;
 select * from t_template;
+Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like '%testisdisplay%' and A.Id=I.NamespaceId and I.IsDeleted=0  order by I.NamespaceId Limit 0,100;
+select * from AppNamespace where AppId='plat-fe-rocketmq' and IsDeleted=0;

@@ -17,29 +17,29 @@ type ReleaseMessageService interface {
 }
 
 type releaseMessageService struct {
-	repository             repositories.ReleaseMessageRepository
-	releaseRepository      repositories.Release
-	appNamespaceRepository repositories.AppNamespaceRepository
-	itemRepository         repositories.ItemRepisitory
-	releaseHistoryService  repositories.ReleaseHistoryRepository
-	db                     *gorm.DB
+	repository               repositories.ReleaseMessageRepository
+	releaseRepository        repositories.Release
+	appNamespaceRepository   repositories.AppNamespaceRepository
+	itemRepository           repositories.ItemRepisitory
+	releaseHistoryRepository repositories.ReleaseHistoryRepository
+	db                       *gorm.DB
 }
 
 func NewReleaseMessageService(
 	repository repositories.ReleaseMessageRepository,
 	releaseRepository repositories.Release,
 	appNamespaceRepository repositories.AppNamespaceRepository,
-	releaseHistoryService repositories.ReleaseHistoryRepository,
+	releaseHistoryRepository repositories.ReleaseHistoryRepository,
 	itemRepository repositories.ItemRepisitory,
 	db *gorm.DB,
 ) ReleaseMessageService {
 	return &releaseMessageService{
-		repository:             repository,
-		releaseRepository:      releaseRepository,
-		appNamespaceRepository: appNamespaceRepository,
-		itemRepository:         itemRepository,
-		releaseHistoryService:  releaseHistoryService,
-		db:                     db,
+		repository:               repository,
+		releaseRepository:        releaseRepository,
+		appNamespaceRepository:   appNamespaceRepository,
+		itemRepository:           itemRepository,
+		releaseHistoryRepository: releaseHistoryRepository,
+		db:                       db,
 	}
 }
 
@@ -134,9 +134,9 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 		db.Rollback()
 		return errors.Wrap(err, "call releaseRepository.Create() error")
 	}
-	if err := s.releaseHistoryService.Create(db, releaseHistory); err != nil {
+	if err := s.releaseHistoryRepository.Create(db, releaseHistory); err != nil {
 		db.Rollback()
-		return errors.Wrap(err, "call releaseHistoryService.Create() error")
+		return errors.Wrap(err, "call releaseHistoryRepository.Create() error")
 	}
 	if err := s.repository.DeleteByMessage(db, releaseMessage.Message); err != nil {
 		db.Rollback()
@@ -298,9 +298,9 @@ func (s releaseMessageService) ReleaseGrayTotal(namespaceId, name, appId, cluste
 			return errors.Wrap(err, "call releaseRepository.Delete() error")
 		}
 	}
-	if err := s.releaseHistoryService.Create(db, releaseHistory); err != nil {
+	if err := s.releaseHistoryRepository.Create(db, releaseHistory); err != nil {
 		db.Rollback()
-		return errors.Wrap(err, "call releaseHistoryService.Create() error")
+		return errors.Wrap(err, "call releaseHistoryRepository.Create() error")
 	}
 	if err := s.repository.DeleteByMessage(db, releaseMessage.Message); err != nil {
 		db.Rollback()

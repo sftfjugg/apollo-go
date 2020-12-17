@@ -9,4 +9,5 @@ var ProviderSet = wire.NewSet(
 	NewReleaseHistoryController,
 	InitControllersFn,
 	NewDateController,
+	NewZServiceController,
 )

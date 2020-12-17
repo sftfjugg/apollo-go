@@ -64,7 +64,9 @@ func CreateApp(cf string) (*app.Application, error) {
 	releaseMessageService := services.NewReleaseMessageService(releaseMessageRepository, release, appNamespaceRepository, releaseHistoryRepository, itemRepisitory, gormDB)
 	releaseController := controllers.NewReleaseController(releaseMessageService)
 	dateController := controllers.NewDateController()
-	initControllers := controllers.InitControllersFn(appNamespaceController, itemController, releaseHistoryController, releaseController, dateController)
+	zService := services.NewZService(appNamespaceService, itemService, releaseMessageService)
+	zServiceController := controllers.NewZServiceController(zService)
+	initControllers := controllers.InitControllersFn(appNamespaceController, itemController, releaseHistoryController, releaseController, dateController, zServiceController)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err
