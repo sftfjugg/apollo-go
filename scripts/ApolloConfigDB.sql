@@ -192,3 +192,5 @@ select * from t_history order by Id desc ;
 select * from t_template;
 Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like '%testisdisplay%' and A.Id=I.NamespaceId and I.IsDeleted=0  order by I.NamespaceId Limit 0,100;
 select * from AppNamespace where AppId='plat-fe-rocketmq' and IsDeleted=0;
+select * from AppNamespace order by Id desc ;
+delete from AppNamespace where Id=3369;

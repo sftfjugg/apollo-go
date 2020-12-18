@@ -25,6 +25,18 @@ func NewZserviceApi(httpClient *zclients.HttpClient) ZserviceApi {
 func (s zserviceApi) CreateOrFindAppNamespace(app *apollo_thrift_service.AppNamespace) (int64, error) {
 
 	appNamespace := new(models.AppNamespace)
+	if app.AppId == "" || app.Name == "" {
+		return 0, errors.New("name and appId don't null")
+	}
+	if app.ClusterName == "" {
+		app.ClusterName = "default"
+	}
+	if app.LaneName == "" {
+		app.LaneName = "default"
+	}
+	if app.Format == "" {
+		app.Format = "业务"
+	}
 	appNamespace.Name = app.Name
 	appNamespace.AppId = app.AppId
 	appNamespace.Format = app.Format
@@ -46,6 +58,12 @@ func (s zserviceApi) CreateOrFindAppNamespace(app *apollo_thrift_service.AppName
 }
 
 func (s zserviceApi) CreateOrUpdateItem(item *apollo_thrift_service.Item) error {
+	if item.NamespaceId == 0 {
+		return errors.New("NamespaceId don't 0")
+	}
+	if item.Key == "" {
+		return errors.New("key not exist")
+	}
 	item2 := new(models.Item)
 	item2.NamespaceId = uint64(item.NamespaceId)
 	item2.Key = item.Key
@@ -63,6 +81,12 @@ func (s zserviceApi) CreateOrUpdateItem(item *apollo_thrift_service.Item) error 
 }
 
 func (s zserviceApi) PublishNamespace(release *apollo_thrift_service.Release) error {
+	if release.NamespaceId == 0 {
+		return errors.New("NamespaceId don't 0")
+	}
+	if release.Keys == nil {
+		return errors.New("key don't null")
+	}
 	param := new(struct {
 		Comment     string   `json:"comment"`
 		NamespaceId uint64   `json:"namespace_id"`
