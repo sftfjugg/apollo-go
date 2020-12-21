@@ -193,4 +193,7 @@ select * from t_template;
 Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like '%testisdisplay%' and A.Id=I.NamespaceId and I.IsDeleted=0  order by I.NamespaceId Limit 0,100;
 select * from AppNamespace where AppId='plat-fe-rocketmq' and IsDeleted=0;
 select * from AppNamespace order by Id desc ;
-delete from AppNamespace where Id=3369;
+select * from AppNamespace where LaneName!='default';
+
+replace into Item(`Id`,`NamespaceId`,`Key`,`Value`,`ReleaseValue`,`Status`,`Comment`,`Describe`,`DataChange_CreatedBy`,`DataChange_LastModifiedBy`,`DataChange_CreatedTime`,`DataChange_LastTime`) values('13773','3228','myName','test','test','1','','','lihang','lihang','2020-12-15 20:28:10','2020-12-21 10:43:09'),('13907','3228','myName2','1','','0','','','lihang','lihang','2020-12-17 18:43:38','2020-12-21 10:43:11'),('13913','3228','myName5','"\\"test\\""','test','2','','','lihang','lihang','2020-12-18 09:34:29','2020-12-21 10:43:32');
+INSERT INTO `Item` (`Id`,`NamespaceId`,`Key`,`Value`,`ReleaseValue`,`Status`,`Comment`,`Describe`,`IsDeleted`,`DataChange_CreatedBy`,`DataChange_LastModifiedBy`,`DataChange_CreatedTime`,`DataChange_LastTime`) VALUES (0,3228,'myName123412','"\"\test\"\"','',0,'','',false,'lihang','lihang','2020-12-21 10:51:13','2020-12-21 10:51:14');

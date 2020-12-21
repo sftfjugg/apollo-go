@@ -75,7 +75,7 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 				if _, ok := m[key]; ok {
 					i := m[key]
 					if value != items[i].Value {
-						items[i].Value = value
+						items[i].Value = strings.ReplaceAll(value, "\\", "\\\\")
 						items[i].Status = 2
 						items[i].DataChange_LastModifiedBy = itemText.Operator
 						itemsSave = append(itemsSave, items[i])
@@ -86,8 +86,8 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 					}
 				} else {
 					item := new(models.Item)
-					item.Key = key
-					item.Value = value
+					item.Key = strings.ReplaceAll(key, "\\", "\\\\")
+					item.Value = strings.ReplaceAll(value, "\\", "\\\\")
 					item.Status = 0
 					item.NamespaceId = itemText.NamespaceId
 					item.DataChange_CreatedBy = itemText.Operator

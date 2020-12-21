@@ -23,6 +23,7 @@ func main() {
 	}
 	apollo := apollo_thrift_service.NewTChanApolloThriftServiceClient(cli)
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
+	//查询namespaceId
 	appNamespce := new(apollo_thrift_service.AppNamespace)
 	appNamespce.Name = "application"
 	appNamespce.AppId = "apollo-test"
@@ -34,9 +35,10 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	//修改配置
 	item := new(apollo_thrift_service.Item)
 	item.NamespaceId = id
-	item.Key = "myName"
+	item.Key = "myName5"
 	item.Value = "test"
 	item.Env = "1"
 	item.Operator = "lihang"
@@ -44,6 +46,7 @@ func main() {
 	if err := apollo.CreateOrUpdateItem(ctx1, item); err != nil {
 		fmt.Println(err)
 	}
+	//发布
 	release := new(apollo_thrift_service.Release)
 	release.NamespaceId = id
 	release.Env = "1"

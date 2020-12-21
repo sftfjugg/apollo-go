@@ -9,6 +9,7 @@ import (
 )
 
 func test() (errs error) {
+
 	defer func() {
 		if err := recover(); err != nil {
 			errs = errors.New("test")
