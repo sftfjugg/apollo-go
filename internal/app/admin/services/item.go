@@ -81,6 +81,7 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 						itemsSave = append(itemsSave, items[i])
 						delete(m, key)
 					} else {
+						items[i].Value = strings.ReplaceAll(value, "\\", "\\\\")
 						itemsSave = append(itemsSave, items[i])
 						delete(m, key)
 					}
