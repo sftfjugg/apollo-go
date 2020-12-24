@@ -76,19 +76,23 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 					i := m[key]
 					if value != items[i].Value {
 						items[i].Value = strings.ReplaceAll(value, "\\", "\\\\")
+						items[i].Value = strings.ReplaceAll(items[i].Value, "\\\\n", "\\n")
 						items[i].Status = 2
 						items[i].DataChange_LastModifiedBy = itemText.Operator
 						itemsSave = append(itemsSave, items[i])
 						delete(m, key)
 					} else {
 						items[i].Value = strings.ReplaceAll(value, "\\", "\\\\")
+						items[i].Value = strings.ReplaceAll(items[i].Value, "\\\\n", "\\n")
 						itemsSave = append(itemsSave, items[i])
 						delete(m, key)
 					}
 				} else {
 					item := new(models.Item)
 					item.Key = strings.ReplaceAll(key, "\\", "\\\\")
+					item.Key = strings.ReplaceAll(item.Key, "\\\\n", "\\n")
 					item.Value = strings.ReplaceAll(value, "\\", "\\\\")
+					item.Value = strings.ReplaceAll(item.Value, "\\\\n", "\\n")
 					item.Status = 0
 					item.NamespaceId = itemText.NamespaceId
 					item.DataChange_CreatedBy = itemText.Operator
