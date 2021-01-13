@@ -121,7 +121,7 @@ func (s itemService) CreateByText(itemText *models2.ItemText) error {
 func (s itemService) Create(item *models.Item) error {
 	item2, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
 	if err != nil {
-		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
+		return errors.Wrap(err, "call itemService.FindOneItemByNamespaceIdAndKey() error")
 	}
 	if item2.Key != "" {
 		return errors.New("item already exists")
@@ -168,7 +168,7 @@ func (s itemService) DeleteByNamespaceId(namespaceId string) error {
 func (s itemService) Update(item *models.Item) error {
 	item2, err := s.FindOneItemByNamespaceIdAndKey(item.NamespaceId, item.Key)
 	if err != nil {
-		return errors.Wrap(err, "call itemService.FindItemByNamespaceIdAndKey() error")
+		return errors.Wrap(err, "call itemService.FindOneItemByNamespaceIdAndKey() error")
 	}
 	if item2.Key != "" && item2.Key != item.Key {
 		return errors.New("item already exists")

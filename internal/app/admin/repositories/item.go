@@ -213,7 +213,7 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, format string, pageSi
 		cluster = "and A.ClusterName='" + cluster + "'  "
 	}
 	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
-		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
+		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByKeyForPage failed")
 	}
 	return items, nil
 }
@@ -222,7 +222,7 @@ func (r itemRepisitory) FindItemCountByKey(key string) (int, error) {
 
 	var count = new(models2.Count)
 	if err := r.db.Raw("Select count(*) as count  from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0;", "%"+key+"%").Scan(&count).Error; err != nil {
-		return 0, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
+		return 0, errors.Wrap(err, "ItemRepisitory.FindItemCountByKey failed")
 	}
 	return count.Count, nil
 }
@@ -230,7 +230,7 @@ func (r itemRepisitory) FindItemCountByKey(key string) (int, error) {
 func (r itemRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error) {
 	item := new(models.Item)
 	if err := r.db.Table(models.ItemTableName).First(&item, "NamespaceId =? and `Key` = ? and IsDeleted=0", namespaceId, key).Error; err != nil && !gorm.IsRecordNotFoundError(err) {
-		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
+		return nil, errors.Wrap(err, "ItemRepisitory.FindOneItemByNamespaceIdAndKey failed")
 	}
 	return item, nil
 }
