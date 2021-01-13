@@ -57,7 +57,7 @@ func (s AddressService) GetAddress(name string, metas []string) {
 	}
 	m := single_queue.GetV()
 	if address != nil {
-		m[name] = address
+		m.Store(name, address)
 	} else {
 		s.log.Error("get admin by consul error,admin ip no change")
 	}

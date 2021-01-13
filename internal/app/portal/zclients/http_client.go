@@ -22,11 +22,16 @@ func NewHttpClient(client *http.Client) *HttpClient {
 
 //http方法封装,拿到gin的request，去除r的RequseURI和RemoteAddr，通过env选择对应环境的url，修改URL地址，获得请求
 func (s HttpClient) HttpDo(url, env string, r *http.Request) (*models2.Response, error) {
-	m := single_queue.GetV()
-	if len(m[env]) == 0 {
-		return nil, errors.New("There is no adminservcie to call")
+	address := single_queue.GetV()
+	m, ok := address.Load(env)
+	if !ok {
+		return nil, errors.New("here is no adminservcie to call")
 	}
-	i := rand.Intn(len(m[env]))
+	adds, ok := m.([]*models2.Address)
+	if !ok {
+		return nil, errors.New("here is no adminservcie to call")
+	}
+	i := rand.Intn(len(adds))
 
 	//添加操作记录，操作记录需要env_id的参数和配置env_name的参数
 	if env == "TEST" {
@@ -50,8 +55,8 @@ func (s HttpClient) HttpDo(url, env string, r *http.Request) (*models2.Response,
 	}
 
 	r.URL.Path = url
-	r.URL.Host = m[env][i].InstanceId
-	r.Host = m[env][i].InstanceId
+	r.URL.Host = adds[i].InstanceId
+	r.Host = adds[i].InstanceId
 	r.URL.Scheme = "http"
 	r.RequestURI = ""
 	r.RemoteAddr = ""
@@ -73,12 +78,17 @@ func (s HttpClient) HttpDo(url, env string, r *http.Request) (*models2.Response,
 
 //http方法封装,拿到gin的request，去除r的RequseURI和RemoteAddr，通过env选择对应环境的url，修改URL地址，获得请求
 func (s HttpClient) HttpPost(url, env string, data interface{}) (*models2.Response, error) {
-	m := single_queue.GetV()
-	if len(m[env]) == 0 {
-		return nil, errors.New("There is no adminservcie to call")
+	address := single_queue.GetV()
+	m, ok := address.Load(env)
+	if !ok {
+		return nil, errors.New("here is no adminservcie to call")
 	}
-	i := rand.Intn(len(m[env]))
-	url = "http://" + m[env][i].InstanceId + url
+	adds, ok := m.([]*models2.Address)
+	if !ok {
+		return nil, errors.New("here is no adminservcie to call")
+	}
+	i := rand.Intn(len(adds))
+	url = "http://" + adds[i].InstanceId + url
 	b, err := json.Marshal(data)
 	if err != nil {
 		return nil, errors.Wrap(err, "json format error:")
