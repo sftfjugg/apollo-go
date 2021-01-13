@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/pkg/errors"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/single_queue"
@@ -23,13 +24,18 @@ func NewReleaseMessageService(repository repositories.ReleaseMessageRepository) 
 
 //一直运行,需要单独启动
 func (s releaseMessageService) Poll() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println(r)
+		}
+	}()
 	releases, err := s.repository.FindAll()
 	if err != nil {
 		errors.Wrap(err, "mysql poll failed，Please restart")
 	}
 	m := single_queue.GetV()
 	for _, r := range releases {
-		m[r.Message] = r.Id
+		m.Store(r.Message, r.Id)
 	}
 	max := 0
 	if len(releases) > 1 {
@@ -45,7 +51,7 @@ func (s releaseMessageService) Poll() {
 				errors.Wrap(err, "mysql poll failed")
 			}
 			for _, r := range releases {
-				m[r.Message] = r.Id
+				m.Store(r.Message, r.Id)
 			}
 			if len(releases) > 0 {
 				max = int(releases[len(releases)-1].Id)

@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/pkg/errors"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/config/single_queue"
@@ -21,6 +22,11 @@ func NewNotificationMessageService() NotificationMessageService {
 
 //监视配置文件是否改变
 func (s notificationMessageService) CompareV(appid, cluster, notifications, lane string) ([]*models.Notification, error) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println(r)
+		}
+	}()
 	tempMap := make([]map[string]interface{}, 0)
 	params := make([]*models.Notification, 0) //返回值为了匹配客户端使用数组，但是数组中只有一组数据
 	err := json.Unmarshal([]byte(notifications), &tempMap)
@@ -54,8 +60,13 @@ func (s notificationMessageService) CompareV(appid, cluster, notifications, lane
 loop:
 	for range ticker.C {
 		for k, v := range mav {
-			if float64(m[k]) > v.Max {
-				tempMap[v.Index]["notificationId"] = float64(m[k])
+			id, _ := m.Load(k)
+			nid, ok := id.(uint64) //nid是当前app版本号
+			if !ok {
+				nid = 0
+			}
+			if float64(nid) > v.Max {
+				tempMap[v.Index]["notificationId"] = float64(nid)
 				typ = true
 				break loop
 			}
