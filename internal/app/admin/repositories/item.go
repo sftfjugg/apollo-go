@@ -29,6 +29,7 @@ type ItemRepisitory interface {
 	FindItemCountByKey(key string) (int, error)
 	FindAllComment(appId string) ([]*models.Item, error) //查询所有不同标签
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
+	FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error) //sentinel专用接口
 }
 
 type itemRepisitory struct {
@@ -73,7 +74,6 @@ func (r itemRepisitory) Creates(db *gorm.DB, items []*models.Item) error {
 
 func (r itemRepisitory) Update(db *gorm.DB, item *models.Item) error {
 	item.DataChange_LastTime = time.Now()
-	item.Status = 2
 	if err := db.Table(models.ItemTableName).Where("Id=?", item.Id).Update(&item).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.Update failed")
 	}
@@ -239,6 +239,14 @@ func (r itemRepisitory) FindAllComment(appId string) ([]*models.Item, error) {
 	items := make([]*models.Item, 0)
 	if err := r.db.Raw("Select I.Comment from `AppNamespace` A,`Item` I where  A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
+	}
+	return items, nil
+}
+
+func (r itemRepisitory) FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error) {
+	items := make([]*models.Item, 0)
+	if err := r.db.Raw("select * from `Item`,`AppNamespace` where AppNamespace.AppId =? and Item.Key like ? and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default and ClusterName='default'", appId, "%"+key+"%").Scan(&items).Error; err != nil {
+		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByAppIdLikeKey failed")
 	}
 	return items, nil
 }

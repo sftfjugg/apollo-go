@@ -25,6 +25,7 @@ func InitControllersFn(
 			r.GET("/app_namespace", appNamespaceController.FindAppNamespaceByAppIdAndClusterName)
 			r.GET("/app_namespace_all", appNamespaceController.FindAppNamespace)
 			r.GET("/app_by_lane", appNamespaceController.FindByLaneName)
+			r.GET("/app_by_app_and_lane", appNamespaceController.FindAppByLaneNameandAppId)
 			r.DELETE("/app_namespace", appNamespaceController.DeleteById)
 			r.DELETE("/app_namespace_by_name", appNamespaceController.DeleteByNameAndAppIdAndCluster)
 		}
@@ -42,6 +43,7 @@ func InitControllersFn(
 			r.GET("/item_by_key_and_appId", itemController.FindItemByAppIdAndKey)
 			r.GET("/items_release", itemController.FindItemByNamespaceIdOnRelease)
 			r.GET("/item_comment", itemController.FindAllComment)
+			r.GET("/items_by_appId_like_key", itemController.FindItemByAppIdLikeKey)
 		}
 		{
 			r.POST("/release", releaseController.Create)

@@ -39,6 +39,7 @@ CREATE TABLE `Role` (
 
 
 use dida_apollo_plus_portal;
+select * from Role where AppId='root';
 show tables ;
 desc Role;
 select * from Role;

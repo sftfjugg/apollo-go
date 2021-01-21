@@ -27,6 +27,7 @@ type ItemService interface {
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
 	FindAllComment(appId string) ([]string, error)
+	FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error)
 }
 
 type itemService struct {
@@ -266,6 +267,14 @@ func (s itemService) FindAllComment(appId string) ([]string, error) {
 		}
 	}
 	return comments, nil
+}
+
+func (s itemService) FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error) {
+	items, err := s.repository.FindItemByAppIdLikeKey(appId, key)
+	if err != nil {
+		return nil, errors.Wrap(err, "call ItemRepository.FindItemByAppIdLikeKey() error")
+	}
+	return items, nil
 }
 
 //作用是将Item格式转化为前端展示格式

@@ -69,6 +69,11 @@ func (s zserviceApi) CreateOrUpdateItem(item *apollo_thrift_service.Item) error 
 	item2.Key = item.Key
 	item2.Value = item.Value
 	item2.DataChange_LastModifiedBy = item.Operator
+	if item.Status == 3 {
+		item2.Status = 3
+	} else {
+		item2.Status = 0
+	}
 	env := s.EnvToString(item.Env)
 	resp, err := s.httpClient.HttpPost("/item/create_or_update", env, item2)
 	if err != nil {

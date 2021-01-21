@@ -20,6 +20,7 @@ type AppNamespaceRepository interface {
 	FindClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 	FindAllClusterNameByAppId(appId string) ([]*models.AppNamespace, error)
 	FindByLaneName(lane string) ([]*models.AppNamespace, error)
+	FindAppByLaneNameandAppId(appId, lane string) ([]*models.AppNamespace, error)
 }
 
 type appNamespaceRepository struct {
@@ -146,6 +147,20 @@ func (r appNamespaceRepository) FindByLaneName(lane string) ([]*models.AppNamesp
 	}
 	if err := r.db.Raw(" select * FROM `AppNamespace`  WHERE IsDeleted=0 " + lane).Scan(&appNamespaces).Error; err != nil {
 		return nil, errors.Wrap(err, "FindByLaneName appNamespace error")
+	}
+	return appNamespaces, nil
+}
+
+func (r appNamespaceRepository) FindAppByLaneNameandAppId(appId, lane string) ([]*models.AppNamespace, error) {
+	appNamespaces := make([]*models.AppNamespace, 0)
+	if lane != "" {
+		lane = "and LaneName='" + lane + "'"
+	}
+	if appId != "" {
+		appId = " and AppId='" + appId + "'"
+	}
+	if err := r.db.Raw(" select * FROM `AppNamespace`  WHERE IsDeleted=0 " + lane + appId).Scan(&appNamespaces).Error; err != nil {
+		return nil, errors.Wrap(err, "FindAppByLaneNameandAppId appNamespace error")
 	}
 	return appNamespaces, nil
 }

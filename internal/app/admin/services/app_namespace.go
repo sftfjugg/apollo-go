@@ -22,6 +22,7 @@ type AppNamespaceService interface {
 	FindAppNamespaceByAppIdAndClusterName(appId, clusterName string) ([]*models.AppNamespace, error)
 	FindOneAppNamespaceByAppIdAndClusterNameAndNameAndLane(appId, clusterName, laneName, name string) (*models.AppNamespace, error)
 	FindByLaneName(lane string) (*models2.AppPage, error)
+	FindAppByLaneNameandAppId(appId, lane string) (*models2.AppPage, error)
 }
 
 type appNamespaceService struct {
@@ -259,6 +260,17 @@ func (s appNamespaceService) FindByLaneName(lane string) (*models2.AppPage, erro
 	apps, err := s.repository.FindByLaneName(lane)
 	if err != nil {
 		return nil, errors.Wrap(err, "call repository.FindByLaneName failed")
+	}
+	appPage := new(models2.AppPage)
+	appPage.Total = len(apps)
+	appPage.AppNamespaces = apps
+	return appPage, nil
+}
+
+func (s appNamespaceService) FindAppByLaneNameandAppId(appId, lane string) (*models2.AppPage, error) {
+	apps, err := s.repository.FindAppByLaneNameandAppId(appId, lane)
+	if err != nil {
+		return nil, errors.Wrap(err, "call repository.FindAppByLaneNameandAppId failed")
 	}
 	appPage := new(models2.AppPage)
 	appPage.Total = len(apps)

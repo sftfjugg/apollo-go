@@ -33,6 +33,7 @@ func InitControllersFn(
 			//r.PUT("/app_namespace_is_dispaly/:env", uic.AuthLogin(), appNamespaceController.UpdateIsDisply)
 			r.GET("/app_namespace_all/:env", uic.AuthLogin(), appNamespaceController.FindAppNamespaceByAppId)
 			r.GET("/app_by_lane", uic.AuthLogin(), appNamespaceController.FindByLaneName)
+			r.GET("/app_by_app_and_lane", uic.AuthLogin(), appNamespaceController.FindAppByLaneNameandAppId)
 		}
 		{
 			r.GET("/items/:env", uic.AuthLogin(), itemController.FindItemByNamespaceId)

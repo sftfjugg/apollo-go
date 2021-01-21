@@ -22,7 +22,6 @@ func main() {
 		panic(errors.Wrap(err, "failed to create HelloService client"))
 	}
 	apollo := apollo_thrift_service.NewTChanApolloThriftServiceClient(cli)
-	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	//查询namespaceId
 	appNamespce := new(apollo_thrift_service.AppNamespace)
 	appNamespce.Name = "application"
@@ -31,6 +30,7 @@ func main() {
 	appNamespce.Operator = "lihang"
 	appNamespce.LaneName = "default"
 	appNamespce.ClusterName = "default"
+	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
 	id, err := apollo.CreateOrFindAppNamespace(ctx, appNamespce)
 	if err != nil {
 		fmt.Println(err)

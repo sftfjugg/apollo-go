@@ -217,3 +217,14 @@ func (ctl ItemController) FindAppItemByKeyForPage(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, items)
 }
+
+func (ctl ItemController) FindItemByAppIdLikeKey(c *gin.Context) {
+	appId := c.Query("app_id")
+	key := c.Query("key")
+	items, err := ctl.service.FindItemByAppIdLikeKey(appId, key)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "call ItemService.FindItemByAppIdLikeKey() error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, items)
+}

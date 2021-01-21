@@ -21,6 +21,7 @@ type AppNamespaceService interface {
 	FindAppNamespaceByAppId(appId string, r *http.Request) (*models2.Response, error)
 	FindByLaneName(r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppIdAndClusterName(env string, r *http.Request) (*models2.Response, error)
+	FindAppByLaneNameandAppId(r *http.Request) (*models2.Response, error)
 }
 
 type appNamespaceService struct {
@@ -213,5 +214,57 @@ func (s appNamespaceService) FindAllClusterNameByAppId(r *http.Request) (*models
 	response.Code = 200
 	response.Data, _ = json.Marshal(param)
 	response.ContentType = "application/json; charset=utf-8"
+	return response, nil
+}
+
+//查询应用在某泳道下所有环境下的数目
+func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models2.Response, error) {
+	param := new(struct {
+		Test   *models22.AppPage `json:"test"`
+		Aliyun *models22.AppPage `json:"aliyun"`
+		Online *models22.AppPage `json:"online"`
+		Total  int               `json:"total"`
+	})
+	total := 0
+	response, err := s.httpClient.HttpDo("/app_by_app_and_lane", "TEST", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	if response.Code == 200 {
+		test := new(models22.AppPage)
+		if err := json.Unmarshal(response.Data, &test); err != nil {
+			return nil, errors.Wrap(err, "json.Unmarshal falied")
+		}
+		param.Test = test
+		total += test.Total
+	}
+
+	response2, err := s.httpClient.HttpDo("/app_by_app_and_lane", "ONLINE", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	if response2.Code == 200 {
+		online := new(models22.AppPage)
+		if err := json.Unmarshal(response2.Data, &online); err != nil {
+
+		}
+		param.Online = online
+		total += online.Total
+	}
+
+	response3, err := s.httpClient.HttpDo("/app_by_app_and_lane", "ALIYUN", r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	if response3.Code == 200 {
+		aliyun := new(models22.AppPage)
+		if err := json.Unmarshal(response3.Data, &aliyun); err != nil {
+
+		}
+		param.Aliyun = aliyun
+		total += aliyun.Total
+	}
+	param.Total = total
+	response.Data, _ = json.Marshal(param)
 	return response, nil
 }

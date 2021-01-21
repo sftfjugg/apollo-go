@@ -170,3 +170,20 @@ func (ctl AppNamespaceController) FindByLaneName(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, apps)
 }
+
+func (ctl AppNamespaceController) FindAppByLaneNameandAppId(c *gin.Context) {
+	param := new(struct {
+		Lane  string `form:"lane" json:"lane"`
+		AppId string `form:"app_id" json:"app_id"`
+	})
+	if err := c.ShouldBind(param); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	apps, err := ctl.service.FindAppByLaneNameandAppId(param.AppId, param.Lane)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppByLaneNameandAppId error:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, apps)
+}

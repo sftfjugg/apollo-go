@@ -156,3 +156,12 @@ func (ctl AppNamespaceController) FindByLaneName(c *gin.Context) {
 	}
 	c.Data(r.Code, r.ContentType, r.Data)
 }
+
+func (ctl AppNamespaceController) FindAppByLaneNameandAppId(c *gin.Context) {
+	r, err := ctl.service.FindAppByLaneNameandAppId(c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppByLaneNameandAppId run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
