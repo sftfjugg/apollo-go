@@ -245,7 +245,7 @@ func (r itemRepisitory) FindAllComment(appId string) ([]*models.Item, error) {
 
 func (r itemRepisitory) FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error) {
 	items := make([]*models.Item, 0)
-	if err := r.db.Raw("select * from `Item`,`AppNamespace` where AppNamespace.AppId =? and Item.Key like ? and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default and ClusterName='default'", appId, "%"+key+"%").Scan(&items).Error; err != nil {
+	if err := r.db.Raw("select * from `Item`,`AppNamespace` where AppNamespace.AppId =? and Item.Key like ? and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default' and ClusterName='default'", appId, "%"+key+"%").Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByAppIdLikeKey failed")
 	}
 	return items, nil
