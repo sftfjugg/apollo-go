@@ -54,6 +54,6 @@ delete from Role where AppId='root';
 USE dida_apollo_plus_config;
 alter table AppNamespace add DeptName varchar(64) DEFAULT '' COMMENT '部门名字' after LaneName, add IsDisplay tinyint(1) NOT NULL DEFAULT b'1' COMMENT '0:Hide , 1: Dispaly'  after IsDeleted
 
-
-
+USE dida_apollo_plus_portal;
+select * from Role where (AppId='aim-mapboundary' and UserId='wangkun' and IsDeleted=0 and Cluster='default' and Env='ALIYUN') or (AppId='root' and IsDeleted=0 and UserId='wangkun')
 

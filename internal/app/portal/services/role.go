@@ -102,7 +102,8 @@ func (s roleService) Find(appId, userId, cluster, env string) (*models.Auth, err
 	if err != nil {
 		return nil, errors.Wrap(err, "call RoleSitory.Find failed")
 	}
-	for i, r := range roles {
+	j := 0
+	for _, r := range roles {
 		if _, ok := m[r.Namespace]; !ok {
 			namespace := new(models.NamespaceRole)
 			namespace.Name = r.Namespace
@@ -114,7 +115,8 @@ func (s roleService) Find(appId, userId, cluster, env string) (*models.Auth, err
 				return auths, nil
 			}
 			namespaceRole = append(namespaceRole, namespace)
-			m[r.Namespace] = i
+			m[r.Namespace] = j
+			j++
 		} else {
 			namespaceRole[m[r.Namespace]].Level += r.Level
 		}
