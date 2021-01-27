@@ -166,48 +166,53 @@ func (s appNamespaceService) FindAllClusterNameByAppId(r *http.Request) (*models
 		ALIYUN []string `json:"aliyun"`
 		ONLINE []string `json:"online"`
 	})
+	tests := make([]string, 0)
 	response, err := s.httpClient.HttpDo("/cluster", "TEST", r)
 	if err != nil {
-		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
-	}
-	tests := make([]string, 0)
-	if err := json.Unmarshal(response.Data, &tests); err != nil {
 		tests = append(tests, "default")
-	}
-	for i, v := range tests {
-		if v == "default" {
-			tests[i] = tests[0]
-			tests[0] = v
+		//return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	} else {
+		if err := json.Unmarshal(response.Data, &tests); err != nil {
+			tests = append(tests, "default")
+		}
+		for i, v := range tests {
+			if v == "default" {
+				tests[i] = tests[0]
+				tests[0] = v
+			}
 		}
 	}
 	param.TEST = tests
+	aliyuns := make([]string, 0)
 	response, err = s.httpClient.HttpDo("/cluster", "ALIYUN", r)
 	if err != nil {
-		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
-	}
-	aliyuns := make([]string, 0)
-	if err := json.Unmarshal(response.Data, &aliyuns); err != nil {
 		aliyuns = append(aliyuns, "default")
-	}
-	for i, v := range aliyuns {
-		if v == "default" {
-			aliyuns[i] = aliyuns[0]
-			aliyuns[0] = v
+		//return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	} else {
+		if err := json.Unmarshal(response.Data, &aliyuns); err != nil {
+			aliyuns = append(aliyuns, "default")
+		}
+		for i, v := range aliyuns {
+			if v == "default" {
+				aliyuns[i] = aliyuns[0]
+				aliyuns[0] = v
+			}
 		}
 	}
 	param.ALIYUN = aliyuns
+	online := make([]string, 0)
 	response, err = s.httpClient.HttpDo("/cluster", "ONLINE", r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
-	}
-	online := make([]string, 0)
-	if err := json.Unmarshal(response.Data, &online); err != nil {
-		online = append(online, "default")
-	}
-	for i, v := range online {
-		if v == "default" {
-			online[i] = online[0]
-			online[0] = v
+	} else {
+		if err := json.Unmarshal(response.Data, &online); err != nil {
+			online = append(online, "default")
+		}
+		for i, v := range online {
+			if v == "default" {
+				online[i] = online[0]
+				online[0] = v
+			}
 		}
 	}
 	param.ONLINE = online
