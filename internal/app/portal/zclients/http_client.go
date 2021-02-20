@@ -46,7 +46,7 @@ func (s HttpClient) HttpDo(url, env string, r *http.Request) (*models2.Response,
 		} else {
 			r.URL.RawQuery += "env_id=4&env_name=ALIYUN"
 		}
-	} else {
+	} else if env == "ONLINE" {
 		if r.URL.RawQuery != "" {
 			r.URL.RawQuery += "&env_id=3&env_name=ONLINE"
 		} else {

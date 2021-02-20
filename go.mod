@@ -3,6 +3,7 @@ module go.didapinche.com/foundation/apollo-plus
 go 1.13
 
 require (
+	github.com/alibaba/sentinel-golang v1.0.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-contrib/zap v0.0.1
@@ -14,7 +15,7 @@ require (
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/jinzhu/gorm v1.9.16
 	github.com/lib/pq v1.2.0 // indirect
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.2.1
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
@@ -28,6 +29,7 @@ require (
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1
 	go.didapinche.com/juno-gin/v2 v2.0.0
 	go.didapinche.com/juno-go/v2 v2.0.5
+	go.didapinche.com/sentinel-extension-go v1.0.0
 	go.didapinche.com/time v1.0.0
 	go.didapinche.com/uic v1.1.0
 	go.didapinche.com/zeus-go/v2 v2.0.1
@@ -35,7 +37,6 @@ require (
 	golang.org/x/net v0.0.0-20201010224723-4f7140c49acb // indirect
 	golang.org/x/tools v0.0.0-20201015182029-a5d9e455e9c4 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
-
 )
 
 // replace qlang.io/qlang.v2 => github.com/qiniu/qlang v0.0.0-20160405103033-ad312e7743d8

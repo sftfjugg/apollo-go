@@ -24,15 +24,25 @@ func test() (errs error) {
 	return nil
 }
 func main() {
-
+	//err := sentinel.InitWithConfigFile("configs/app.yaml")
+	//if err != nil {
+	//	// 初始化 Sentinel 失败
+	//}
 	viper.SetConfigName("configs/app")
 	viper.AddConfigPath("./")
-	viper.Set("apollo.ip", "http://apollo-meta.didapinche.com")
+	//viper.Set("apollo.ip", "http://apollo-meta.didapinche.com")
 	err := viper.ReadInConfig()
 	if err != nil {
 		fmt.Println(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 	agollo.Start()
+	//dsm, err := apollo.NewDataSourceManager()
+	//if err != nil {
+	//	// 创建DataSourceManager失败
+	//}
+	//a,err :=json.Marshal(dsm)
+	//if err!=nil{}
+	//fmt.Println(a)
 	settings := viper.AllSettings()
 	fmt.Println(settings)
 	//监听配置变更

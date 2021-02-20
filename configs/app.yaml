@@ -1,5 +1,19 @@
 apollo:
-  meta: http://apollo-meta.didapinche.com
+  meta: http://192.168.1.197:7555
   appId: apollo-test
-  namespaceName: application,test
+  namespaceName: application,sentinel
   cluster: default
+version: "v1"
+sentinel:
+  app:
+    name: sentinel-go-demo
+    type: 0
+  log:
+    dir: "~/logs/csp"
+    pid: false
+    metric:
+      maxFileCount: 14
+      flushIntervalSec: 1
+  stat:
+    system:
+      collectIntervalMs: 1000

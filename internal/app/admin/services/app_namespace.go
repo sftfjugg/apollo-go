@@ -184,6 +184,7 @@ func (s appNamespaceService) FindAppNamespace(appId, cluster, format, comment st
 		appNamespace.Name = "application"
 		appNamespace.ClusterName = cluster
 		appNamespace.AppId = appId
+		appNamespace.IsOperate = false
 		appNamespace.IsPublic = false
 		appNamespace.Format = "服务"
 		appNamespace.LaneName = "default"
@@ -217,6 +218,7 @@ func (s appNamespaceService) FindAppNamespace(appId, cluster, format, comment st
 				app.AppId = appNamespaces[i].AppId
 				app.ClusterName = appNamespaces[i].ClusterName
 				app.IsPublic = appNamespaces[i].IsPublic
+				app.IsOperate = appNamespaces[i].IsOperate
 				app.DeptName = appNamespaces[i].DeptName
 				app.Comment = appNamespaces[i].Comment
 				app.IsDisplay = appNamespaces[i].IsDisplay

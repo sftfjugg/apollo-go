@@ -30,6 +30,7 @@ CREATE TABLE `AppNamespace` (
   `DeptName` varchar(64) NOT NULL DEFAULT 'default' COMMENT '部门名字',
   `Comment` varchar(500) NOT NULL DEFAULT '' COMMENT '注释',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
+  `IsOperate` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '是否是operate创建的服务',
   `IsDisplay` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `IsRelease` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '0: 未发布, 1: 已发布',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人邮箱前缀',
@@ -173,5 +174,6 @@ CREATE TABLE `ServerConfig` (
 
 
 USE dida_apollo_plus_config;
+select * from AppNamespace;
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default' and ClusterName='default';

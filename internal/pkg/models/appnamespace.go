@@ -14,6 +14,7 @@ type AppNamespace struct {
 	DeptName                  string    `gorm:"column:DeptName" json:"dept_name" form:"dept_name"`
 	Format                    string    `gorm:"column:Format" json:"format" form:"format"` //类型
 	IsPublic                  bool      `gorm:"column:IsPublic" json:"is_public" form:"is_public"`
+	IsOperate                 bool      `gorm:"column:IsOperate" json:"is_operate" form:"is_operate"`
 	IsDisplay                 bool      `gorm:"column:IsDisplay" json:"is_display" form:"is_display"`
 	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`
 	IsDeleted                 bool      `gorm:"column:IsDeleted" json:"-"`

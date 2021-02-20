@@ -57,3 +57,8 @@ alter table AppNamespace add DeptName varchar(64) DEFAULT '' COMMENT '部门名�
 USE dida_apollo_plus_portal;
 select * from Role where (AppId='aim-mapboundary' and UserId='wangkun' and IsDeleted=0 and Cluster='default' and Env='ALIYUN') or (AppId='root' and IsDeleted=0 and UserId='wangkun')
 
+show databases ;
+use dida_sentinel_role;
+Use dida_sentinel_role;
+show tables ;
+select * from `Role`;
