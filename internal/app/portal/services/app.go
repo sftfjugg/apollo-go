@@ -77,7 +77,7 @@ func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, 
 		auth.IsRoot = true
 	}
 
-	//验证owner权限,这里还差一个验证op权限
+	//验证owner权限
 	if appId != "public_global_config" {
 		app, err := s.FindLimosAppForPage(appId, userId, 20, 0)
 		if err != nil {
@@ -86,6 +86,7 @@ func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, 
 		if app.TotalCount > 0 {
 			auth.IsOwner = true
 		}
+		//验证op权限
 		o, err := s.AuthPerm(userId, constans.AppOperate)
 		if err != nil {
 			return nil, errors.Wrap(err, "call zclients uic.Auth() error")
@@ -94,6 +95,7 @@ func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, 
 			auth.IsOperate = true
 		}
 	} else {
+		//公共配置权限默认为owner，不受op管理
 		b, err := s.AuthPerm(userId, constans.ApolloPublicOperate)
 		if err != nil {
 			return nil, errors.Wrap(err, "call zclients uic.Auth() error")
@@ -101,7 +103,6 @@ func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, 
 		if b {
 			auth := new(models.Auth)
 			auth.IsOwner = true
-			auth.IsRoot = true
 			r := make([]*models.NamespaceRole, 0)
 			auth.Role = r
 			return auth, nil

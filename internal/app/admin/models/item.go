@@ -25,9 +25,10 @@ type Item struct {
 	Value                     string    `gorm:"column:Value" json:"value" form:"value"`
 	ReleaseValue              string    `gorm:"column:ReleaseValue" json:"release_value" form:"release_value"`
 	Status                    uint64    `gorm:"column:Status" json:"status" from:"status"`
-	Format                    string    `gorm:"column:Format" json:"format" form:"format"`       //类型：服务，业务
-	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`    //标签
-	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"` //描述
+	IsOperate                 bool      `gorm:"column:IsOperate" json:"is_operate" form:"is_operate"` //op还是owner
+	Format                    string    `gorm:"column:Format" json:"format" form:"format"`            //类型：服务，业务
+	Comment                   string    `gorm:"column:Comment" json:"comment" form:"comment"`         //标签
+	Describe                  string    `gorm:"column:Describe" json:"describe" form:"describe"`      //描述
 	DataChange_CreatedBy      string    `gorm:"column:DataChange_CreatedBy" json:"data_change_created_by" form:"data_change_created_by"`
 	DataChange_LastModifiedBy string    `gorm:"column:DataChange_LastModifiedBy" json:"data_change_last_modified_by" form:"data_change_last_modified_by"`
 	DataChange_CreatedTime    time.Time `gorm:"column:DataChange_CreatedTime" json:"data_change_created_time" form:"data_change_created_time"`

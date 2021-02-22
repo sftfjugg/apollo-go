@@ -22,7 +22,7 @@ type NamespaceRole struct {
 
 type Auth struct {
 	IsOwner   bool             `json:"is_owner"`
-	IsOperate bool             `json:"is_op"`
+	IsOperate bool             `json:"is_operate"`
 	IsRoot    bool             `json:"is_root"`
 	Role      []*NamespaceRole `json:"role"`
 }
