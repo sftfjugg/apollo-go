@@ -77,7 +77,7 @@ func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, 
 		auth.IsRoot = true
 	}
 
-	//验证owner权限
+	//验证owner权限和op权限，公共配置直接为root权限
 	if appId != "public_global_config" {
 		app, err := s.FindLimosAppForPage(appId, userId, 20, 0)
 		if err != nil {
@@ -102,11 +102,14 @@ func (s appService) FindAuth(appId, userId, cluster, env string) (*models.Auth, 
 		}
 		if b {
 			auth := new(models.Auth)
-			auth.IsOwner = true
+			auth.IsRoot = true
 			r := make([]*models.NamespaceRole, 0)
 			auth.Role = r
 			return auth, nil
 		}
+	}
+	if auth.IsOperate && auth.IsOwner {
+		auth.IsRoot = true
 	}
 
 	//从数据库验证权限

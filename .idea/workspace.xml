@@ -27,15 +27,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-1105:权限修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/portal.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/portal.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/models/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/models/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/models/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/models/role.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/config/services/consul.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/consul.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/portal/services/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/config/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/pkg/constans/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/constans/const.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,13 +213,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00083" summary="PMOPP-599:添加集群">
-      <created>1605870013891</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1605870013910</updated>
     </task>
     <task id="LOCAL-00084" summary="PMOPP-599:集群测试">
       <created>1606112228498</created>
@@ -561,7 +550,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613819137903</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="PMOPP-1105:权限修改">
+      <created>1613975844246</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1613975844247</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -676,7 +672,7 @@
     <state x="969" y="186" key="EnvironmentVariablesDialog/0.25.1440.785@0.25.1440.785" timestamp="1609223725911" />
     <state x="969" y="186" key="EnvironmentVariablesDialog/0.25.1440.788@0.25.1440.788" timestamp="1613792538511" />
     <state x="969" y="188" key="EnvironmentVariablesDialog/0.25.1440.797@0.25.1440.797" timestamp="1611902245758" />
-    <state width="1201" height="234" key="GridCell.Tab.0.bottom" timestamp="1613964222836">
+    <state width="1398" height="179" key="GridCell.Tab.0.bottom" timestamp="1614050314199">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.0.bottom/0.23.1440.799@0.23.1440.799" timestamp="1607934087486" />
@@ -696,12 +692,12 @@
     <state width="1398" height="223" key="GridCell.Tab.0.bottom/0.25.1440.779@0.25.1440.779" timestamp="1608599697262" />
     <state width="1398" height="220" key="GridCell.Tab.0.bottom/0.25.1440.781@0.25.1440.781" timestamp="1608792082566" />
     <state width="1398" height="220" key="GridCell.Tab.0.bottom/0.25.1440.785@0.25.1440.785" timestamp="1609239273414" />
-    <state width="1201" height="234" key="GridCell.Tab.0.bottom/0.25.1440.788@0.25.1440.788" timestamp="1613964222836" />
+    <state width="1398" height="179" key="GridCell.Tab.0.bottom/0.25.1440.788@0.25.1440.788" timestamp="1614050314199" />
     <state width="1398" height="278" key="GridCell.Tab.0.bottom/0.25.1440.791@0.25.1440.791" timestamp="1613958977218" />
     <state width="1398" height="185" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612176791794" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1611903437287" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.25.1440.799@0.25.1440.799" timestamp="1611201372495" />
-    <state width="1201" height="234" key="GridCell.Tab.0.center" timestamp="1613964222835">
+    <state width="1398" height="179" key="GridCell.Tab.0.center" timestamp="1614050314197">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.0.center/0.23.1440.799@0.23.1440.799" timestamp="1607934087485" />
@@ -721,12 +717,12 @@
     <state width="1398" height="223" key="GridCell.Tab.0.center/0.25.1440.779@0.25.1440.779" timestamp="1608599697261" />
     <state width="1398" height="220" key="GridCell.Tab.0.center/0.25.1440.781@0.25.1440.781" timestamp="1608792082565" />
     <state width="1398" height="220" key="GridCell.Tab.0.center/0.25.1440.785@0.25.1440.785" timestamp="1609239273414" />
-    <state width="1201" height="234" key="GridCell.Tab.0.center/0.25.1440.788@0.25.1440.788" timestamp="1613964222835" />
+    <state width="1398" height="179" key="GridCell.Tab.0.center/0.25.1440.788@0.25.1440.788" timestamp="1614050314197" />
     <state width="1398" height="278" key="GridCell.Tab.0.center/0.25.1440.791@0.25.1440.791" timestamp="1613958977217" />
     <state width="1398" height="185" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1612176791792" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1611903437277" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.25.1440.799@0.25.1440.799" timestamp="1611201372494" />
-    <state width="1201" height="234" key="GridCell.Tab.0.left" timestamp="1613964222835">
+    <state width="1398" height="179" key="GridCell.Tab.0.left" timestamp="1614050314197">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.0.left/0.23.1440.799@0.23.1440.799" timestamp="1607934087483" />
@@ -746,12 +742,12 @@
     <state width="1398" height="223" key="GridCell.Tab.0.left/0.25.1440.779@0.25.1440.779" timestamp="1608599697260" />
     <state width="1398" height="220" key="GridCell.Tab.0.left/0.25.1440.781@0.25.1440.781" timestamp="1608792082564" />
     <state width="1398" height="220" key="GridCell.Tab.0.left/0.25.1440.785@0.25.1440.785" timestamp="1609239273413" />
-    <state width="1201" height="234" key="GridCell.Tab.0.left/0.25.1440.788@0.25.1440.788" timestamp="1613964222835" />
+    <state width="1398" height="179" key="GridCell.Tab.0.left/0.25.1440.788@0.25.1440.788" timestamp="1614050314197" />
     <state width="1398" height="278" key="GridCell.Tab.0.left/0.25.1440.791@0.25.1440.791" timestamp="1613958977217" />
     <state width="1398" height="185" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1612176791791" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1611903437277" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.25.1440.799@0.25.1440.799" timestamp="1611201372494" />
-    <state width="1201" height="234" key="GridCell.Tab.0.right" timestamp="1613964222836">
+    <state width="1398" height="179" key="GridCell.Tab.0.right" timestamp="1614050314198">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.0.right/0.23.1440.799@0.23.1440.799" timestamp="1607934087486" />
@@ -771,12 +767,12 @@
     <state width="1398" height="223" key="GridCell.Tab.0.right/0.25.1440.779@0.25.1440.779" timestamp="1608599697261" />
     <state width="1398" height="220" key="GridCell.Tab.0.right/0.25.1440.781@0.25.1440.781" timestamp="1608792082565" />
     <state width="1398" height="220" key="GridCell.Tab.0.right/0.25.1440.785@0.25.1440.785" timestamp="1609239273414" />
-    <state width="1201" height="234" key="GridCell.Tab.0.right/0.25.1440.788@0.25.1440.788" timestamp="1613964222836" />
+    <state width="1398" height="179" key="GridCell.Tab.0.right/0.25.1440.788@0.25.1440.788" timestamp="1614050314198" />
     <state width="1398" height="278" key="GridCell.Tab.0.right/0.25.1440.791@0.25.1440.791" timestamp="1613958977217" />
     <state width="1398" height="185" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1612176791793" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1611903437287" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.25.1440.799@0.25.1440.799" timestamp="1611201372495" />
-    <state width="1398" height="179" key="GridCell.Tab.1.bottom" timestamp="1613964189871">
+    <state width="1398" height="179" key="GridCell.Tab.1.bottom" timestamp="1614050314069">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.bottom/0.23.1440.799@0.23.1440.799" timestamp="1607934087488" />
@@ -796,12 +792,12 @@
     <state width="1398" height="223" key="GridCell.Tab.1.bottom/0.25.1440.779@0.25.1440.779" timestamp="1608599697263" />
     <state width="1398" height="220" key="GridCell.Tab.1.bottom/0.25.1440.781@0.25.1440.781" timestamp="1608792102881" />
     <state width="1398" height="220" key="GridCell.Tab.1.bottom/0.25.1440.785@0.25.1440.785" timestamp="1609239273415" />
-    <state width="1398" height="179" key="GridCell.Tab.1.bottom/0.25.1440.788@0.25.1440.788" timestamp="1613964189871" />
+    <state width="1398" height="179" key="GridCell.Tab.1.bottom/0.25.1440.788@0.25.1440.788" timestamp="1614050314069" />
     <state width="1398" height="278" key="GridCell.Tab.1.bottom/0.25.1440.791@0.25.1440.791" timestamp="1613958977107" />
     <state width="1398" height="185" key="GridCell.Tab.1.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612176791796" />
     <state width="1398" height="245" key="GridCell.Tab.1.bottom/0.25.1440.797@0.25.1440.797" timestamp="1611903437289" />
     <state width="1398" height="230" key="GridCell.Tab.1.bottom/0.25.1440.799@0.25.1440.799" timestamp="1611201372496" />
-    <state width="1398" height="179" key="GridCell.Tab.1.center" timestamp="1613964189870">
+    <state width="1398" height="179" key="GridCell.Tab.1.center" timestamp="1614050314068">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.center/0.23.1440.799@0.23.1440.799" timestamp="1607934087487" />
@@ -821,12 +817,12 @@
     <state width="1398" height="223" key="GridCell.Tab.1.center/0.25.1440.779@0.25.1440.779" timestamp="1608599697263" />
     <state width="1398" height="220" key="GridCell.Tab.1.center/0.25.1440.781@0.25.1440.781" timestamp="1608792102881" />
     <state width="1398" height="220" key="GridCell.Tab.1.center/0.25.1440.785@0.25.1440.785" timestamp="1609239273414" />
-    <state width="1398" height="179" key="GridCell.Tab.1.center/0.25.1440.788@0.25.1440.788" timestamp="1613964189870" />
+    <state width="1398" height="179" key="GridCell.Tab.1.center/0.25.1440.788@0.25.1440.788" timestamp="1614050314068" />
     <state width="1398" height="278" key="GridCell.Tab.1.center/0.25.1440.791@0.25.1440.791" timestamp="1613958977106" />
     <state width="1398" height="185" key="GridCell.Tab.1.center/0.25.1440.794@0.25.1440.794" timestamp="1612176791795" />
     <state width="1398" height="245" key="GridCell.Tab.1.center/0.25.1440.797@0.25.1440.797" timestamp="1611903437288" />
     <state width="1398" height="230" key="GridCell.Tab.1.center/0.25.1440.799@0.25.1440.799" timestamp="1611201372496" />
-    <state width="1398" height="179" key="GridCell.Tab.1.left" timestamp="1613964189870">
+    <state width="1398" height="179" key="GridCell.Tab.1.left" timestamp="1614050314067">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.left/0.23.1440.799@0.23.1440.799" timestamp="1607934087486" />
@@ -846,12 +842,12 @@
     <state width="1398" height="223" key="GridCell.Tab.1.left/0.25.1440.779@0.25.1440.779" timestamp="1608599697262" />
     <state width="1398" height="220" key="GridCell.Tab.1.left/0.25.1440.781@0.25.1440.781" timestamp="1608792102880" />
     <state width="1398" height="220" key="GridCell.Tab.1.left/0.25.1440.785@0.25.1440.785" timestamp="1609239273414" />
-    <state width="1398" height="179" key="GridCell.Tab.1.left/0.25.1440.788@0.25.1440.788" timestamp="1613964189870" />
+    <state width="1398" height="179" key="GridCell.Tab.1.left/0.25.1440.788@0.25.1440.788" timestamp="1614050314067" />
     <state width="1398" height="278" key="GridCell.Tab.1.left/0.25.1440.791@0.25.1440.791" timestamp="1613958977106" />
     <state width="1398" height="185" key="GridCell.Tab.1.left/0.25.1440.794@0.25.1440.794" timestamp="1612176791794" />
     <state width="1398" height="245" key="GridCell.Tab.1.left/0.25.1440.797@0.25.1440.797" timestamp="1611903437288" />
     <state width="1398" height="230" key="GridCell.Tab.1.left/0.25.1440.799@0.25.1440.799" timestamp="1611201372495" />
-    <state width="1398" height="179" key="GridCell.Tab.1.right" timestamp="1613964189871">
+    <state width="1398" height="179" key="GridCell.Tab.1.right" timestamp="1614050314068">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.right/0.23.1440.799@0.23.1440.799" timestamp="1607934087487" />
@@ -871,7 +867,7 @@
     <state width="1398" height="223" key="GridCell.Tab.1.right/0.25.1440.779@0.25.1440.779" timestamp="1608599697263" />
     <state width="1398" height="220" key="GridCell.Tab.1.right/0.25.1440.781@0.25.1440.781" timestamp="1608792102881" />
     <state width="1398" height="220" key="GridCell.Tab.1.right/0.25.1440.785@0.25.1440.785" timestamp="1609239273415" />
-    <state width="1398" height="179" key="GridCell.Tab.1.right/0.25.1440.788@0.25.1440.788" timestamp="1613964189871" />
+    <state width="1398" height="179" key="GridCell.Tab.1.right/0.25.1440.788@0.25.1440.788" timestamp="1614050314068" />
     <state width="1398" height="278" key="GridCell.Tab.1.right/0.25.1440.791@0.25.1440.791" timestamp="1613958977107" />
     <state width="1398" height="185" key="GridCell.Tab.1.right/0.25.1440.794@0.25.1440.794" timestamp="1612176791795" />
     <state width="1398" height="245" key="GridCell.Tab.1.right/0.25.1440.797@0.25.1440.797" timestamp="1611903437288" />
@@ -888,7 +884,7 @@
     <state x="221" y="77" key="SettingsEditor/0.23.1440.830@0.23.1440.830" timestamp="1605851635232" />
     <state x="221" y="75" key="SettingsEditor/0.25.1440.778@0.25.1440.778" timestamp="1608794846198" />
     <state x="221" y="76" key="SettingsEditor/0.25.1440.791@0.25.1440.791" timestamp="1609833361813" />
-    <state x="320" y="173" key="Vcs.Push.Dialog.v2" timestamp="1613812246380">
+    <state x="320" y="173" key="Vcs.Push.Dialog.v2" timestamp="1613975867280">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.23.1440.799@0.23.1440.799" timestamp="1607933819311" />
@@ -901,7 +897,7 @@
     <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.781@0.25.1440.781" timestamp="1608792435814" />
     <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1608540924905" />
     <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.785@0.25.1440.785" timestamp="1608531209190" />
-    <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1613812246380" />
+    <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1613975867280" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.794@0.25.1440.794" timestamp="1611732448431" />
     <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.25.1440.797@0.25.1440.797" timestamp="1611542564512" />
     <state x="320" y="174" key="Vcs.Push.Dialog.v2/0.25.1440.799@0.25.1440.799" timestamp="1611206138944" />
@@ -936,258 +932,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/zeus-go/v2@v2.0.1/client/client.go</url>
-          <line>57</line>
-          <option name="timeStamp" value="366" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/utils.go</url>
-          <line>59</line>
-          <option name="timeStamp" value="629" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/utils.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="631" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/data.go</url>
-          <line>13</line>
-          <option name="timeStamp" value="668" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/item.go</url>
-          <line>12</line>
-          <option name="timeStamp" value="670" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/release.go</url>
-          <line>12</line>
-          <option name="timeStamp" value="671" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/releaseMessage.go</url>
-          <line>12</line>
-          <option name="timeStamp" value="672" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/services/app_namespace.go</url>
-          <line>35</line>
-          <option name="timeStamp" value="757" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/data.go</url>
-          <line>66</line>
-          <option name="timeStamp" value="776" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/data.go</url>
-          <line>35</line>
-          <option name="timeStamp" value="777" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/data/data.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="778" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/data.go</url>
-          <line>21</line>
-          <option name="timeStamp" value="780" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/request.go</url>
-          <line>108</line>
-          <option name="timeStamp" value="786" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/request.go</url>
-          <line>89</line>
-          <option name="timeStamp" value="787" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/request.go</url>
-          <line>91</line>
-          <option name="timeStamp" value="788" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/request.go</url>
-          <line>90</line>
-          <option name="timeStamp" value="789" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/Documents/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.1+incompatible/request.go</url>
-          <line>28</line>
-          <option name="timeStamp" value="791" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v2.0.3+incompatible/request.go</url>
-          <line>88</line>
-          <option name="timeStamp" value="792" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201127090251-f381bbae75af/request.go</url>
-          <line>91</line>
-          <option name="timeStamp" value="793" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201127090251-f381bbae75af/app_config.go</url>
-          <line>62</line>
-          <option name="timeStamp" value="794" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201127090251-f381bbae75af/app_config.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="795" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201127091613-5a2dd8a4a7bb/app_config.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="796" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201127091613-5a2dd8a4a7bb/app_config.go</url>
-          <line>68</line>
-          <option name="timeStamp" value="797" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201130015640-5aa6d530cb79/app_config.go</url>
-          <line>68</line>
-          <option name="timeStamp" value="809" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201130021300-562a846551e6/app_config.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="810" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/app_namespace.go</url>
-          <line>108</line>
-          <option name="timeStamp" value="826" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/controllers/app.go</url>
-          <line>49</line>
-          <option name="timeStamp" value="836" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/controllers/role.go</url>
-          <line>89</line>
-          <option name="timeStamp" value="869" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/controllers/app_namespace.go</url>
-          <line>17</line>
-          <option name="timeStamp" value="870" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/ophis@v1.5.0/ophis.go</url>
-          <line>53</line>
-          <option name="timeStamp" value="872" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/ophis@v1.5.0/ophis.go</url>
-          <line>174</line>
-          <option name="timeStamp" value="873" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/controllers/role.go</url>
-          <line>48</line>
-          <option name="timeStamp" value="878" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/controllers/role.go</url>
-          <line>45</line>
-          <option name="timeStamp" value="879" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/ophis@v1.5.0/ophis.go</url>
-          <line>107</line>
-          <option name="timeStamp" value="880" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/repositories/item.go</url>
-          <line>44</line>
-          <option name="timeStamp" value="897" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>57</line>
-          <option name="timeStamp" value="905" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>58</line>
-          <option name="timeStamp" value="906" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/services/item.go</url>
-          <line>48</line>
-          <option name="timeStamp" value="907" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/foundation/agollo@v1.2.3-0.20201130021840-13ffb705cc98/app_config.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="912" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/agollo/v2@v2.0.5/app_config.go</url>
-          <line>75</line>
-          <option name="timeStamp" value="913" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/agollo/v2@v2.0.5/request.go</url>
-          <line>114</line>
-          <option name="timeStamp" value="919" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/agollo/v2@v2.0.5/request.go</url>
-          <line>115</line>
-          <option name="timeStamp" value="920" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/agollo/v2@v2.0.5/request.go</url>
-          <line>110</line>
-          <option name="timeStamp" value="921" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/config/services/notification.go</url>
-          <line>56</line>
-          <option name="timeStamp" value="929" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/test/main.go</url>
-          <line>30</line>
-          <option name="timeStamp" value="930" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/test/main.go</url>
-          <line>23</line>
-          <option name="timeStamp" value="931" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/cmd/test/main.go</url>
-          <line>14</line>
-          <option name="timeStamp" value="932" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/admin/controllers/app_namespace.go</url>
-          <line>174</line>
-          <option name="timeStamp" value="936" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/internal/app/portal/services/app.go</url>
-          <line>59</line>
-          <option name="timeStamp" value="940" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$USER_HOME$/go/pkg/mod/go.didapinche.com/agollo/v2@v2.0.3/app_config.go</url>
-          <line>74</line>
-          <option name="timeStamp" value="944" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="DlvErrorBreakpoint" />
       </default-breakpoints>

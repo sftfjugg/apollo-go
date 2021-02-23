@@ -20,7 +20,6 @@ func New(path string) (*viper.Viper, error) {
 	} else {
 		return nil, err
 	}
-
 	return v, err
 }
 
