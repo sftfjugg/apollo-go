@@ -67,7 +67,7 @@ func (r appNamespaceRepository) DeleteByNameAndAppIdAndCluster(db *gorm.DB, name
 
 func (r appNamespaceRepository) Update(db *gorm.DB, appNamespace *models.AppNamespace) error {
 	appNamespace.DataChange_LastTime = time.Now()
-	if err := db.Exec(" UPDATE `AppNamespace` SET  `Comment` = ?, `DataChange_LastModifiedBy` = ?, `DataChange_LastTime` = ?, `DeptName` = ?, `Format` = ?, `IsDisplay` = ?  , `IsPublic` = ? , IsOperate=?   WHERE (Name=? and AppId=? and ClusterName=? and IsDeleted=0)", appNamespace.Comment, appNamespace.DataChange_LastModifiedBy, time.Now(), appNamespace.DeptName, appNamespace.Format, appNamespace.IsDisplay, appNamespace.IsPublic, appNamespace.IsOperate, appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Error; err != nil {
+	if err := db.Exec("UPDATE `AppNamespace` SET  `Comment` = ?, `DataChange_LastModifiedBy` = ?, `DataChange_LastTime` = ?, `DeptName` = ?, `Format` = ?, `IsDisplay` = ?  , `IsPublic` = ? , IsOperate=?   WHERE (Name=? and AppId=? and ClusterName=? and IsDeleted=0)", appNamespace.Comment, appNamespace.DataChange_LastModifiedBy, time.Now(), appNamespace.DeptName, appNamespace.Format, appNamespace.IsDisplay, appNamespace.IsPublic, appNamespace.IsOperate, appNamespace.Name, appNamespace.AppId, appNamespace.ClusterName).Error; err != nil {
 		return errors.Wrap(err, "update appNamespace error")
 	}
 	return nil
@@ -159,8 +159,8 @@ func (r appNamespaceRepository) FindAppByLaneNameandAppId(appId, lane string) ([
 	if appId != "" {
 		appId = " and AppId='" + appId + "'"
 	}
-	if err := r.db.Raw(" select * FROM `AppNamespace`  WHERE IsDeleted=0 " + lane + appId).Scan(&appNamespaces).Error; err != nil {
-		return nil, errors.Wrap(err, "FindAppByLaneNameandAppId appNamespace error")
+	if err := r.db.Raw("select * FROM `AppNamespace`  WHERE IsDeleted=0 " + lane + appId).Scan(&appNamespaces).Error; err != nil {
+		return nil, errors.Wrap(err, "call FindAppByLaneNameandAppId appNamespace error")
 	}
 	return appNamespaces, nil
 }

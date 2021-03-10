@@ -7,11 +7,17 @@ import (
 	"go.didapinche.com/goapi/apollo_thrift_service/v2"
 	"go.didapinche.com/zeus-go/v2"
 	"go.didapinche.com/zeus-go/v2/client"
+	"strings"
 	"time"
 )
 
 func main() {
-
+	a := "  AP  P:123      4  1"
+	as := strings.Split(a, " ")
+	fmt.Println(as)
+	var i int64
+	i = time.Now().UnixNano() / 1e6
+	fmt.Println(int(i))
 	z, err := zeus.New("limos-app-name")
 	if err != nil {
 		panic(errors.Wrap(err, "failed to create zeus"))

@@ -58,7 +58,15 @@ USE dida_apollo_plus_portal;
 select * from Role where (AppId='aim-mapboundary' and UserId='wangkun' and IsDeleted=0 and Cluster='default' and Env='ALIYUN') or (AppId='root' and IsDeleted=0 and UserId='wangkun')
 
 show databases ;
-use dida_sentinel_role;
+use plat_metis;
 Use dida_sentinel_role;
 show tables ;
-select * from `Role`;
+select * from `Role` where UserId='lihang';
+show tables;
+select * from t_app;
+select * from t_api;
+select * from t_api_version;
+select * from t_idl_content;
+select * from t_project_info;
+show create table t_api_version;
+show create table t_api_version;

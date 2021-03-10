@@ -3,7 +3,6 @@ module go.didapinche.com/foundation/apollo-plus
 go 1.13
 
 require (
-	github.com/alibaba/sentinel-golang v1.0.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-contrib/zap v0.0.1
@@ -20,6 +19,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/objx v0.2.0 // indirect
+	github.com/stretchr/testify v1.6.1 // indirect
 	github.com/uber/tchannel-go v1.18.0
 	go.didapinche.com/agollo/v2 v2.0.3
 	go.didapinche.com/foundation/ophis v1.5.1
@@ -29,7 +29,6 @@ require (
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1
 	go.didapinche.com/juno-gin/v2 v2.0.0
 	go.didapinche.com/juno-go/v2 v2.0.5
-	go.didapinche.com/sentinel-extension-go v1.0.0
 	go.didapinche.com/time v1.0.0
 	go.didapinche.com/uic v1.1.0
 	go.didapinche.com/zeus-go/v2 v2.0.1
