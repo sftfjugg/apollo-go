@@ -306,7 +306,7 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 
 func (s appNamespaceService) FindLimosApp(name string) (*plat_limos_rpc.App, error) {
 	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
-	apps, err := s.limosService.FindAppForPage(ctx, name, "", "", "", "", 0, "all", 0, 20, "", 0)
+	apps, err := s.limosService.FindAppForPage(ctx, name, "", "", "", "", 0, "all", 20, 0, "", 0)
 	if err != nil {
 		return nil, errors.Wrap(err, "call zclients uic.FindAppForPage() error")
 	}

@@ -175,6 +175,6 @@ CREATE TABLE `ServerConfig` (
 
 USE dida_apollo_plus_config;
 select * from AppNamespace;
-select * from AppNamespace where Name like '%zap%';
+select * from AppNamespace where LaneName != 'default';
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default' and ClusterName='default';
