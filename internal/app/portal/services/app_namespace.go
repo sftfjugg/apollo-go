@@ -250,6 +250,7 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 			limos, err := s.FindLimosApp(test.AppNamespaces[i].AppId)
 			if err == nil {
 				test.AppNamespaces[i].Owner = limos.Owner
+				test.AppNamespaces[i].OwnerId = limos.OwnerIds
 				test.AppNamespaces[i].Level = limos.Level
 				test.AppNamespaces[i].LimosId = limos.ID
 			}
@@ -271,6 +272,7 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 			limos, err := s.FindLimosApp(online.AppNamespaces[i].AppId)
 			if err == nil {
 				online.AppNamespaces[i].Owner = limos.Owner
+				online.AppNamespaces[i].OwnerId = limos.OwnerIds
 				online.AppNamespaces[i].Level = limos.Level
 				online.AppNamespaces[i].LimosId = limos.ID
 			}
@@ -293,6 +295,7 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 			limos, err := s.FindLimosApp(aliyun.AppNamespaces[i].AppId)
 			if err == nil {
 				aliyun.AppNamespaces[i].Owner = limos.Owner
+				aliyun.AppNamespaces[i].OwnerId = limos.OwnerIds
 				aliyun.AppNamespaces[i].Level = limos.Level
 				aliyun.AppNamespaces[i].LimosId = limos.ID
 			}

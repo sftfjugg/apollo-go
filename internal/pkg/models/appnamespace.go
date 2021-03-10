@@ -9,6 +9,7 @@ type AppNamespace struct {
 	Id                        uint64    `gorm:"column:Id" json:"id" form:"id"`
 	Level                     int64     `json:"level"` //limos级别
 	Owner                     []string  `json:"owner"` //limos负责人
+	OwnerId                   []string  `json:"owner_id"`
 	LimosId                   int64     `json:"limos_id"`
 	Name                      string    `gorm:"column:Name" json:"name" form:"name"`
 	AppId                     string    `gorm:"column:AppId" json:"app_id" form:"app_id"`

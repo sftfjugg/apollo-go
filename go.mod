@@ -24,7 +24,7 @@ require (
 	go.didapinche.com/agollo/v2 v2.0.3
 	go.didapinche.com/foundation/ophis v1.5.1
 	go.didapinche.com/goapi/apollo_thrift_service/v2 v2.0.0-beta.7
-	go.didapinche.com/goapi/plat_limos_rpc v1.0.0-beta.8
+	go.didapinche.com/goapi/plat_limos_rpc v1.0.0-beta.14
 	go.didapinche.com/goapi/plat_operate_history_api v1.0.0-beta.3
 	go.didapinche.com/goapi/uic_service_api v1.2.0-beta.1
 	go.didapinche.com/juno-gin/v2 v2.0.0
