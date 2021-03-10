@@ -26,145 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-1105:权限修改">
-      <change afterPath="$PROJECT_DIR$/apolloConfigBackup.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/apollo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/apollo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/380e4aee-1341-41bd-8c37-703a7574f30c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/380e4aee-1341-41bd-8c37-703a7574f30c.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/380e4aee-1341-41bd-8c37-703a7574f30c/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/380e4aee-1341-41bd-8c37-703a7574f30c/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/45ed4ff9-a25b-4a0c-ba50-ffecad7381ac.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/45ed4ff9-a25b-4a0c-ba50-ffecad7381ac.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/45ed4ff9-a25b-4a0c-ba50-ffecad7381ac/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/45ed4ff9-a25b-4a0c-ba50-ffecad7381ac/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b4b2709b-12ce-4e40-b3bd-171c08ca492e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b4b2709b-12ce-4e40-b3bd-171c08ca492e.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b4b2709b-12ce-4e40-b3bd-171c08ca492e/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b4b2709b-12ce-4e40-b3bd-171c08ca492e/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bba26e1c-242e-43a6-91ce-6b84e79f5346.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bba26e1c-242e-43a6-91ce-6b84e79f5346.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bba26e1c-242e-43a6-91ce-6b84e79f5346/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bba26e1c-242e-43a6-91ce-6b84e79f5346/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/go.imports.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/go.imports.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/admin/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/admin/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/admin/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/admin/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/admin/wire_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/admin/wire_gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/config/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/config/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/config/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/config/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/config/wire_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/config/wire_gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/portal/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/portal/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/portal/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/portal/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/portal/wire_gen.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/portal/wire_gen.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/admin.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/admin.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/app.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/app.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/portal.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/portal.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/admin/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/docker/admin/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/config/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/docker/config/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker/portal/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/docker/portal/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/controllers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/data.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/controllers/zservice.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/controllers/zservice.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/appNamespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/appNamespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/data.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/data.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/data/releaseMessage.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/data/releaseMessage.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/models/appNamespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/models/appNamespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/models/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/models/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/models/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/models/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/release_message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/release_message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/zservice.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/zservice.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/consul.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/consul.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/controllers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/notification.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/notification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/controllers/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/controllers/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/models/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/models/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/models/consul.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/models/consul.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/models/notification.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/models/notification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/repositories/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/repositories/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/repositories/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/repositories/release_message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/repositories/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/repositories/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/consul.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/consul.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/notification.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/notification.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/release_message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/services/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/services/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/config/single_queue/single_version.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/config/single_queue/single_version.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/address/address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/address/address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/controllers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/models/address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/models/address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/models/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/models/response.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/models/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/models/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/repositories/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/repositories/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/repositories/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/repositories/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/portal/services/app_namespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/app_namespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/zservice_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/zservice_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/single_queue/single_address.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/single_queue/single_address.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/zclients/http_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/zclients/http_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/zclients/limos.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/zclients/limos.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/zclients/uic.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/zclients/uic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/zclients/wire.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/zclients/wire.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/zservice/zservice_api.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/zservice/zservice_api.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/app/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/app/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/constans/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/constans/const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/db/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/db/db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/http/http.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/http/http.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/http/middlewares/ginprom/ginprom.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/http/middlewares/ginprom/ginprom.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/httpclient/httpclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/httpclient/httpclient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/log/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/log/log.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/app.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/pkg/models/appnamespace.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/appnamespace.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/base.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/release_history.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/release_history.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/release_message.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/release_message.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/role.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/role.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/server_config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/server_config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/models/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/models/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/utils/netutil/ip.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/utils/netutil/ip.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/utils/netutil/port.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/utils/netutil/port.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/pkg/zeus/zeus.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/pkg/zeus/zeus.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ApolloPortalDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ApolloPortalDB.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +91,7 @@
       <recent name="$PROJECT_DIR$/internal/pkg" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/test">
+  <component name="RunManager" selected="Go Build.go build apollo-adminserivce/cmd/portal">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apollo" />
       <working_directory value="$PROJECT_DIR$" />
@@ -330,9 +194,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build apollo-adminserivce/cmd/portal" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/test" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd" />
-        <item itemvalue="Go Build.go build apollo-adminserivce/cmd/portal" />
         <item itemvalue="Go Build.go build apollo-adminserivce/cmd/configservice1" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/data" />
       </list>
@@ -346,13 +210,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00085" summary="PMOPP-599:集群测试">
-      <created>1606125273268</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1606125273268</updated>
     </task>
     <task id="LOCAL-00086" summary="PMOPP-599:集群测试">
       <created>1606126478249</created>
@@ -690,7 +547,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614065555780</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="PMOPP-1105:权限修改">
+      <created>1615360257113</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1615360257114</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -805,8 +669,8 @@
     <state x="969" y="186" key="EnvironmentVariablesDialog/0.25.1440.785@0.25.1440.785" timestamp="1609223725911" />
     <state x="969" y="186" key="EnvironmentVariablesDialog/0.25.1440.788@0.25.1440.788" timestamp="1613792538511" />
     <state x="969" y="188" key="EnvironmentVariablesDialog/0.25.1440.797@0.25.1440.797" timestamp="1611902245758" />
-    <state width="1398" height="175" key="GridCell.Tab.0.bottom" timestamp="1614942697252">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.0.bottom" timestamp="1615364812012">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="173" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1614077709313" />
     <state width="1398" height="231" key="GridCell.Tab.0.bottom/0.23.1440.799@0.23.1440.799" timestamp="1607934087486" />
@@ -824,15 +688,15 @@
     <state width="1358" height="205" key="GridCell.Tab.0.bottom/0.23.1440.834@0.23.1440.834" timestamp="1605763253637" />
     <state width="1398" height="220" key="GridCell.Tab.0.bottom/0.25.1440.778@0.25.1440.778" timestamp="1608800409900" />
     <state width="1398" height="223" key="GridCell.Tab.0.bottom/0.25.1440.779@0.25.1440.779" timestamp="1608599697262" />
-    <state width="1398" height="220" key="GridCell.Tab.0.bottom/0.25.1440.781@0.25.1440.781" timestamp="1608792082566" />
+    <state width="1398" height="175" key="GridCell.Tab.0.bottom/0.25.1440.781@0.25.1440.781" timestamp="1615364812012" />
     <state width="1398" height="175" key="GridCell.Tab.0.bottom/0.25.1440.785@0.25.1440.785" timestamp="1614942697252" />
     <state width="1398" height="173" key="GridCell.Tab.0.bottom/0.25.1440.788@0.25.1440.788" timestamp="1614320273470" />
     <state width="1398" height="278" key="GridCell.Tab.0.bottom/0.25.1440.791@0.25.1440.791" timestamp="1613958977218" />
     <state width="1398" height="173" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1614079419228" />
     <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1611903437287" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.25.1440.799@0.25.1440.799" timestamp="1611201372495" />
-    <state width="1398" height="175" key="GridCell.Tab.0.center" timestamp="1614942697251">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.0.center" timestamp="1615364812011">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="173" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1614077709312" />
     <state width="1398" height="231" key="GridCell.Tab.0.center/0.23.1440.799@0.23.1440.799" timestamp="1607934087485" />
@@ -850,15 +714,15 @@
     <state width="1358" height="205" key="GridCell.Tab.0.center/0.23.1440.834@0.23.1440.834" timestamp="1605763253636" />
     <state width="1398" height="220" key="GridCell.Tab.0.center/0.25.1440.778@0.25.1440.778" timestamp="1608800409899" />
     <state width="1398" height="223" key="GridCell.Tab.0.center/0.25.1440.779@0.25.1440.779" timestamp="1608599697261" />
-    <state width="1398" height="220" key="GridCell.Tab.0.center/0.25.1440.781@0.25.1440.781" timestamp="1608792082565" />
+    <state width="1398" height="175" key="GridCell.Tab.0.center/0.25.1440.781@0.25.1440.781" timestamp="1615364812011" />
     <state width="1398" height="175" key="GridCell.Tab.0.center/0.25.1440.785@0.25.1440.785" timestamp="1614942697251" />
     <state width="1398" height="173" key="GridCell.Tab.0.center/0.25.1440.788@0.25.1440.788" timestamp="1614320273468" />
     <state width="1398" height="278" key="GridCell.Tab.0.center/0.25.1440.791@0.25.1440.791" timestamp="1613958977217" />
     <state width="1398" height="173" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1614079419227" />
     <state width="1398" height="245" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1611903437277" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.25.1440.799@0.25.1440.799" timestamp="1611201372494" />
-    <state width="1398" height="175" key="GridCell.Tab.0.left" timestamp="1614942697251">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.0.left" timestamp="1615364812010">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="173" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1614077709311" />
     <state width="1398" height="231" key="GridCell.Tab.0.left/0.23.1440.799@0.23.1440.799" timestamp="1607934087483" />
@@ -876,15 +740,15 @@
     <state width="1358" height="205" key="GridCell.Tab.0.left/0.23.1440.834@0.23.1440.834" timestamp="1605763253636" />
     <state width="1398" height="220" key="GridCell.Tab.0.left/0.25.1440.778@0.25.1440.778" timestamp="1608800409897" />
     <state width="1398" height="223" key="GridCell.Tab.0.left/0.25.1440.779@0.25.1440.779" timestamp="1608599697260" />
-    <state width="1398" height="220" key="GridCell.Tab.0.left/0.25.1440.781@0.25.1440.781" timestamp="1608792082564" />
+    <state width="1398" height="175" key="GridCell.Tab.0.left/0.25.1440.781@0.25.1440.781" timestamp="1615364812010" />
     <state width="1398" height="175" key="GridCell.Tab.0.left/0.25.1440.785@0.25.1440.785" timestamp="1614942697251" />
     <state width="1398" height="173" key="GridCell.Tab.0.left/0.25.1440.788@0.25.1440.788" timestamp="1614320273467" />
     <state width="1398" height="278" key="GridCell.Tab.0.left/0.25.1440.791@0.25.1440.791" timestamp="1613958977217" />
     <state width="1398" height="173" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1614079419226" />
     <state width="1398" height="245" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1611903437277" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.25.1440.799@0.25.1440.799" timestamp="1611201372494" />
-    <state width="1398" height="175" key="GridCell.Tab.0.right" timestamp="1614942697252">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.0.right" timestamp="1615364812012">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="173" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1614077709312" />
     <state width="1398" height="231" key="GridCell.Tab.0.right/0.23.1440.799@0.23.1440.799" timestamp="1607934087486" />
@@ -902,15 +766,15 @@
     <state width="1358" height="205" key="GridCell.Tab.0.right/0.23.1440.834@0.23.1440.834" timestamp="1605763253636" />
     <state width="1398" height="220" key="GridCell.Tab.0.right/0.25.1440.778@0.25.1440.778" timestamp="1608800409900" />
     <state width="1398" height="223" key="GridCell.Tab.0.right/0.25.1440.779@0.25.1440.779" timestamp="1608599697261" />
-    <state width="1398" height="220" key="GridCell.Tab.0.right/0.25.1440.781@0.25.1440.781" timestamp="1608792082565" />
+    <state width="1398" height="175" key="GridCell.Tab.0.right/0.25.1440.781@0.25.1440.781" timestamp="1615364812012" />
     <state width="1398" height="175" key="GridCell.Tab.0.right/0.25.1440.785@0.25.1440.785" timestamp="1614942697252" />
     <state width="1398" height="173" key="GridCell.Tab.0.right/0.25.1440.788@0.25.1440.788" timestamp="1614320273469" />
     <state width="1398" height="278" key="GridCell.Tab.0.right/0.25.1440.791@0.25.1440.791" timestamp="1613958977217" />
     <state width="1398" height="173" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1614079419228" />
     <state width="1398" height="245" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1611903437287" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.25.1440.799@0.25.1440.799" timestamp="1611201372495" />
-    <state width="1398" height="175" key="GridCell.Tab.1.bottom" timestamp="1614942698149">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.1.bottom" timestamp="1615364812014">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.bottom/0.23.1440.799@0.23.1440.799" timestamp="1607934087488" />
     <state width="1398" height="222" key="GridCell.Tab.1.bottom/0.23.1440.802@0.23.1440.802" timestamp="1607333704028" />
@@ -927,15 +791,15 @@
     <state width="1358" height="205" key="GridCell.Tab.1.bottom/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
     <state width="1398" height="220" key="GridCell.Tab.1.bottom/0.25.1440.778@0.25.1440.778" timestamp="1608800409901" />
     <state width="1398" height="223" key="GridCell.Tab.1.bottom/0.25.1440.779@0.25.1440.779" timestamp="1608599697263" />
-    <state width="1398" height="220" key="GridCell.Tab.1.bottom/0.25.1440.781@0.25.1440.781" timestamp="1608792102881" />
+    <state width="1398" height="175" key="GridCell.Tab.1.bottom/0.25.1440.781@0.25.1440.781" timestamp="1615364812014" />
     <state width="1398" height="175" key="GridCell.Tab.1.bottom/0.25.1440.785@0.25.1440.785" timestamp="1614942698149" />
     <state width="1398" height="179" key="GridCell.Tab.1.bottom/0.25.1440.788@0.25.1440.788" timestamp="1614077478382" />
     <state width="1398" height="278" key="GridCell.Tab.1.bottom/0.25.1440.791@0.25.1440.791" timestamp="1613958977107" />
     <state width="1398" height="185" key="GridCell.Tab.1.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612176791796" />
     <state width="1398" height="245" key="GridCell.Tab.1.bottom/0.25.1440.797@0.25.1440.797" timestamp="1611903437289" />
     <state width="1398" height="230" key="GridCell.Tab.1.bottom/0.25.1440.799@0.25.1440.799" timestamp="1611201372496" />
-    <state width="1398" height="175" key="GridCell.Tab.1.center" timestamp="1614942698148">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.1.center" timestamp="1615364812013">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.center/0.23.1440.799@0.23.1440.799" timestamp="1607934087487" />
     <state width="1398" height="222" key="GridCell.Tab.1.center/0.23.1440.802@0.23.1440.802" timestamp="1607333704028" />
@@ -952,15 +816,15 @@
     <state width="1358" height="205" key="GridCell.Tab.1.center/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
     <state width="1398" height="220" key="GridCell.Tab.1.center/0.25.1440.778@0.25.1440.778" timestamp="1608800409901" />
     <state width="1398" height="223" key="GridCell.Tab.1.center/0.25.1440.779@0.25.1440.779" timestamp="1608599697263" />
-    <state width="1398" height="220" key="GridCell.Tab.1.center/0.25.1440.781@0.25.1440.781" timestamp="1608792102881" />
+    <state width="1398" height="175" key="GridCell.Tab.1.center/0.25.1440.781@0.25.1440.781" timestamp="1615364812013" />
     <state width="1398" height="175" key="GridCell.Tab.1.center/0.25.1440.785@0.25.1440.785" timestamp="1614942698148" />
     <state width="1398" height="179" key="GridCell.Tab.1.center/0.25.1440.788@0.25.1440.788" timestamp="1614077478380" />
     <state width="1398" height="278" key="GridCell.Tab.1.center/0.25.1440.791@0.25.1440.791" timestamp="1613958977106" />
     <state width="1398" height="185" key="GridCell.Tab.1.center/0.25.1440.794@0.25.1440.794" timestamp="1612176791795" />
     <state width="1398" height="245" key="GridCell.Tab.1.center/0.25.1440.797@0.25.1440.797" timestamp="1611903437288" />
     <state width="1398" height="230" key="GridCell.Tab.1.center/0.25.1440.799@0.25.1440.799" timestamp="1611201372496" />
-    <state width="1398" height="175" key="GridCell.Tab.1.left" timestamp="1614942698147">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.1.left" timestamp="1615364812013">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.left/0.23.1440.799@0.23.1440.799" timestamp="1607934087486" />
     <state width="1398" height="222" key="GridCell.Tab.1.left/0.23.1440.802@0.23.1440.802" timestamp="1607333704028" />
@@ -977,15 +841,15 @@
     <state width="1358" height="205" key="GridCell.Tab.1.left/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
     <state width="1398" height="220" key="GridCell.Tab.1.left/0.25.1440.778@0.25.1440.778" timestamp="1608800409900" />
     <state width="1398" height="223" key="GridCell.Tab.1.left/0.25.1440.779@0.25.1440.779" timestamp="1608599697262" />
-    <state width="1398" height="220" key="GridCell.Tab.1.left/0.25.1440.781@0.25.1440.781" timestamp="1608792102880" />
+    <state width="1398" height="175" key="GridCell.Tab.1.left/0.25.1440.781@0.25.1440.781" timestamp="1615364812013" />
     <state width="1398" height="175" key="GridCell.Tab.1.left/0.25.1440.785@0.25.1440.785" timestamp="1614942698147" />
     <state width="1398" height="179" key="GridCell.Tab.1.left/0.25.1440.788@0.25.1440.788" timestamp="1614077478379" />
     <state width="1398" height="278" key="GridCell.Tab.1.left/0.25.1440.791@0.25.1440.791" timestamp="1613958977106" />
     <state width="1398" height="185" key="GridCell.Tab.1.left/0.25.1440.794@0.25.1440.794" timestamp="1612176791794" />
     <state width="1398" height="245" key="GridCell.Tab.1.left/0.25.1440.797@0.25.1440.797" timestamp="1611903437288" />
     <state width="1398" height="230" key="GridCell.Tab.1.left/0.25.1440.799@0.25.1440.799" timestamp="1611201372495" />
-    <state width="1398" height="175" key="GridCell.Tab.1.right" timestamp="1614942698149">
-      <screen x="0" y="25" width="1440" height="785" />
+    <state width="1398" height="175" key="GridCell.Tab.1.right" timestamp="1615364812014">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state width="1398" height="231" key="GridCell.Tab.1.right/0.23.1440.799@0.23.1440.799" timestamp="1607934087487" />
     <state width="1398" height="222" key="GridCell.Tab.1.right/0.23.1440.802@0.23.1440.802" timestamp="1607333704028" />
@@ -1002,7 +866,7 @@
     <state width="1358" height="205" key="GridCell.Tab.1.right/0.23.1440.834@0.23.1440.834" timestamp="1605763254511" />
     <state width="1398" height="220" key="GridCell.Tab.1.right/0.25.1440.778@0.25.1440.778" timestamp="1608800409901" />
     <state width="1398" height="223" key="GridCell.Tab.1.right/0.25.1440.779@0.25.1440.779" timestamp="1608599697263" />
-    <state width="1398" height="220" key="GridCell.Tab.1.right/0.25.1440.781@0.25.1440.781" timestamp="1608792102881" />
+    <state width="1398" height="175" key="GridCell.Tab.1.right/0.25.1440.781@0.25.1440.781" timestamp="1615364812014" />
     <state width="1398" height="175" key="GridCell.Tab.1.right/0.25.1440.785@0.25.1440.785" timestamp="1614942698149" />
     <state width="1398" height="179" key="GridCell.Tab.1.right/0.25.1440.788@0.25.1440.788" timestamp="1614077478380" />
     <state width="1398" height="278" key="GridCell.Tab.1.right/0.25.1440.791@0.25.1440.791" timestamp="1613958977107" />
@@ -1021,8 +885,8 @@
     <state x="221" y="77" key="SettingsEditor/0.23.1440.830@0.23.1440.830" timestamp="1605851635232" />
     <state x="221" y="75" key="SettingsEditor/0.25.1440.778@0.25.1440.778" timestamp="1608794846198" />
     <state x="221" y="76" key="SettingsEditor/0.25.1440.791@0.25.1440.791" timestamp="1609833361813" />
-    <state x="320" y="173" key="Vcs.Push.Dialog.v2" timestamp="1614065563321">
-      <screen x="0" y="25" width="1440" height="788" />
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1615360265379">
+      <screen x="0" y="25" width="1440" height="781" />
     </state>
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.23.1440.799@0.23.1440.799" timestamp="1607933819311" />
     <state x="320" y="175" key="Vcs.Push.Dialog.v2/0.23.1440.809@0.23.1440.809" timestamp="1607066057772" />
@@ -1031,7 +895,7 @@
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.830@0.23.1440.830" timestamp="1606112254101" />
     <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.831@0.23.1440.831" timestamp="1605266505957" />
     <state x="320" y="170" key="Vcs.Push.Dialog.v2/0.25.1440.778@0.25.1440.778" timestamp="1608792743312" />
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.781@0.25.1440.781" timestamp="1608792435814" />
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.781@0.25.1440.781" timestamp="1615360265379" />
     <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1608540924905" />
     <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.785@0.25.1440.785" timestamp="1608531209190" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1614065563321" />
@@ -1073,17 +937,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/test/main.go</url>
-          <line>22</line>
+          <line>20</line>
           <option name="timeStamp" value="947" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/test/main.go</url>
-          <line>19</line>
+          <line>13</line>
           <option name="timeStamp" value="948" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/cmd/test/main.go</url>
-          <line>17</line>
+          <line>15</line>
           <option name="timeStamp" value="949" />
         </line-breakpoint>
       </breakpoints>

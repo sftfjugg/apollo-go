@@ -3,10 +3,13 @@ package services
 import (
 	"encoding/json"
 	"github.com/pkg/errors"
+	"github.com/uber/tchannel-go"
 	models22 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
+	"go.didapinche.com/goapi/plat_limos_rpc"
 	"net/http"
+	"time"
 )
 
 type AppNamespaceService interface {
@@ -25,14 +28,17 @@ type AppNamespaceService interface {
 }
 
 type appNamespaceService struct {
-	httpClient *zclients.HttpClient
+	limosService plat_limos_rpc.TChanLimosService
+	httpClient   *zclients.HttpClient
 }
 
 func NewAppNamespaceService(
+	limosService plat_limos_rpc.TChanLimosService,
 	httpClient *zclients.HttpClient,
 ) AppNamespaceService {
 	return appNamespaceService{
-		httpClient: httpClient,
+		httpClient:   httpClient,
+		limosService: limosService,
 	}
 }
 
@@ -238,7 +244,15 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 	if response.Code == 200 {
 		test := new(models22.AppPage)
 		if err := json.Unmarshal(response.Data, &test); err != nil {
-			return nil, errors.Wrap(err, "json.Unmarshal falied")
+
+		}
+		for i, _ := range test.AppNamespaces {
+			limos, err := s.FindLimosApp(test.AppNamespaces[i].AppId)
+			if err == nil {
+				test.AppNamespaces[i].Owner = limos.Owner
+				test.AppNamespaces[i].Level = limos.Level
+				test.AppNamespaces[i].LimosId = limos.ID
+			}
 		}
 		param.Test = test
 		total += test.Total
@@ -252,6 +266,14 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 		online := new(models22.AppPage)
 		if err := json.Unmarshal(response2.Data, &online); err != nil {
 
+		}
+		for i, _ := range online.AppNamespaces {
+			limos, err := s.FindLimosApp(online.AppNamespaces[i].AppId)
+			if err == nil {
+				online.AppNamespaces[i].Owner = limos.Owner
+				online.AppNamespaces[i].Level = limos.Level
+				online.AppNamespaces[i].LimosId = limos.ID
+			}
 		}
 		param.Online = online
 		total += online.Total
@@ -267,9 +289,33 @@ func (s appNamespaceService) FindAppByLaneNameandAppId(r *http.Request) (*models
 
 		}
 		param.Aliyun = aliyun
+		for i, _ := range aliyun.AppNamespaces {
+			limos, err := s.FindLimosApp(aliyun.AppNamespaces[i].AppId)
+			if err == nil {
+				aliyun.AppNamespaces[i].Owner = limos.Owner
+				aliyun.AppNamespaces[i].Level = limos.Level
+				aliyun.AppNamespaces[i].LimosId = limos.ID
+			}
+		}
 		total += aliyun.Total
 	}
 	param.Total = total
 	response.Data, _ = json.Marshal(param)
 	return response, nil
+}
+
+func (s appNamespaceService) FindLimosApp(name string) (*plat_limos_rpc.App, error) {
+	ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
+	apps, err := s.limosService.FindAppForPage(ctx, name, "", "", "", "", 0, "all", 0, 20, "", 0)
+	if err != nil {
+		return nil, errors.Wrap(err, "call zclients uic.FindAppForPage() error")
+	}
+	app := new(plat_limos_rpc.App)
+	for _, v := range apps.Apps {
+		if v.Name == name {
+			app = v
+			break
+		}
+	}
+	return app, nil
 }

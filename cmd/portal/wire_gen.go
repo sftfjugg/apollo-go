@@ -79,7 +79,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	}
 	client := httpclient.New()
 	httpClient := zclients.NewHttpClient(client)
-	appNamespaceService := services.NewAppNamespaceService(httpClient)
+	appNamespaceService := services.NewAppNamespaceService(tChanLimosService, httpClient)
 	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemService := services.NewItemService(httpClient)
 	itemController := controllers.NewItemController(itemService)
