@@ -72,7 +72,7 @@ CREATE TABLE `Dingding`
     KEY `AppId` (`AppId`),
     KEY `DeptName` (`DeptName`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4 COMMENT ='浏览记录';
+  DEFAULT CHARSET = utf8mb4 COMMENT ='钉钉';
 
 
 

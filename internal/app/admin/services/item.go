@@ -210,7 +210,7 @@ func (s itemService) FindItemByNamespaceIdOnRelease(namespaceID string) ([]*mode
 }
 
 func (s itemService) FindItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.ItemPage, error) {
-	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, comment, pageSize, pageNum)
+	items, err := s.repository.FindItemByKeyForPage(cluster, key, comment, format, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByKeyForPage() error")
 	}
@@ -225,7 +225,7 @@ func (s itemService) FindItemByKeyForPage(cluster, key, format, comment string, 
 }
 
 func (s itemService) FindAppItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.AppNamespacePage, error) {
-	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, comment, pageSize, pageNum)
+	items, err := s.repository.FindItemByKeyForPage(cluster, key, comment, format, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByKeyForPage() error")
 	}
