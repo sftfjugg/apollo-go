@@ -2,13 +2,14 @@ package services
 
 import (
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 )
 
 type ZService interface {
 	CreateOrFindAppNamespace(appNamespace *models.AppNamespace) (int64, error)
 	CreateOrUpdateItem(item *models.Item) error
-	PublishNamespace(appId, clusterName, comment, name, namespaceId, laneName, operator string, keys []string) error
+	PublishNamespace(release *models2.ReleaseRequest) error
 }
 
 type zService struct {
@@ -67,8 +68,8 @@ func (s zService) CreateOrUpdateItem(item *models.Item) error {
 	return nil
 }
 
-func (s zService) PublishNamespace(appId, clusterName, comment, name, namespaceId, laneName, operator string, keys []string) error {
-	if err := s.releaseMessageService.Create(appId, clusterName, comment, name, namespaceId, laneName, operator, keys); err != nil {
+func (s zService) PublishNamespace(release *models2.ReleaseRequest) error {
+	if err := s.releaseMessageService.Create(release); err != nil {
 		return err
 	}
 	return nil

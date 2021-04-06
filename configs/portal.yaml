@@ -15,8 +15,8 @@ http:
   port: 9200
   mode: release
 meta:
-  TEST: http://10.10.30.37:9090
-  ALIYUN: http://10.10.30.37:9090
-  ONLINE: http://10.10.30.37:9090
+  TEST: http://10.10.30.10:9090
+  ALIYUN: http://10.10.30.10:9090
+  ONLINE: http://10.10.30.10:9090
 
 
