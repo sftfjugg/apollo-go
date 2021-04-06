@@ -157,7 +157,7 @@ func (r itemRepisitory) DeleteByIdOnRelease(db *gorm.DB, id string, keys []strin
 func (r itemRepisitory) FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error) {
 	var items = make([]*models.Item, 0)
 	if comment != "" {
-		comment = "and Comment='%" + comment + "%'"
+		comment = "and Comment like '%" + comment + "%'"
 	}
 	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId=? and IsDeleted=0 "+comment+"", namespaceID).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
@@ -196,7 +196,7 @@ func (r itemRepisitory) FindItemByAppIdAndKey(appId, cluster, key, format, comme
 		format = "and A.Format='" + format + "'  "
 	}
 	if comment != "" {
-		comment = "and I.Comment='%" + comment + "%'  "
+		comment = "and I.Comment like '%" + comment + "%'  "
 	}
 	if cluster != "" {
 		cluster = "and A.ClusterName='" + cluster + "'  "
@@ -216,7 +216,7 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, comment, format strin
 		cluster = "and A.ClusterName='" + cluster + "'  "
 	}
 	if comment != "" {
-		comment = "and I.Comment='%" + comment + "%'  "
+		comment = "and I.Comment like '%" + comment + "%'  "
 	}
 
 	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.IsOperate,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+comment+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
@@ -245,7 +245,7 @@ func (r itemRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key s
 func (r itemRepisitory) FindAllComment(appId string) ([]*models.Item, error) {
 	items := make([]*models.Item, 0)
 	if appId == "" {
-		if err := r.db.Raw("Select I.Comment from `Item` I where  I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
+		if err := r.db.Raw("Select I.Comment from `Item` I where  I.IsDeleted=0 group by I.Comment;").Scan(&items).Error; err != nil {
 			return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
 		}
 	} else {
