@@ -273,7 +273,8 @@ func (s itemService) FindAllComment(appId string) ([]string, error) {
 	comments := make([]string, 0)
 	for _, i := range items {
 		if i.Comment != "" {
-			comments = append(comments, i.Comment)
+			comment := strings.Split(i.Comment, ",")
+			comments = append(comments, comment...)
 		}
 	}
 	return comments, nil
