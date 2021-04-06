@@ -84,7 +84,7 @@ use plat_metis;
 Use dida_sentinel_role;
 show tables;
 select * from Role;
-
+select * from History;
 select *
 from `Role`;
 

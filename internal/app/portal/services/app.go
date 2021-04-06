@@ -73,6 +73,7 @@ func (s appService) GetRecent(userId string) ([]*plat_limos_rpc.App, error) {
 	for _, app := range apps {
 		limosApp := new(plat_limos_rpc.App)
 		limosApp.Name = app.AppId
+		limosApps = append(limosApps, limosApp)
 	}
 	return limosApps, nil
 }
