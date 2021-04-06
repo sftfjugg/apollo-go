@@ -53,6 +53,28 @@ CREATE TABLE `History`
   DEFAULT CHARSET = utf8mb4 COMMENT ='浏览记录';
 
 
+DROP TABLE IF EXISTS `Dingding`;
+
+CREATE TABLE `Dingding`
+(
+    `Id`                     int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `AppId`                  varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'AppID',
+    `DeptName`               varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'DeptName',
+    `Type`                   varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'Type',
+    `Token`                  varchar(100)     NOT NULL DEFAULT '' COMMENT 'Token',
+    `Level`                  int(10)          NOT NULL DEFAULT '0' COMMENT 'Level',
+    `IsDeleted`              tinyint(1)       NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
+    `DataChange_CreatedBy`   varchar(32)      NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
+    `DataChange_CreatedTime` timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`Id`),
+    KEY `Level` (`Level`),
+    KEY `Type` (`Type`),
+    KEY `AppId` (`AppId`),
+    KEY `DeptName` (`DeptName`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='浏览记录';
+
+
 
 use dida_apollo_plus_portal;
 select *
@@ -83,8 +105,10 @@ show databases;
 use plat_metis;
 Use dida_sentinel_role;
 show tables;
-select * from Role;
-select * from History;
+select *
+from Role;
+select *
+from History;
 select *
 from `Role`;
 

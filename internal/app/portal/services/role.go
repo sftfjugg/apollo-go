@@ -104,13 +104,13 @@ func (s roleService) Finds(userId, cluster, env string) (map[string][]*models.Na
 	for _, role := range roles {
 		if n, ok := m[role.AppId]; ok {
 			for i, _ := range n {
-				if n[i].Name == role.AppId {
+				if n[i].Name == role.Namespace {
 					n[i].Level = n[i].Level + role.Level
 					break
 				}
 				if i == len(n)-1 {
 					namespaceRole := new(models.NamespaceRole)
-					namespaceRole.Name = role.AppId
+					namespaceRole.Name = role.Namespace
 					namespaceRole.Level = role.Level
 					n = append(n, namespaceRole)
 					break
@@ -118,7 +118,7 @@ func (s roleService) Finds(userId, cluster, env string) (map[string][]*models.Na
 			}
 		} else {
 			namespaceRole := new(models.NamespaceRole)
-			namespaceRole.Name = role.AppId
+			namespaceRole.Name = role.Namespace
 			namespaceRole.Level = role.Level
 			m[role.AppId] = append(m[role.AppId], namespaceRole)
 		}
