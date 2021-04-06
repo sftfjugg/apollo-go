@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
+	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
@@ -12,8 +13,9 @@ import (
 
 type ReleaseMessageService interface {
 	//正常发布和灰度发布
-	Create(appId, clusterName, comment, name, namespaceId, laneName, operator string, keys []string) error
+	Create(release *models2.ReleaseRequest) error
 	ReleaseGrayTotal(namespaceId, name, appId, cluster, operator string, isDeleted bool) error
+	Creates(releaseRequests []*models2.ReleaseRequest) error //批量发布
 }
 
 type releaseMessageService struct {
@@ -43,35 +45,44 @@ func NewReleaseMessageService(
 	}
 }
 
-func (s releaseMessageService) Create(appId, clusterName, comment, name, namespaceId, laneName, operator string, keys []string) error {
+func (s releaseMessageService) Creates(releaseRequests []*models2.ReleaseRequest) error {
+	for _, r := range releaseRequests {
+		if err := s.Create(r); err != nil {
+			return errors.Wrap(err, "release stop:"+r.AppId)
+		}
+	}
+	return nil
+}
+
+func (s releaseMessageService) Create(releaseRequest *models2.ReleaseRequest) error {
 	release := new(models.Release)
-	if appId == "" {
-		app, err := s.appNamespaceRepository.FindAppNamespaceById(namespaceId)
+	if releaseRequest.AppId == "" {
+		app, err := s.appNamespaceRepository.FindAppNamespaceById(strconv.Itoa(int(releaseRequest.NamespaceId)))
 		if err != nil {
 			return errors.Wrap(err, "call appNamespaceRepository.FindAppNamespaceById() error")
 		}
-		appId = app.AppId
-		clusterName = app.ClusterName
-		laneName = app.LaneName
-		name = app.Name
+		releaseRequest.AppId = app.AppId
+		releaseRequest.ClusterName = app.ClusterName
+		releaseRequest.LaneName = app.LaneName
+		releaseRequest.Name = app.Name
 	}
-	release.DataChange_LastModifiedBy = operator
-	release.DataChange_CreatedBy = operator
-	release.NamespaceName = name
-	release.AppId = appId
-	release.Comment = comment
-	release.LaneName = laneName
-	release.ClusterName = clusterName
-	release.ReleaseKey = name
+	release.DataChange_LastModifiedBy = releaseRequest.Operator
+	release.DataChange_CreatedBy = releaseRequest.Operator
+	release.NamespaceName = releaseRequest.Name
+	release.AppId = releaseRequest.AppId
+	release.Comment = releaseRequest.Comment
+	release.LaneName = releaseRequest.LaneName
+	release.ClusterName = releaseRequest.ClusterName
+	release.ReleaseKey = releaseRequest.Name
 	releaseHistory := new(models.ReleaseHistory)
-	releaseHistory.DataChange_LastModifiedBy = operator
-	releaseHistory.DataChange_CreatedBy = operator
-	releaseHistory.ClusterName = clusterName
-	releaseHistory.NamespaceName = name
-	releaseHistory.AppId = appId
-	releaseHistory.LaneName = laneName
+	releaseHistory.DataChange_LastModifiedBy = releaseRequest.Operator
+	releaseHistory.DataChange_CreatedBy = releaseRequest.Operator
+	releaseHistory.ClusterName = releaseRequest.ClusterName
+	releaseHistory.NamespaceName = releaseRequest.Name
+	releaseHistory.AppId = releaseRequest.AppId
+	releaseHistory.LaneName = releaseRequest.LaneName
 	//查询修改的key配置并计入发布历史
-	items, err := s.itemRepository.FindItemByNamespaceIdInKey(namespaceId, keys)
+	items, err := s.itemRepository.FindItemByNamespaceIdInKey(strconv.Itoa(int(releaseRequest.NamespaceId)), releaseRequest.Keys)
 	if err != nil {
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdInKey failed")
 	}
@@ -84,7 +95,7 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	releaseMessage := new(models.ReleaseMessage)
 	releaseHistory.OperationContext = string(operationContext)
 
-	if laneName == "default" {
+	if releaseRequest.LaneName == "default" {
 		releaseHistory.BranchName = "普通发布"
 		releaseHistory.Operation = 0
 		releaseMessage.Message = release.AppId + "+" + release.ClusterName + "+" + release.NamespaceName
@@ -95,17 +106,17 @@ func (s releaseMessageService) Create(appId, clusterName, comment, name, namespa
 	}
 
 	db := s.db.Begin()
-	if err := s.itemRepository.DeleteByIdOnRelease(db, namespaceId, keys); err != nil {
+	if err := s.itemRepository.DeleteByIdOnRelease(db, strconv.Itoa(int(releaseRequest.NamespaceId)), releaseRequest.Keys); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
-	if err := s.itemRepository.UpdateByNamespaceId(db, namespaceId, keys); err != nil {
+	if err := s.itemRepository.UpdateByNamespaceId(db, strconv.Itoa(int(releaseRequest.NamespaceId)), releaseRequest.Keys); err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "call itemRepository.UpdateByNamespaceId() error")
 	}
 	var itemsRelease = make([]*models.Item, 0)
 	//查询的是未提交的事物内容，所以使用db在service层进行查询
-	if err := db.Table(models.ItemTableName).Find(&itemsRelease, "NamespaceId=? and IsDeleted=0 and Status=1", namespaceId).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Find(&itemsRelease, "NamespaceId=? and IsDeleted=0 and Status=1", strconv.Itoa(int(releaseRequest.NamespaceId))).Error; err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}

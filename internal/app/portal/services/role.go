@@ -14,6 +14,7 @@ type RoleService interface {
 	CreateBackDoor(userId string) error
 	DeleteByUserId(userId string) error
 	Find(appId, userId, cluster, env string) (*models.Auth, error)
+	Finds(userId, cluster, env string) (map[string][]*models.NamespaceRole, error)
 	FindByAppId(appId, cluster, env, name string) (*models.Role, error)
 }
 
@@ -91,6 +92,38 @@ func (s roleService) Create(role *models.Role) error {
 	}
 	db.Commit()
 	return nil
+}
+
+//前端全局搜索用
+func (s roleService) Finds(userId, cluster, env string) (map[string][]*models.NamespaceRole, error) {
+	m := make(map[string][]*models.NamespaceRole)
+	roles, err := s.repository.Finds(userId, cluster, env)
+	if err != nil {
+		return nil, errors.Wrap(err, "call RoleSitory.Find failed")
+	}
+	for _, role := range roles {
+		if n, ok := m[role.AppId]; ok {
+			for i, _ := range n {
+				if n[i].Name == role.AppId {
+					n[i].Level = n[i].Level + role.Level
+					break
+				}
+				if i == len(n)-1 {
+					namespaceRole := new(models.NamespaceRole)
+					namespaceRole.Name = role.AppId
+					namespaceRole.Level = role.Level
+					n = append(n, namespaceRole)
+					break
+				}
+			}
+		} else {
+			namespaceRole := new(models.NamespaceRole)
+			namespaceRole.Name = role.AppId
+			namespaceRole.Level = role.Level
+			m[role.AppId] = append(m[role.AppId], namespaceRole)
+		}
+	}
+	return m, nil
 }
 
 //前端控制按钮用

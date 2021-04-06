@@ -68,9 +68,10 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
+	historyRepository := repositories.NewHistoryRepository(gormDB)
 	roleRepository := repositories.NewRoleReposotory(gormDB)
 	roleService := services.NewRoleService(roleRepository, gormDB)
-	appService := services.NewAppService(tChanLimosService, tChanUicService, roleService)
+	appService := services.NewAppService(tChanLimosService, tChanUicService, historyRepository, roleService)
 	appController := controllers.NewAppController(appService)
 	uicOptions := uic.NewOptions(viper)
 	api, err := uic.NewApi(uicOptions, logger, tChanUicService)
@@ -79,7 +80,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	}
 	client := httpclient.New()
 	httpClient := zclients.NewHttpClient(client)
-	appNamespaceService := services.NewAppNamespaceService(tChanLimosService, httpClient)
+	appNamespaceService := services.NewAppNamespaceService(tChanLimosService, httpClient, historyRepository)
 	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemService := services.NewItemService(httpClient)
 	itemController := controllers.NewItemController(itemService)

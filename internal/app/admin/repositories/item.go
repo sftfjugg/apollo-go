@@ -22,7 +22,7 @@ type ItemRepisitory interface {
 	DeleteByNamespaceIds(db *gorm.DB, namespaceIds []string) error
 	FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
-	FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) ([]*models2.Item, error)
+	FindItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) ([]*models2.Item, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindItemByNamespaceIdInKey(namespaceId string, keys []string) ([]*models.Item, error)
 	FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.Item, error)
@@ -207,7 +207,7 @@ func (r itemRepisitory) FindItemByAppIdAndKey(appId, cluster, key, format, comme
 	return items, nil
 }
 
-func (r itemRepisitory) FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) ([]*models2.Item, error) {
+func (r itemRepisitory) FindItemByKeyForPage(cluster, key, comment, format string, pageSize, pageNum int) ([]*models2.Item, error) {
 	items := make([]*models2.Item, 0)
 	if format != "" {
 		format = "and Format='" + format + "'  "
@@ -215,7 +215,11 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, format string, pageSi
 	if cluster != "" {
 		cluster = "and A.ClusterName='" + cluster + "'  "
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
+	if comment != "" {
+		comment = "and I.Comment='" + comment + "'  "
+	}
+
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.IsOperate,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+comment+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByKeyForPage failed")
 	}
 	return items, nil
@@ -240,8 +244,14 @@ func (r itemRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key s
 
 func (r itemRepisitory) FindAllComment(appId string) ([]*models.Item, error) {
 	items := make([]*models.Item, 0)
-	if err := r.db.Raw("Select I.Comment from `AppNamespace` A,`Item` I where  A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
-		return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
+	if appId == "" {
+		if err := r.db.Raw("Select I.Comment from `Item` I where  I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
+			return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
+		}
+	} else {
+		if err := r.db.Raw("Select I.Comment from `AppNamespace` A,`Item` I where  A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
+			return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
+		}
 	}
 	return items, nil
 }

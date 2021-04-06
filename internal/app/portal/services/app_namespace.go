@@ -6,7 +6,9 @@ import (
 	"github.com/uber/tchannel-go"
 	models22 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/portal/models"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/repositories"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/portal/zclients"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/goapi/plat_limos_rpc"
 	"net/http"
 	"time"
@@ -21,13 +23,14 @@ type AppNamespaceService interface {
 	Update(env string, r *http.Request) (*models2.Response, error)
 	UpdateIsDisply(env string, r *http.Request) (*models2.Response, error)
 	FindAllClusterNameByAppId(r *http.Request) (*models2.Response, error)
-	FindAppNamespaceByAppId(appId string, r *http.Request) (*models2.Response, error)
+	FindAppNamespaceByAppId(env, userID, userName, appId string, r *http.Request) (*models2.Response, error)
 	FindByLaneName(r *http.Request) (*models2.Response, error)
 	FindAppNamespaceByAppIdAndClusterName(env string, r *http.Request) (*models2.Response, error)
 	FindAppByLaneNameandAppId(r *http.Request) (*models2.Response, error)
 }
 
 type appNamespaceService struct {
+	history      repositories.HistoryRepository
 	limosService plat_limos_rpc.TChanLimosService
 	httpClient   *zclients.HttpClient
 }
@@ -35,10 +38,12 @@ type appNamespaceService struct {
 func NewAppNamespaceService(
 	limosService plat_limos_rpc.TChanLimosService,
 	httpClient *zclients.HttpClient,
+	history repositories.HistoryRepository,
 ) AppNamespaceService {
 	return appNamespaceService{
 		httpClient:   httpClient,
 		limosService: limosService,
+		history:      history,
 	}
 }
 
@@ -105,7 +110,12 @@ func (s appNamespaceService) FindAppNamespaceByAppIdAndClusterName(env string, r
 	}
 	return response, nil
 }
-func (s appNamespaceService) FindAppNamespaceByAppId(env string, r *http.Request) (*models2.Response, error) {
+func (s appNamespaceService) FindAppNamespaceByAppId(env, UserID, UserName, appId string, r *http.Request) (*models2.Response, error) {
+	history := new(models.History)
+	history.AppId = appId
+	history.UserId = UserID
+	history.UserName = UserName
+	s.history.Create(history)
 	response, err := s.httpClient.HttpDo("/app_namespace_all", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")

@@ -17,13 +17,14 @@ type ItemService interface {
 	CreateByText(items *models2.ItemText) error
 	Creates(item []*models.Item) error
 	Update(item *models.Item) error
+	Updates(items []*models.Item) error
 	DeleteById(id, operator string) error
 	DeleteByNamespaceId(namespaceId string) error
 	FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.AppNamespace, error)
 	FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error)
 	FindItemByNamespaceIdOnRelease(namespaceID string) ([]*models.Item, error)
-	FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.ItemPage, error)
-	FindAppItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error)
+	FindItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.ItemPage, error)
+	FindAppItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.AppNamespacePage, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
 	FindAllComment(appId string) ([]string, error)
@@ -183,6 +184,15 @@ func (s itemService) Update(item *models.Item) error {
 	return nil
 }
 
+func (s itemService) Updates(items []*models.Item) error {
+	for _, item := range items {
+		if err := s.Update(item); err != nil {
+			return errors.Wrap(err, "update stop item:"+item.Key)
+		}
+	}
+	return nil
+}
+
 func (s itemService) FindItemByNamespaceId(namespaceID, comment string) ([]*models.Item, error) {
 	items, err := s.repository.FindItemByNamespaceId(namespaceID, comment)
 	if err != nil {
@@ -199,8 +209,8 @@ func (s itemService) FindItemByNamespaceIdOnRelease(namespaceID string) ([]*mode
 	return items, nil
 }
 
-func (s itemService) FindItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.ItemPage, error) {
-	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, pageSize, pageNum)
+func (s itemService) FindItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.ItemPage, error) {
+	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, comment, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByKeyForPage() error")
 	}
@@ -214,8 +224,8 @@ func (s itemService) FindItemByKeyForPage(cluster, key, format string, pageSize,
 	return itemPage, nil
 }
 
-func (s itemService) FindAppItemByKeyForPage(cluster, key, format string, pageSize, pageNum int) (*models2.AppNamespacePage, error) {
-	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, pageSize, pageNum)
+func (s itemService) FindAppItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.AppNamespacePage, error) {
+	items, err := s.repository.FindItemByKeyForPage(cluster, key, format, comment, pageSize, pageNum)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindItemByKeyForPage() error")
 	}
@@ -326,6 +336,7 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				its = append(its, itemModel)
 				namespace.LaneName = s.LaneName
 				namespace.Id = s.NamespaceId
+
 			}
 			namespace.Items = its
 			appNamespace.Namespaces = append(appNamespace.Namespaces, namespace)

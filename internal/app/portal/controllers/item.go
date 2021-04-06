@@ -65,6 +65,23 @@ func (ctl ItemController) Update(c *gin.Context) {
 	c.Data(r.Code, r.ContentType, r.Data)
 }
 
+func (ctl ItemController) Updates(c *gin.Context) {
+	env := c.Param("env")
+	UserID, _ := c.Get("UserID")
+	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
+	if UserID.(string) == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
+		return
+	}
+	c.Request.AddCookie(cookie)
+	r, err := ctl.service.Updates(env, c.Request)
+	if err != nil {
+		c.String(http.StatusBadRequest, "ItemController.Updates run failed:%v", err)
+		return
+	}
+	c.Data(r.Code, r.ContentType, r.Data)
+}
+
 func (ctl ItemController) DeleteById(c *gin.Context) {
 	env := c.Param("env")
 	UserID, _ := c.Get("UserID")

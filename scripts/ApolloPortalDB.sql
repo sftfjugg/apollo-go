@@ -1,10 +1,10 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT = @@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS = @@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION = @@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0 */;
+/*!40101 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
 
 # Create Database
 # ------------------------------------------------------------
@@ -17,56 +17,81 @@ Use dida_apollo_plus_portal;
 
 DROP TABLE IF EXISTS `Role`;
 
-CREATE TABLE `Role` (
-  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `AppId` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'AppID',
-  `UserId` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserId',
-  `Namespace` varchar(100) NOT NULL DEFAULT 'application' COMMENT 'UserName',
-  `Env` varchar(64) NOT NULL DEFAULT 'TEST' COMMENT '环境',
-  `Cluster`   varchar(64) NOT NULL DEFAULT 'default' COMMENT 'Cluster',
-  `UserName` varchar(100) NOT NULL DEFAULT 'default' COMMENT 'UserName',
-  `Level` int(10) NOT NULL DEFAULT 0 COMMENT '权限级别',
-  `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
-  `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
-  `DataChange_CreatedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`Id`),
-  KEY `AppId`(`AppId`),
-  KEY `UserId` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+CREATE TABLE `Role`
+(
+    `Id`                     int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `AppId`                  varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'AppID',
+    `UserId`                 varchar(100)     NOT NULL DEFAULT 'default' COMMENT 'UserId',
+    `Namespace`              varchar(100)     NOT NULL DEFAULT 'application' COMMENT 'UserName',
+    `Env`                    varchar(64)      NOT NULL DEFAULT 'TEST' COMMENT '环境',
+    `Cluster`                varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'Cluster',
+    `UserName`               varchar(100)     NOT NULL DEFAULT 'default' COMMENT 'UserName',
+    `Level`                  int(10)          NOT NULL DEFAULT 0 COMMENT '权限级别',
+    `IsDeleted`              tinyint(1)       NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
+    `DataChange_CreatedBy`   varchar(32)      NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
+    `DataChange_CreatedTime` timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`Id`),
+    KEY `AppId` (`AppId`),
+    KEY `UserId` (`UserId`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='权限表';
 
+DROP TABLE IF EXISTS `History`;
 
+CREATE TABLE `History`
+(
+    `Id`                     int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `AppId`                  varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'AppID',
+    `UserId`                 varchar(100)     NOT NULL DEFAULT 'default' COMMENT 'UserId',
+    `UserName`               varchar(100)     NOT NULL DEFAULT 'default' COMMENT 'UserName',
+    `IsDeleted`              tinyint(1)       NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
+    `DataChange_CreatedTime` timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`Id`),
+    KEY `AppId` (`AppId`),
+    KEY `UserId` (`UserId`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='浏览记录';
 
 
 
 use dida_apollo_plus_portal;
-select * from Role where AppId='root';
-show tables ;
+select *
+from Role
+where AppId = 'root';
+show tables;
 desc Role;
-select * from Role;
-delete from Role where AppId='root';
-
-
-
-
+select *
+from Role;
+delete
+from Role
+where AppId = 'root';
 
 
 
 USE dida_apollo_plus_config;
-alter table AppNamespace add DeptName varchar(64) DEFAULT '' COMMENT '部门名字' after LaneName, add IsDisplay tinyint(1) NOT NULL DEFAULT b'1' COMMENT '0:Hide , 1: Dispaly'  after IsDeleted
+alter table AppNamespace
+    add DeptName  varchar(64) DEFAULT '' COMMENT '部门名字' after LaneName,
+    add IsDisplay tinyint(1) NOT NULL DEFAULT b'1' COMMENT '0:Hide , 1: Dispaly' after IsDeleted
 
 USE dida_apollo_plus_portal;
-select * from Role where (AppId='aim-mapboundary' and UserId='wangkun' and IsDeleted=0 and Cluster='default' and Env='ALIYUN') or (AppId='root' and IsDeleted=0 and UserId='wangkun')
+select *
+from Role
+where (AppId = 'aim-mapboundary' and UserId = 'wangkun' and IsDeleted = 0 and Cluster = 'default' and Env = 'ALIYUN')
+   or (AppId = 'root' and IsDeleted = 0 and UserId = 'wangkun')
 
-show databases ;
+show databases;
 use plat_metis;
 Use dida_sentinel_role;
-show tables ;
-select * from `Role` where UserId='lihang';
 show tables;
-select * from t_app;
-select * from t_api;
-select * from t_api_version;
-select * from t_idl_content;
-select * from t_project_info;
-show create table t_api_version;
-show create table t_api_version;
+select * from Role;
+
+select *
+from `Role`;
+
+SELECT a.id + 1 AS START, MIN(b.id) - 1 AS END
+FROM Role AS a,
+     Role AS b
+WHERE a.id < b.id
+GROUP BY a.id
+HAVING START < MIN(b.id)
+

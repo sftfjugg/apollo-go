@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/app/admin/services"
 	"net/http"
 	"strconv"
@@ -16,16 +17,7 @@ func NewReleaseController(service services.ReleaseMessageService) *ReleaseContro
 }
 
 func (ctl ReleaseController) Create(c *gin.Context) {
-	param := new(struct {
-		Name        string   `json:"name"`
-		Comment     string   `json:"comment"`
-		AppId       string   `json:"app_id"`
-		ClusterName string   `json:"cluster_name"`
-		LaneName    string   `json:"lane_name"`
-		NamespaceId uint64   `json:"namespace_id"`
-		Keys        []string `json:"keys"`
-		Operator    string   `json:"operator"`
-	})
+	param := new(models.ReleaseRequest)
 	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
@@ -38,9 +30,29 @@ func (ctl ReleaseController) Create(c *gin.Context) {
 		}
 		param.Operator = userId
 	}
-	NamespaceId := strconv.Itoa(int(param.NamespaceId))
-	if err := ctl.service.Create(param.AppId, param.ClusterName, param.Comment, param.Name, NamespaceId, param.LaneName, param.Operator, param.Keys); err != nil {
+	if err := ctl.service.Create(param); err != nil {
 		c.String(http.StatusInternalServerError, "call ReleaseMessageService.Create() error:%v", err)
+		return
+	}
+}
+
+//批量发布
+func (ctl ReleaseController) Creates(c *gin.Context) {
+	params := make([]*models.ReleaseRequest, 0)
+	if err := c.Bind(params); err != nil {
+		c.String(http.StatusBadRequest, "bind params error:%v", err)
+		return
+	}
+	userId, err := c.Cookie("UserID")
+	if err != nil {
+		c.String(http.StatusBadRequest, "UserID don't  null:%v", err)
+		return
+	}
+	for i, _ := range params {
+		params[i].Operator = userId
+	}
+	if err := ctl.service.Creates(params); err != nil {
+		c.String(http.StatusInternalServerError, "call ReleaseMessageService.Creates() error:%v", err)
 		return
 	}
 }

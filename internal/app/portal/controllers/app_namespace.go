@@ -131,7 +131,20 @@ func (ctl AppNamespaceController) FindAppNamespaceByAppIdAndClusterName(c *gin.C
 
 func (ctl AppNamespaceController) FindAppNamespaceByAppId(c *gin.Context) {
 	env := c.Param("env")
-	r, err := ctl.service.FindAppNamespaceByAppId(env, c.Request)
+	UserID, _ := c.Get("UserID")
+	userId := UserID.(string)
+	if userId == "" {
+		c.String(http.StatusUnauthorized, "UserID don't null")
+		return
+	}
+	UserName, _ := c.Get("UserName")
+	userName := UserName.(string)
+	if userName == "" {
+		c.String(http.StatusUnauthorized, "UserName don't null")
+		return
+	}
+	appId := c.Query("app_id")
+	r, err := ctl.service.FindAppNamespaceByAppId(env, userId, userName, appId, c.Request)
 	if err != nil {
 		c.String(http.StatusBadRequest, "AppNamespaceService.FindAppNamespaceByAppId run failed:%v", err)
 		return

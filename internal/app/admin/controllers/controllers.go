@@ -34,6 +34,7 @@ func InitControllersFn(
 			r.POST("/item_by_text", itemController.CreateByText)
 			r.POST("/items", itemController.Creates)
 			r.PUT("/item", itemController.Update)
+			r.PUT("/items", itemController.Updates) //批量更新
 			r.DELETE("/items", itemController.DeleteByNamespaceId)
 			r.GET("/items", itemController.FindItemByNamespaceId)
 			r.GET("/items_by_key", itemController.FindItemByKeyForPage)
@@ -47,6 +48,7 @@ func InitControllersFn(
 		}
 		{
 			r.POST("/release", releaseController.Create)
+			r.POST("/releases", releaseController.Creates)
 			r.POST("/release_gray_total", releaseController.ReleaseGrayTotal)
 		}
 		{

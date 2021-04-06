@@ -28,6 +28,19 @@ func (ctl AppController) FindAuth(c *gin.Context) {
 	c.JSON(http.StatusOK, auth)
 }
 
+//查看当前用户权限
+func (ctl AppController) FindAuths(c *gin.Context) {
+	userId, _ := c.Get("UserID")
+	cluster := c.Query("cluster")
+	env := c.Query("env")
+	auth, err := ctl.service.FindAuths(userId.(string), cluster, env)
+	if err != nil {
+		c.String(http.StatusForbidden, "call app.FindAuths failed:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, auth)
+}
+
 //查看所有分组
 func (ctl AppController) FindGroupsOfDevelopment(c *gin.Context) {
 
@@ -74,4 +87,37 @@ func (ctl AppController) GetAllUsers(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, names)
+}
+
+//查看当前用户收藏项目
+func (ctl AppController) GetFavorite(c *gin.Context) {
+	userId, _ := c.Get("UserID")
+	apps, err := ctl.service.GetFavorite(userId.(string))
+	if err != nil {
+		c.String(http.StatusForbidden, "call app.GetFavorite failed:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, apps)
+}
+
+//查看当前用户负责项目
+func (ctl AppController) GetOwner(c *gin.Context) {
+	userId, _ := c.Get("UserID")
+	apps, err := ctl.service.GetOwner(userId.(string))
+	if err != nil {
+		c.String(http.StatusForbidden, "call app.GetOwner failed:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, apps)
+}
+
+//查看当前用户浏览过的20个项目
+func (ctl AppController) GetRecent(c *gin.Context) {
+	userId, _ := c.Get("UserID")
+	apps, err := ctl.service.GetRecent(userId.(string))
+	if err != nil {
+		c.String(http.StatusForbidden, "call app.GetRecent failed:%v", err)
+		return
+	}
+	c.JSON(http.StatusOK, apps)
 }

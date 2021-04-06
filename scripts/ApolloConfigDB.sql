@@ -62,7 +62,7 @@ CREATE TABLE `Item` (
   `Value` longtext NOT NULL COMMENT '配置项值',
   `ReleaseValue` longtext NOT NULL COMMENT '发布的配置项值',
   `Status` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '当前状态，0：未发布(新增),1：已发布,2修改（未发布）3：删除',
-  `Comment` varchar(1024) DEFAULT '' COMMENT '注释',
+  `Comment` varchar(1024) DEFAULT '' COMMENT '标签',
   `Describe` varchar(1024) DEFAULT '' COMMENT '详细描述',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT b'0' COMMENT '1: deleted, 0: normal',
   `DataChange_CreatedBy` varchar(32) NOT NULL DEFAULT 'default' COMMENT '创建人邮箱前缀',
@@ -178,3 +178,5 @@ select * from AppNamespace;
 select * from AppNamespace where LaneName != 'default';
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default' and ClusterName='default';
+
+Select I.Comment from `Item` I where  I.IsDeleted=0 group by I.Comment

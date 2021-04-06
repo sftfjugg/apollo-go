@@ -11,6 +11,7 @@ type ItemService interface {
 	Create(env string, r *http.Request) (*models2.Response, error)
 	CreateByText(env string, r *http.Request) (*models2.Response, error)
 	Update(env string, r *http.Request) (*models2.Response, error)
+	Updates(env string, r *http.Request) (*models2.Response, error)
 	DeleteById(env string, r *http.Request) (*models2.Response, error)
 	DeleteByNamespaceId(env string, r *http.Request) (*models2.Response, error)
 	FindItemByNamespaceId(env string, r *http.Request) (*models2.Response, error)
@@ -48,6 +49,14 @@ func (s itemService) CreateByText(env string, r *http.Request) (*models2.Respons
 
 func (s itemService) Update(env string, r *http.Request) (*models2.Response, error) {
 	response, err := s.httpClient.HttpDo("/item", env, r)
+	if err != nil {
+		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
+	}
+	return response, nil
+}
+
+func (s itemService) Updates(env string, r *http.Request) (*models2.Response, error) {
+	response, err := s.httpClient.HttpDo("/items", env, r)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}

@@ -43,12 +43,14 @@ func InitControllersFn(
 			r.POST("/item_by_text/:env", uic.AuthLogin(), itemController.CreateByText)
 			r.DELETE("/item/:env", uic.AuthLogin(), itemController.DeleteById)
 			r.PUT("/item/:env", uic.AuthLogin(), itemController.Update)
+			r.PUT("/items/:env", uic.AuthLogin(), itemController.Updates) //批量更新
 			r.GET("/item_comment/:env", uic.AuthLogin(), itemController.FindAllComment)
 			r.DELETE("/items/:env", uic.AuthLogin(), itemController.DeleteByNamespaceId)
 			r.GET("/item/:env", uic.AuthLogin(), itemController.FindItemByNamespaceIdAndKey)
 			r.GET("/item_by_key_and_app_id/:env", uic.AuthLogin(), itemController.FindItemByAppIdAndKey)
 		}
 		{ //发布和灰度全量发布
+			r.POST("/releases/:env", uic.AuthLogin(), releaseController.Creates) //批量发布
 			r.POST("/release/:env", uic.AuthLogin(), ophis.OpenWriter(), releaseController.Create, ophis.Record("apollo-plus-portal"))
 			r.POST("/release_gray_total/:env", uic.AuthLogin(), releaseController.ReleaseGrayTotal)
 		}
@@ -61,10 +63,14 @@ func InitControllersFn(
 			r.DELETE("/role_back_door", uic.AuthLogin(), roleController.DeleteByUserId)
 			r.GET("/roles", uic.AuthLogin(), roleController.FindByAppId)
 			r.GET("/auth", uic.AuthLogin(), controller.FindAuth)
+			r.GET("/auths", uic.AuthLogin(), controller.FindAuths)
 		}
 
-		//limos相关，暂时保留2020.12.14 lihang
+		//limos相关
 		{
+			r.GET("/limos/apps_favorite", uic.AuthLogin(), controller.GetFavorite)
+			r.GET("/limos/apps_owner", uic.AuthLogin(), controller.GetOwner)
+			r.GET("/limos/apps_recent", uic.AuthLogin(), controller.GetRecent)
 			r.GET("/limos/apps", uic.AuthLogin(), controller.FindLimosAppForPage)
 			r.GET("/limos/groups", uic.AuthLogin(), controller.FindGroupsOfDevelopment)
 			r.GET("/users", controller.GetAllUsers)
