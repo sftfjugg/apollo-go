@@ -277,8 +277,15 @@ func (s itemService) FindAllComment(appId, name string) ([]string, error) {
 			comment := strings.Split(i.Comment, ",")
 			for _, c := range comment {
 				if _, ok := m[c]; !ok {
-					m[c] = 1
-					comments = append(comments, c)
+					if name != "" {
+						if strings.Contains(c, name) {
+							m[c] = 1
+							comments = append(comments, c)
+						}
+					} else {
+						m[c] = 1
+						comments = append(comments, c)
+					}
 				}
 			}
 		}

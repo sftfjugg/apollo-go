@@ -44,10 +44,10 @@ func (ctl DingdingController) Update(c *gin.Context) {
 
 func (ctl DingdingController) FindAll(c *gin.Context) {
 	param := new(struct {
-		PageSize int `from:"page_size"`
-		PageNum  int `from:"page_num"`
+		PageSize int `form:"page_size"`
+		PageNum  int `form:"page_num"`
 	})
-	if err := c.ShouldBind(param); err != nil {
+	if err := c.Bind(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
