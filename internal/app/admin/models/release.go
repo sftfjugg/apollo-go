@@ -10,4 +10,5 @@ type ReleaseRequest struct {
 	Keys        []string `json:"keys"`
 	Values      []string `json:"values"`
 	Operator    string   `json:"operator"`
+	DepeName    string   `json:"depe_name"`
 }
