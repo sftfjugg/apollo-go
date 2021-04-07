@@ -94,21 +94,21 @@ func (s releaseService) Create(env string, c *gin.Context) (*models2.Response, e
 
 	text += "  \n操作人:" + release.Operator
 	text += "  \n操作时间:" + time.Now().String()
-	//msg:=&dingding.DingMessage{
-	//	MessageType: "markdown",
-	//	Markdown: dingding.Markdown{
-	//		Title: "应用变更配置",
-	//		Text: text,
-	//	},
-	//	At: dingding.At{IsAtAll: false},
-	//}
+	msg := &dingding.DingMessage{
+		MessageType: "markdown",
+		Markdown: dingding.Markdown{
+			Title: "应用变更配置",
+			Text:  text,
+		},
+		At: dingding.At{IsAtAll: false},
+	}
 	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
 	response, err := s.httpClient.HttpDo("/release", env, c.Request)
 	if err != nil {
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
 	if response.Code == 200 {
-		//s.dingding.SendMessage("676ef385699499e977cdc4db3609b13fc1098ae04c847f3f5285d428c0cd0497",msg)
+		s.dingding.SendMessage("676ef385699499e977cdc4db3609b13fc1098ae04c847f3f5285d428c0cd0497", msg)
 	}
 	return response, nil
 }

@@ -10,6 +10,7 @@ import (
 type DingdingRepository interface {
 	Create(dingding *models.Dingding) error
 	FindAll(pageNum, pageSize int) ([]*models.Dingding, error)
+	FindCount() (int, error)
 	Update(dingding *models.Dingding) error
 	Delete(id int) error
 	Find(Type, deptName string, level int) (*models.Dingding, error)
@@ -42,6 +43,14 @@ func (d dingdingRepository) FindAll(pageNum, pageSize int) ([]*models.Dingding, 
 	return dingdings, nil
 }
 
+func (d dingdingRepository) FindCount() (int, error) {
+	count := 0
+	if err := d.db.Table(models.DingdingTableName).Where("IsDeleted=0").Count(&count).Error; err != nil {
+		return 0, errors.Wrap(err, "find all dingding error")
+	}
+	return count, nil
+}
+
 func (d dingdingRepository) Update(dingding *models.Dingding) error {
 	dingding.DataChange_CreatedTime = time.Now()
 	db := d.db.Begin()
@@ -55,7 +64,7 @@ func (d dingdingRepository) Update(dingding *models.Dingding) error {
 
 func (d dingdingRepository) Delete(id int) error {
 	db := d.db.Begin()
-	if err := db.Table(models.DingdingTableName).Where("Id=?", id).Update("IsDeleted=?", 1).Error; err != nil {
+	if err := db.Table(models.DingdingTableName).Where("Id=?", id).Update("IsDeleted", 1).Error; err != nil {
 		db.Rollback()
 		return errors.Wrap(err, "delete dingding error")
 	}

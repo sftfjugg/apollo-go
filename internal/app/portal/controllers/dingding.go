@@ -51,14 +51,14 @@ func (ctl DingdingController) FindAll(c *gin.Context) {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
-	dingdings, err := ctl.service.FindAll(param.PageNum, param.PageSize)
+	dingdings, total, err := ctl.service.FindAll(param.PageNum, param.PageSize)
 	if err != nil {
 		c.String(http.StatusInternalServerError, "call DingdingController.Create error:%v", err)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"data":  dingdings,
-		"total": len(dingdings),
+		"total": total,
 	})
 }
 

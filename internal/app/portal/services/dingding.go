@@ -8,7 +8,7 @@ import (
 
 type DingdingService interface {
 	Create(dingding *models.Dingding) error
-	FindAll(pageNum, pageSize int) ([]*models.Dingding, error)
+	FindAll(pageNum, pageSize int) ([]*models.Dingding, int, error)
 	Update(dingding *models.Dingding) error
 	Delete(id int) error
 	Find(Type, deptName string, level int) (*models.Dingding, error)
@@ -36,12 +36,16 @@ func (d dingdingService) Create(dingding *models.Dingding) error {
 	return nil
 }
 
-func (d dingdingService) FindAll(pageNum, pageSize int) ([]*models.Dingding, error) {
+func (d dingdingService) FindAll(pageNum, pageSize int) ([]*models.Dingding, int, error) {
 	dingdings, err := d.repository.FindAll(pageNum, pageSize)
 	if err != nil {
-		return nil, errors.Wrap(err, "call dingdingService.FindAll error")
+		return nil, 0, errors.Wrap(err, "call dingdingService.FindAll error")
 	}
-	return dingdings, nil
+	count, err := d.repository.FindCount()
+	if err != nil {
+		return nil, 0, errors.Wrap(err, "call dingdingService.FindAll error")
+	}
+	return dingdings, count, nil
 }
 
 func (d dingdingService) Update(dingding *models.Dingding) error {
