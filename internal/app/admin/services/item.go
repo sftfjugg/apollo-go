@@ -27,7 +27,7 @@ type ItemService interface {
 	FindAppItemByKeyForPage(cluster, key, format, comment string, pageSize, pageNum int) (*models2.AppNamespacePage, error)
 	FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error)
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
-	FindAllComment(appId string) ([]string, error)
+	FindAllComment(appId, name string) ([]string, error)
 	FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error)
 }
 
@@ -265,16 +265,22 @@ func (s itemService) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key stri
 	return item, nil
 }
 
-func (s itemService) FindAllComment(appId string) ([]string, error) {
-	items, err := s.repository.FindAllComment(appId)
+func (s itemService) FindAllComment(appId, name string) ([]string, error) {
+	items, err := s.repository.FindAllComment(appId, name)
 	if err != nil {
 		return nil, errors.Wrap(err, "call ItemRepository.FindAllComment() error")
 	}
 	comments := make([]string, 0)
+	m := make(map[string]int)
 	for _, i := range items {
 		if i.Comment != "" {
 			comment := strings.Split(i.Comment, ",")
-			comments = append(comments, comment...)
+			for _, c := range comment {
+				if _, ok := m[c]; !ok {
+					m[c] = 1
+					comments = append(comments, c)
+				}
+			}
 		}
 	}
 	return comments, nil

@@ -89,6 +89,9 @@ func CreateApp(cf string) (*app.Application, error) {
 	roleController := controllers.NewRoleController(roleService)
 	releaseHistoryService := services.NewReleaseHistoryService(httpClient)
 	releaseHistoryController := controllers.NewReleaseHistoryController(releaseHistoryService)
+	dingdingRepository := repositories.NewDingdingRepository(gormDB)
+	dingdingService := services.NewDingdingService(dingdingRepository)
+	dingdingController := controllers.NewDingdingController(dingdingService)
 	ophisOptions := ophis.NewOptions(viper)
 	tChanOperateHistoryService, err := zeus.NewOphisService(zeusZeus)
 	if err != nil {
@@ -98,7 +101,7 @@ func CreateApp(cf string) (*app.Application, error) {
 	if err != nil {
 		return nil, err
 	}
-	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, roleController, releaseHistoryController, ophisApi)
+	initControllers := controllers.InitControllersFn(appController, api, appNamespaceController, itemController, releaseController, roleController, releaseHistoryController, dingdingController, ophisApi)
 	engine, err := http.NewRouter(httpOptions, logger, initControllers)
 	if err != nil {
 		return nil, err

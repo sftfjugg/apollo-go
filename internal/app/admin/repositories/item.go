@@ -27,7 +27,7 @@ type ItemRepisitory interface {
 	FindItemByNamespaceIdInKey(namespaceId string, keys []string) ([]*models.Item, error)
 	FindItemByAppIdAndKey(appId, cluster, key, format, comment string) ([]*models2.Item, error)
 	FindItemCountByKey(key string) (int, error)
-	FindAllComment(appId string) ([]*models.Item, error) //查询所有不同标签
+	FindAllComment(appId, name string) ([]*models.Item, error) //查询所有不同标签
 	FindOneItemByNamespaceIdAndKey(namespaceId uint64, key string) (*models.Item, error)
 	FindItemByAppIdLikeKey(appId, key string) ([]*models.Item, error) //sentinel专用接口
 }
@@ -242,14 +242,18 @@ func (r itemRepisitory) FindOneItemByNamespaceIdAndKey(namespaceId uint64, key s
 	return item, nil
 }
 
-func (r itemRepisitory) FindAllComment(appId string) ([]*models.Item, error) {
+func (r itemRepisitory) FindAllComment(appId, name string) ([]*models.Item, error) {
 	items := make([]*models.Item, 0)
+	namesql := ""
+	if name != "" {
+		namesql = "and name like '%" + name + "%'"
+	}
 	if appId == "" {
-		if err := r.db.Raw("Select I.Comment from `Item` I where  I.IsDeleted=0 group by I.Comment;").Scan(&items).Error; err != nil {
+		if err := r.db.Raw("Select I.Comment from `Item` I where  I.IsDeleted=0  " + namesql + "  group by I.Comment;").Scan(&items).Error; err != nil {
 			return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
 		}
 	} else {
-		if err := r.db.Raw("Select I.Comment from `AppNamespace` A,`Item` I where  A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 group by I.Comment;", appId).Scan(&items).Error; err != nil {
+		if err := r.db.Raw("Select I.Comment from `AppNamespace` A,`Item` I where  A.Id=I.NamespaceId and A.AppId=? and I.IsDeleted=0 "+namesql+" group by I.Comment;", appId).Scan(&items).Error; err != nil {
 			return nil, errors.Wrap(err, "ItemRepisitory.FindAllComment failed")
 		}
 	}

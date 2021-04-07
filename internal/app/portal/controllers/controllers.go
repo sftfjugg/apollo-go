@@ -17,6 +17,7 @@ func InitControllersFn(
 	releaseController *ReleaseController,
 	roleController *RoleController,
 	historyController *ReleaseHistoryController,
+	dingdingController *DingdingController,
 	ophis *ophis.Api,
 ) http.InitControllers {
 	return func(r *gin.Engine) {
@@ -64,6 +65,14 @@ func InitControllersFn(
 			r.GET("/roles", uic.AuthLogin(), roleController.FindByAppId)
 			r.GET("/auth", uic.AuthLogin(), controller.FindAuth)
 			r.GET("/auths", uic.AuthLogin(), controller.FindAuths)
+		}
+
+		{
+			r.GET("/dingding", uic.AuthLogin(), dingdingController.FindAll)
+			r.POST("/dingding", uic.AuthLogin(), dingdingController.Create)
+			r.PUT("/dingding", uic.AuthLogin(), dingdingController.Update)
+			r.DELETE("/dingding", uic.AuthLogin(), dingdingController.Delete)
+
 		}
 
 		//limos相关
