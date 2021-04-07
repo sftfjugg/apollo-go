@@ -58,6 +58,7 @@ DROP TABLE IF EXISTS `Dingding`;
 CREATE TABLE `Dingding`
 (
     `Id`                     int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `Name`                   varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'Name',
     `AppId`                  varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'AppID',
     `DeptName`               varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'DeptName',
     `Type`                   varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'Type',

@@ -17,6 +17,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/config"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/db"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/dingding"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
@@ -84,7 +85,8 @@ func CreateApp(cf string) (*app.Application, error) {
 	appNamespaceController := controllers.NewAppNamespaceController(appNamespaceService)
 	itemService := services.NewItemService(httpClient)
 	itemController := controllers.NewItemController(itemService)
-	releaseService := services.NewReleaseService(httpClient)
+	dingDing := dingding.NewDingDing(client)
+	releaseService := services.NewReleaseService(httpClient, dingDing)
 	releaseController := controllers.NewReleaseController(releaseService)
 	roleController := controllers.NewRoleController(roleService)
 	releaseHistoryService := services.NewReleaseHistoryService(httpClient)
@@ -131,4 +133,4 @@ func CreateApp(cf string) (*app.Application, error) {
 
 // wire.go:
 
-var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, repositories.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet, ophis.ProviderSet)
+var providerSet = wire.NewSet(log.ProviderSet, config.ProviderSet, db.ProviderSet, zeus.ProviderSet, zclients.ProviderSet, services.ProviderSet, repositories.ProviderSet, controllers.ProviderSet, address.ProviderSet, http.ProviderSet, httpclient.ProviderSet, portal.ProviderSet, uic.ProviderSet, zservice.ProviderSet, dingding.ProviderSet, ophis.ProviderSet)

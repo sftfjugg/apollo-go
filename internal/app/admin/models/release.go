@@ -8,5 +8,6 @@ type ReleaseRequest struct {
 	LaneName    string   `json:"lane_name"`
 	NamespaceId uint64   `json:"namespace_id"`
 	Keys        []string `json:"keys"`
+	Values      []string `json:"values"`
 	Operator    string   `json:"operator"`
 }

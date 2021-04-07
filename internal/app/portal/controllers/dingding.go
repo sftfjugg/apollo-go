@@ -56,7 +56,10 @@ func (ctl DingdingController) FindAll(c *gin.Context) {
 		c.String(http.StatusInternalServerError, "call DingdingController.Create error:%v", err)
 		return
 	}
-	c.JSON(http.StatusOK, dingdings)
+	c.JSON(http.StatusOK, gin.H{
+		"data":  dingdings,
+		"total": len(dingdings),
+	})
 }
 
 func (ctl DingdingController) Delete(c *gin.Context) {

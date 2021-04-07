@@ -10,23 +10,23 @@ import (
 	"strings"
 )
 
-type DingDingService interface {
+type DingDing interface {
 	SendMessage(token string, msg *DingMessage) error
 }
 
-type dingdingService struct {
+type dingding struct {
 	httpClient *http.Client
 }
 
-func NewDingDingService(
+func NewDingDing(
 	httpClient *http.Client,
-) DingDingService {
-	return &dingdingService{
+) DingDing {
+	return &dingding{
 		httpClient: httpClient,
 	}
 }
 
-func (s *dingdingService) send(token, msg string) error {
+func (s *dingding) send(token, msg string) error {
 
 	url := fmt.Sprintf("https://oapi.dingtalk.com/robot/send?access_token=%s", token)
 	resp, err := s.httpClient.Post(url, "application/json", strings.NewReader(msg))
@@ -47,7 +47,7 @@ func (s *dingdingService) send(token, msg string) error {
 	return nil
 }
 
-func (s *dingdingService) SendMessage(token string, msg *DingMessage) error {
+func (s *dingding) SendMessage(token string, msg *DingMessage) error {
 	bytes, _ := json.Marshal(msg)
 	return s.send(token, string(bytes))
 }
@@ -92,4 +92,4 @@ type DingActionMessage struct {
 	ActionCard  ActionCard `json:"actionCard"`
 }
 
-var ProviderSet = wire.NewSet(NewDingDingService)
+var ProviderSet = wire.NewSet(NewDingDing)

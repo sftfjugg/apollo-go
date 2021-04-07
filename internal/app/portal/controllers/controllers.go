@@ -51,8 +51,8 @@ func InitControllersFn(
 			r.GET("/item_by_key_and_app_id/:env", uic.AuthLogin(), itemController.FindItemByAppIdAndKey)
 		}
 		{ //发布和灰度全量发布
-			r.POST("/releases/:env", uic.AuthLogin(), releaseController.Creates) //批量发布
-			r.POST("/release/:env", uic.AuthLogin(), ophis.OpenWriter(), releaseController.Create, ophis.Record("apollo-plus-portal"))
+			r.POST("/releases/:env", uic.AuthLogin(), releaseController.Creates) //批量发布uic.AuthLogin(), ophis.OpenWriter(), ophis.Record("apollo-plus-portal")
+			r.POST("/release/:env", uic.AuthLogin(), releaseController.Create)
 			r.POST("/release_gray_total/:env", uic.AuthLogin(), releaseController.ReleaseGrayTotal)
 		}
 		{ //历史

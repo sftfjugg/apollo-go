@@ -14,6 +14,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/app"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/config"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/db"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/dingding"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/httpclient"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/log"
@@ -37,6 +38,7 @@ var providerSet = wire.NewSet(
 	portal.ProviderSet,
 	uic.ProviderSet,
 	zservice.ProviderSet,
+	dingding.ProviderSet,
 	ophis.ProviderSet,
 )
 
