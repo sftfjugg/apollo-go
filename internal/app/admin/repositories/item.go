@@ -246,7 +246,7 @@ func (r itemRepisitory) FindAllComment(appId, name string) ([]*models.Item, erro
 	items := make([]*models.Item, 0)
 	namesql := ""
 	if name != "" {
-		namesql = "and name like '%" + name + "%'"
+		namesql = "and I.Comment like '%" + name + "%'"
 	}
 	if appId == "" {
 		if err := r.db.Raw("Select I.Comment from `Item` I where  I.IsDeleted=0  " + namesql + "  group by I.Comment;").Scan(&items).Error; err != nil {
