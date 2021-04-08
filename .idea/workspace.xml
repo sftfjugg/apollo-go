@@ -26,7 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-1105:钉钉群添加">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/portal/controllers/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/controllers/release.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/release.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -215,13 +216,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00110" summary="PMOPP-1105:动态">
-      <created>1607941014383</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1607941014383</updated>
     </task>
     <task id="LOCAL-00111" summary="PMOPP-1105:动态">
       <created>1607995152208</created>
@@ -559,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617873637264</updated>
     </task>
-    <option name="localTasksCounter" value="159" />
+    <task id="LOCAL-00159" summary="PMOPP-1105:钉钉群添加">
+      <created>1617874555919</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1617874555919</updated>
+    </task>
+    <option name="localTasksCounter" value="160" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -759,12 +760,12 @@
     </state>
     <state x="221" y="75" key="SettingsEditor/0.25.1440.778@0.25.1440.778" timestamp="1608794846198" />
     <state x="221" y="76" key="SettingsEditor/0.25.1440.791@0.25.1440.791" timestamp="1609833361813" />
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1617873644255">
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1617874561163">
       <screen x="0" y="25" width="1440" height="782" />
     </state>
     <state x="320" y="170" key="Vcs.Push.Dialog.v2/0.25.1440.778@0.25.1440.778" timestamp="1608792743312" />
     <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.781@0.25.1440.781" timestamp="1615369957956" />
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1617873644255" />
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1617874561163" />
     <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.785@0.25.1440.785" timestamp="1616740795708" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1614065563321" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.794@0.25.1440.794" timestamp="1611732448431" />
@@ -810,7 +811,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/services/release.go</url>
-          <line>71</line>
+          <line>81</line>
           <option name="timeStamp" value="961" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -820,22 +821,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/services/release.go</url>
-          <line>167</line>
+          <line>177</line>
           <option name="timeStamp" value="968" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/services/release.go</url>
-          <line>87</line>
+          <line>97</line>
           <option name="timeStamp" value="969" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/services/release.go</url>
-          <line>147</line>
+          <line>157</line>
           <option name="timeStamp" value="970" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/internal/app/portal/services/release.go</url>
-          <line>155</line>
+          <line>165</line>
           <option name="timeStamp" value="971" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">

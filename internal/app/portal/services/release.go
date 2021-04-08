@@ -22,7 +22,7 @@ import (
 
 type ReleaseService interface {
 	Create(env, userID string, c *gin.Context) (*models2.Response, error)
-	Creates(env string, c *gin.Context) (*models2.Response, error)
+	Creates(env, userID string, c *gin.Context) (*models2.Response, error)
 	ReleaseGrayTotal(env string, r *http.Request) (*models2.Response, error)
 }
 
@@ -44,7 +44,7 @@ type bodyLogWriter struct {
 	c *gin.Context
 }
 
-func (s releaseService) Creates(env string, c *gin.Context) (*models2.Response, error) {
+func (s releaseService) Creates(env, userID string, c *gin.Context) (*models2.Response, error) {
 	blw := &bodyLogWriter{
 		ResponseWriter: c.Writer,
 		c:              c,
@@ -52,7 +52,13 @@ func (s releaseService) Creates(env string, c *gin.Context) (*models2.Response, 
 	//记录响应数据
 	c.Writer = blw
 	//记录请求的json数据
+
 	bodyBytes, err := ioutil.ReadAll(c.Request.Body)
+	releases := make([]*models.ReleaseRequest, 0)
+	if err := json.Unmarshal(bodyBytes, &releases); err != nil {
+		return nil, errors.Wrap(err, "json.Unmarshal run failed")
+	}
+
 	if err != nil {
 		return nil, errors.Wrap(err, "ioutil.ReadAll run failed")
 	}
@@ -63,7 +69,11 @@ func (s releaseService) Creates(env string, c *gin.Context) (*models2.Response, 
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
 	if response.Code == 200 {
-
+		go func() {
+			for _, r := range releases {
+				s.sendDingding(env, userID, r)
+			}
+		}()
 	}
 	return response, nil
 }

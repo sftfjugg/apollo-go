@@ -40,7 +40,7 @@ func (ctl ReleaseController) Creates(c *gin.Context) {
 	}
 	cookie := &http.Cookie{Name: "UserID", Value: UserID.(string), HttpOnly: true}
 	c.Request.AddCookie(cookie)
-	r, err := ctl.service.Creates(env, c)
+	r, err := ctl.service.Creates(env, UserID.(string), c)
 	if err != nil {
 		c.String(http.StatusBadRequest, "ReleaseController.Creates run failed:%v", err)
 		return
