@@ -160,12 +160,14 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 			token := ""
 			for {
 				if token != "" {
-					tokens[token] = 1
 					break
 				}
 				ding, err := s.dingdingRepository.Find(tp, d, level)
 				if err == nil {
 					token = ding.Token
+					if token != "" {
+						tokens[token] = 1
+					}
 					d = m[d]
 					if d == "" {
 						break
