@@ -39,7 +39,7 @@ func (ctl ReleaseController) Create(c *gin.Context) {
 //批量发布
 func (ctl ReleaseController) Creates(c *gin.Context) {
 	params := make([]*models.ReleaseRequest, 0)
-	if err := c.Bind(params); err != nil {
+	if err := c.Bind(&params); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
