@@ -86,7 +86,7 @@ func (ctl ItemController) Update(c *gin.Context) {
 //批量更新
 func (ctl ItemController) Updates(c *gin.Context) {
 	items := make([]*models.Item, 0)
-	if err := c.ShouldBind(items); err != nil {
+	if err := c.ShouldBind(&items); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
 		return
 	}
