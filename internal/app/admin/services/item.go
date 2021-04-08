@@ -175,6 +175,8 @@ func (s itemService) Update(item *models.Item) error {
 	if item2.Key != "" && item2.Key != item.Key {
 		return errors.New("item already exists")
 	}
+	item.DataChange_CreatedBy = item2.DataChange_CreatedBy
+	item.DataChange_CreatedTime = item2.DataChange_CreatedTime
 	db := s.db.Begin()
 	if err := s.repository.Update(db, item); err != nil {
 		db.Rollback()
