@@ -315,7 +315,7 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 	for _, v := range names {
 		appNamespace := new(models2.AppNamespace)
 		lanes := make(map[string][]*models2.Item)
-		for _, j := range v {
+		for i, j := range v {
 			if items[j].LaneName == "default" || items[j].LaneName == "主版本" {
 				appNamespace.Format = items[j].Format
 				appNamespace.Name = items[j].Name
@@ -326,7 +326,18 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				appNamespace.IsDisplay = items[j].IsDisplay
 				appNamespace.Comment = items[j].NamespaceComment
 				appNamespace.IsOperate = items[j].IsOperate
+			} else if i == len(v)-1 {
+				appNamespace.Format = items[j].Format
+				appNamespace.Name = items[j].Name
+				appNamespace.AppId = items[j].AppId
+				appNamespace.ClusterName = items[j].ClusterName
+				appNamespace.IsPublic = items[j].IsPublic
+				appNamespace.DeptName = items[j].DeptName
+				appNamespace.IsDisplay = items[j].IsDisplay
+				appNamespace.Comment = items[j].NamespaceComment
+				appNamespace.IsOperate = items[j].IsOperate
 			}
+
 			lanes[items[j].LaneName] = append(lanes[items[j].LaneName], items[j])
 
 		}
@@ -346,6 +357,7 @@ func (s itemService) ItemChangeAppNamespace(items []*models2.Item) []*models2.Ap
 				itemModel.Describe = s.Describe
 				itemModel.Comment = s.Comment
 				itemModel.ReleaseValue = s.ReleaseValue
+				itemModel.LaneName = s.LaneName
 				itemModel.Status = s.Status
 				its = append(its, itemModel)
 				namespace.LaneName = s.LaneName

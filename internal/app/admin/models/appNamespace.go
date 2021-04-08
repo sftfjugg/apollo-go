@@ -1,8 +1,6 @@
 package models
 
-import (
-	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
-)
+import "go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 
 type AppNamespacePage struct {
 	AppNamespaces []*AppNamespace `json:"app_namespaces"`
