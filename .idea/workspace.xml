@@ -26,9 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-1105:钉钉群添加">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/services/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/services/item.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/server.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/server.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,13 +215,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00104" summary="PMOPP-1105:动态">
-      <created>1607927152864</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1607927152864</updated>
     </task>
     <task id="LOCAL-00105" summary="PMOPP-1105:动态">
       <created>1607930382777</created>
@@ -561,7 +552,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617852376242</updated>
     </task>
-    <option name="localTasksCounter" value="153" />
+    <task id="LOCAL-00153" summary="PMOPP-1105:钉钉群添加">
+      <created>1617860113671</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1617860113671</updated>
+    </task>
+    <option name="localTasksCounter" value="154" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -761,12 +759,12 @@
     </state>
     <state x="221" y="75" key="SettingsEditor/0.25.1440.778@0.25.1440.778" timestamp="1608794846198" />
     <state x="221" y="76" key="SettingsEditor/0.25.1440.791@0.25.1440.791" timestamp="1609833361813" />
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1617852385851">
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2" timestamp="1617860382414">
       <screen x="0" y="25" width="1440" height="782" />
     </state>
     <state x="320" y="170" key="Vcs.Push.Dialog.v2/0.25.1440.778@0.25.1440.778" timestamp="1608792743312" />
     <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.781@0.25.1440.781" timestamp="1615369957956" />
-    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1617852385851" />
+    <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1617860382414" />
     <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.785@0.25.1440.785" timestamp="1616740795708" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1614065563321" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.794@0.25.1440.794" timestamp="1611732448431" />

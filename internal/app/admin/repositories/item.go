@@ -77,7 +77,7 @@ func (r itemRepisitory) Update(db *gorm.DB, item *models.Item) error {
 		item.Status = 2
 	}
 	item.DataChange_LastTime = time.Now()
-	if err := db.Table(models.ItemTableName).Where("Id=?", item.Id).Save(&item).Error; err != nil {
+	if err := db.Table(models.ItemTableName).Where("Id=?", item.Id).Update(&item).Error; err != nil {
 		return errors.Wrap(err, "ItemRepisitory.Update failed")
 	}
 	return nil
