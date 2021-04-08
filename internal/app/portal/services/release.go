@@ -16,6 +16,7 @@ import (
 	"go.didapinche.com/time"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	time2 "time"
 )
 
@@ -97,27 +98,27 @@ func (s releaseService) Create(env, userID string, c *gin.Context) (*models2.Res
 
 func (s releaseService) sendDingding(env, userID string, release *models.ReleaseRequest) {
 	text := ""
-	level := 0
+	level := 1
 	tp := "应用"
 	if release.AppId != "public_global_config" {
 		tp = "应用"
-		text += "### Apollo应用配置变动通知  \n 应用  \n"
-		text += "* [" + release.AppId + "](http://pass.didapinche.com/apollo/application/list?cluster=" + release.ClusterName + "&app_name=" + release.AppId + "&env=" + env + ")"
+		text += "# Apollo应用配置变动通知  \n ### 应用:"
+		text += " [" + release.AppId + "](http://pass.didapinche.com/apollo/application/list?cluster=" + release.ClusterName + "&app_name=" + release.AppId + "&env=" + env + ")  \n"
 	} else {
 		tp = "公共配置"
-		text += "### Apollo公共配置变动通知"
+		text += "# Apollo公共配置变动通知  \n"
 	}
-	text += "  \n环境  \n*" + env
-	text += "  \n集群  \n*" + release.ClusterName
-	text += "  \n命名空间  \n*" + release.Name
-	text += "  \n{修改}配置  \n"
+	text += "### 环境:" + env + "  \n"
+	text += "### 集群:" + release.ClusterName + "  \n"
+	text += "### 命名空间:" + release.Name + "  \n"
+	text += "### {修改}配置  \n"
 
 	for i, k := range release.Keys {
-		text += "*" + k + ":" + release.Values[i] + "  \n"
+		text += k + ":" + release.Values[i] + "  \n"
 	}
 
-	text += "  \n操作人:" + userID
-	text += "  \n操作时间:" + time.Now().String()
+	text += "  \n### 操作人:" + userID
+	text += "  \n### 操作时间:" + time.Now().String()
 	msg := &dingding.DingMessage{
 		MessageType: "markdown",
 		Markdown: dingding.Markdown{
@@ -130,37 +131,42 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 	node, err := s.uic.FindGroupsOfDevelopment(ctx)
 	if err == nil {
 		m := s.getMap(node)
-		if release.DepeName == "" {
+
+		if release.DeptName == "" {
 			ctx2, _ := tchannel.NewContextBuilder(time2.Second).Build()
 			app, err := s.limos.FindAppForPage(ctx2, release.AppId, "", "", "", "", 0, "all", 1000, 1, "", 0)
 			if err == nil {
 				for _, a := range app.Apps {
 					if release.AppId == a.Name {
-						release.DepeName = a.DevGroupName
+						release.DeptName = a.DevGroupName
 						level = int(a.Level)
 					}
 				}
 			}
 		}
-		token := ""
-		for {
-			if token != "" {
-				break
-			}
-			ding, err := s.dingdingRepository.Find(tp, release.DepeName, level)
-			if err == nil {
-				token = ding.Token
-				release.DepeName = m[release.DepeName]
-				if release.DepeName == "" {
+		deptnames := strings.Split(release.DeptName, ",")
+		tokens := make(map[string]int, 0)
+		for _, d := range deptnames {
+			token := ""
+			for {
+				if token != "" {
+					tokens[token] = 1
 					break
 				}
-			} else {
-				break
+				ding, err := s.dingdingRepository.Find(tp, d, level)
+				if err == nil {
+					token = ding.Token
+					d = m[d]
+					if d == "" {
+						break
+					}
+				} else {
+					break
+				}
 			}
-
 		}
-		if token != "" {
-			s.dingding.SendMessage(token, msg)
+		for t, _ := range tokens {
+			s.dingding.SendMessage(t, msg)
 		}
 	}
 }
