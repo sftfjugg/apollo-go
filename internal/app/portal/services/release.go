@@ -113,22 +113,22 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 	if release.AppId != "public_global_config" {
 		tp = "应用"
 		text += "# Apollo应用配置变动通知  \n ### 应用:"
-		text += " [" + release.AppId + "](http://pass.didapinche.com/apollo/application/list?cluster=" + release.ClusterName + "&app_name=" + release.AppId + "&env=" + env + ")  \n"
+		text += "\n- [" + release.AppId + "](http://pass.didapinche.com/apollo/application/list?cluster=" + release.ClusterName + "&app_name=" + release.AppId + "&env=" + env + ")  \n"
 	} else {
 		tp = "公共配置"
 		text += "# Apollo公共配置变动通知  \n"
 	}
-	text += "### 环境:" + env + "  \n"
-	text += "### 集群:" + release.ClusterName + "  \n"
-	text += "### 命名空间:" + release.Name + "  \n"
-	text += "### {修改}配置  \n"
+	text += "### 环境:  \n- <font size=3 color=\"grey\">*" + env + "*</font>  \n"
+	text += "### 集群:  \n- <font size=3 color=\"grey\">*" + release.ClusterName + "*</font>  \n"
+	text += "### 命名空间:  \n- <font size=3 color=\"grey\">*" + release.Name + "*</font>  \n"
+	text += "### 发布配置:  \n"
 
 	for i, k := range release.Keys {
-		text += k + ":" + release.Values[i] + "  \n"
+		text += "- <font size=3 color=\"grey\">*" + k + ":" + release.Values[i] + "*</font>  \n"
 	}
 
-	text += "  \n### 操作人:" + userID
-	text += "  \n### 操作时间:" + time.Now().String()
+	text += "  \n### 操作人: <font size=3 color=\"grey\">*" + userID + "*</font>"
+	text += "  \n### 操作时间: <font size=3 color=\"grey\">*" + time.Now().String() + "*</font>"
 	msg := &dingding.DingMessage{
 		MessageType: "markdown",
 		Markdown: dingding.Markdown{
