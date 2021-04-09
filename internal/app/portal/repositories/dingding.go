@@ -75,7 +75,7 @@ func (d dingdingRepository) Delete(id int) error {
 
 func (d dingdingRepository) Find(Type, deptName, env string, level int) (*models.Dingding, error) {
 	dingding := new(models.Dingding)
-	if err := d.db.Table(models.DingdingTableName).First(&dingding, "Type=? and DeptName=? and Level=? and Env=? and IsDeleted=0", Type, deptName, level, env).Error; err != nil && err != gorm.ErrRecordNotFound {
+	if err := d.db.Table(models.DingdingTableName).First(&dingding, "Type=? and DeptName=? and Level=? and Env like ? and IsDeleted=0", Type, deptName, level, "%"+env+"%").Error; err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errors.Wrap(err, "find dingding error")
 	}
 	return dingding, nil
