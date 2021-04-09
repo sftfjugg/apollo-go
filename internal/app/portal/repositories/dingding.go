@@ -13,7 +13,8 @@ type DingdingRepository interface {
 	FindCount() (int, error)
 	Update(dingding *models.Dingding) error
 	Delete(id int) error
-	Find(Type, deptName string, level int) (*models.Dingding, error)
+	Find(Type, deptName, env string, level int) (*models.Dingding, error)
+	FindByName(name string) bool
 }
 
 type dingdingRepository struct {
@@ -72,10 +73,19 @@ func (d dingdingRepository) Delete(id int) error {
 	return nil
 }
 
-func (d dingdingRepository) Find(Type, deptName string, level int) (*models.Dingding, error) {
+func (d dingdingRepository) Find(Type, deptName, env string, level int) (*models.Dingding, error) {
 	dingding := new(models.Dingding)
-	if err := d.db.Table(models.DingdingTableName).First(&dingding, "Type=? and DeptName=? and Level=?", Type, deptName, level).Error; err != nil && err != gorm.ErrRecordNotFound {
+	if err := d.db.Table(models.DingdingTableName).First(&dingding, "Type=? and DeptName=? and Level=? and Env=? and IsDeleted=0", Type, deptName, level, env).Error; err != nil && err != gorm.ErrRecordNotFound {
 		return nil, errors.Wrap(err, "find dingding error")
 	}
 	return dingding, nil
+}
+
+//查询名字是否重复
+func (d dingdingRepository) FindByName(name string) bool {
+	dingding := new(models.Dingding)
+	if err := d.db.Table(models.DingdingTableName).First(&dingding, "Name=? and IsDeleted=0", name).Error; err == gorm.ErrRecordNotFound {
+		return true
+	}
+	return false
 }

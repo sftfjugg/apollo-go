@@ -11,7 +11,7 @@ type DingdingService interface {
 	FindAll(pageNum, pageSize int) ([]*models.Dingding, int, error)
 	Update(dingding *models.Dingding) error
 	Delete(id int) error
-	Find(Type, deptName string, level int) (*models.Dingding, error)
+	Find(Type, deptName, env string, level int) (*models.Dingding, error)
 }
 
 type dingdingService struct {
@@ -23,7 +23,11 @@ func NewDingdingService(repository repositories.DingdingRepository) DingdingServ
 }
 
 func (d dingdingService) Create(dingding *models.Dingding) error {
-	dingding2, err := d.Find(dingding.Type, dingding.DeptName, dingding.Level)
+	isRepeat := d.repository.FindByName(dingding.Name)
+	if !isRepeat {
+		return errors.New("dingding exists now")
+	}
+	dingding2, err := d.Find(dingding.Type, dingding.DeptName, dingding.Env, dingding.Level)
 	if err != nil {
 		return errors.Wrap(err, "call dingdingService.Find error")
 	}
@@ -49,7 +53,7 @@ func (d dingdingService) FindAll(pageNum, pageSize int) ([]*models.Dingding, int
 }
 
 func (d dingdingService) Update(dingding *models.Dingding) error {
-	dingding2, err := d.Find(dingding.Type, dingding.DeptName, dingding.Level)
+	dingding2, err := d.Find(dingding.Type, dingding.DeptName, dingding.Env, dingding.Level)
 	if err != nil {
 		return errors.Wrap(err, "call dingdingService.Find error")
 	}
@@ -69,8 +73,8 @@ func (d dingdingService) Delete(id int) error {
 	return nil
 }
 
-func (d dingdingService) Find(Type, deptName string, level int) (*models.Dingding, error) {
-	dingding, err := d.repository.Find(Type, deptName, level)
+func (d dingdingService) Find(Type, deptName, env string, level int) (*models.Dingding, error) {
+	dingding, err := d.repository.Find(Type, deptName, env, level)
 	if err != nil {
 		return nil, errors.Wrap(err, "call dingdingService.Find error")
 	}

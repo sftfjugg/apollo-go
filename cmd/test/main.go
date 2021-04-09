@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 )
 
 func test() {
+	rand.Seed(time.Now().UnixNano())
+	i := rand.Intn(2)
+	fmt.Println(i)
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println(r)
@@ -23,10 +27,9 @@ func test() {
 		}()
 		defer ticker.Stop()
 		for range ticker.C {
-			fmt.Println(1)
-			time.Sleep(2 * time.Second)
-			fmt.Println(2)
-			panic("error")
+			rand.Seed(time.Now().UnixNano())
+			i := rand.Intn(2)
+			fmt.Println(i)
 		}
 	}(ticker)
 }
