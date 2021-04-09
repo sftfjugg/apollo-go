@@ -118,17 +118,17 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 		tp = "公共配置"
 		text += "# Apollo公共配置变动通知  \n"
 	}
-	text += "### 环境:  \n- <font size=3 color=\"grey\">*" + env + "*</font>  \n"
-	text += "### 集群:  \n- <font size=3 color=\"grey\">*" + release.ClusterName + "*</font>  \n"
-	text += "### 命名空间:  \n- <font size=3 color=\"grey\">*" + release.Name + "*</font>  \n"
+	text += "### 环境:  \n- *" + env + "*  \n"
+	text += "### 集群:  \n- *" + release.ClusterName + "*  \n"
+	text += "### 命名空间:  \n- *" + release.Name + "*  \n"
 	text += "### 发布配置:  \n"
 
 	for i, k := range release.Keys {
-		text += "- <font size=3 color=\"grey\">*" + k + ":" + release.Values[i] + "*</font>  \n"
+		text += "- *" + k + ":" + release.Values[i] + "*  \n"
 	}
 
-	text += "  \n### 操作人: <font size=3 color=\"grey\">*" + userID + "*</font>"
-	text += "  \n### 操作时间: <font size=3 color=\"grey\">*" + time.Now().String() + "*</font>"
+	text += "  \n### 操作人: *" + userID + "*"
+	text += "  \n### 操作时间: *" + time.Now().String() + "*"
 	msg := &dingding.DingMessage{
 		MessageType: "markdown",
 		Markdown: dingding.Markdown{
