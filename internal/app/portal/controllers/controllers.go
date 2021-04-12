@@ -83,7 +83,7 @@ func InitControllersFn(
 			r.GET("/limos/apps_recent", uic.AuthLogin(), controller.GetRecent)
 			r.GET("/limos/apps", uic.AuthLogin(), controller.FindLimosAppForPage)
 			r.GET("/limos/groups", uic.AuthLogin(), controller.FindGroupsOfDevelopment)
-			r.GET("/users", controller.GetAllUsers)
+			r.GET("/users", uic.AuthLogin(), controller.GetAllUsers)
 			//r.GET("/app/:appId", controller.FindByAppId)
 		}
 

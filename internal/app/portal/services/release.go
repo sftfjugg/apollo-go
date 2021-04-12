@@ -108,35 +108,31 @@ func (s releaseService) Create(env, userID string, c *gin.Context) (*models2.Res
 
 func (s releaseService) sendDingding(env, userID string, release *models.ReleaseRequest) {
 	text := ""
+	title := ""
 	level := 1
-	tp := "应用"
+	owners := make(map[string]int)
+	userIDs := make([]string, 0)
+	tp := "应用:"
 	if release.AppId != "public_global_config" {
+		title += release.AppId
 		tp = "应用"
-		text += "# Apollo应用配置变动通知  \n ### 应用:"
-		text += "\n- [" + release.AppId + "](http://pass.didapinche.com/apollo/application/list?cluster=" + release.ClusterName + "&app_name=" + release.AppId + "&env=" + env + ")  \n"
+		text += "# Apollo应用配置变动通知  \n  应用:"
+		text += "[" + release.AppId + "](http://pass.didapinche.com/apollo/application/list?cluster=" + release.ClusterName + "&app_name=" + release.AppId + "&env=" + env + ")  \n"
 	} else {
+		title += "公共配置"
 		tp = "公共配置"
 		text += "# Apollo公共配置变动通知  \n"
 	}
-	text += "### 环境:  \n- *" + env + "*  \n"
-	text += "### 集群:  \n- *" + release.ClusterName + "*  \n"
-	text += "### 命名空间:  \n- *" + release.Name + "*  \n"
-	text += "### 发布配置:  \n"
-
+	text += " 环境:   *" + env + "*  \n"
+	text += " 集群:   *" + release.ClusterName + "*  \n"
+	text += " 命名空间:   *" + release.Name + "*  \n"
+	text += "  \n 操作人: *" + userID + "*"
+	text += "  \n 操作时间: *" + time.Now().String() + "*"
+	text += "\n ---  \n  "
 	for i, k := range release.Keys {
-		text += "- *" + k + ":" + release.Values[i] + "*  \n"
+		text += "***" + k + " = " + release.Values[i] + "***  \n"
 	}
-
-	text += "  \n### 操作人: *" + userID + "*"
-	text += "  \n### 操作时间: *" + time.Now().String() + "*"
-	msg := &dingding.DingMessage{
-		MessageType: "markdown",
-		Markdown: dingding.Markdown{
-			Title: "应用变更配置",
-			Text:  text,
-		},
-		At: dingding.At{IsAtAll: false},
-	}
+	text += "\n ---  \n  "
 	ctx, _ := tchannel.NewContextBuilder(time2.Second).Build()
 	node, err := s.uic.FindGroupsOfDevelopment(ctx)
 	if err == nil {
@@ -149,6 +145,7 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 				for _, a := range app.Apps {
 					if release.AppId == a.Name {
 						release.DeptName = a.DevGroupName
+						userIDs = append(userIDs, a.OwnerIds...)
 						level = int(a.Level)
 					}
 				}
@@ -177,6 +174,31 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 				}
 			}
 		}
+
+		for _, user := range userIDs {
+			ctx, _ := tchannel.NewContextBuilder(time2.Second).Build()
+			owner, err := s.uic.GetUserByID(ctx, user)
+			if err == nil {
+				owners[owner.Phone] = 1
+			}
+		}
+		phones := make([]string, 0)
+		for k, _ := range owners {
+			text += "[@" + k + "]() "
+			phones = append(phones, k)
+		}
+
+		msg := &dingding.DingMessage{
+			MessageType: "markdown",
+			Markdown: dingding.Markdown{
+				Title: title,
+				Text:  text,
+			},
+			At: dingding.At{
+				AtMobiles: phones,
+				IsAtAll:   false},
+		}
+
 		for t, _ := range tokens {
 			s.dingding.SendMessage(t, msg)
 		}
