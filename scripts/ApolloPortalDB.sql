@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `Dingding`;
 CREATE TABLE `Dingding`
 (
     `Id`                     int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `Name`                   varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'Name' Unique,
+    `Name`                   varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'Name',
     `AppId`                  varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'AppID',
     `Env`                    varchar(64)      NOT NULL DEFAULT 'TEST' COMMENT 'Env',
     `DeptName`               varchar(64)      NOT NULL DEFAULT 'default' COMMENT 'DeptName',
@@ -70,6 +70,7 @@ CREATE TABLE `Dingding`
     `DataChange_CreatedTime` timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (`Id`),
     KEY `Level` (`Level`),
+    Unique `Name` (`Name`),
     KEY `Type` (`Type`),
     KEY `AppId` (`AppId`),
     KEY `DeptName` (`DeptName`)

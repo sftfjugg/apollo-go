@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"go.didapinche.com/foundation/apollo-plus/internal/pkg/constans"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/http"
 	"go.didapinche.com/foundation/ophis"
 	_ "go.didapinche.com/foundation/ophis"
@@ -51,7 +52,7 @@ func InitControllersFn(
 			r.GET("/item_by_key_and_app_id/:env", uic.AuthLogin(), itemController.FindItemByAppIdAndKey)
 		}
 		{ //发布和灰度全量发布
-			r.POST("/releases/:env", uic.AuthLogin(), releaseController.Creates) //批量发布uic.AuthLogin(), ophis.OpenWriter(), ophis.Record("apollo-plus-portal")
+			r.POST("/releases/:env", ophis.OpenWriter(), uic.AuthLogin(), releaseController.Creates, ophis.Record("apollo-plus-portal")) //批量发布uic.AuthLogin(), ophis.OpenWriter(), ophis.Record("apollo-plus-portal")
 			r.POST("/release/:env", uic.AuthLogin(), releaseController.Create)
 			r.POST("/release_gray_total/:env", uic.AuthLogin(), releaseController.ReleaseGrayTotal)
 		}
@@ -69,9 +70,9 @@ func InitControllersFn(
 
 		{
 			r.GET("/dingding", uic.AuthLogin(), dingdingController.FindAll)
-			r.POST("/dingding", uic.AuthLogin(), dingdingController.Create)
-			r.PUT("/dingding", uic.AuthLogin(), dingdingController.Update)
-			r.DELETE("/dingding", uic.AuthLogin(), dingdingController.Delete)
+			r.POST("/dingding", uic.AuthPerm(constans.ApolloDingding), dingdingController.Create)
+			r.PUT("/dingding", uic.AuthPerm(constans.ApolloDingding), dingdingController.Update)
+			r.DELETE("/dingding", uic.AuthPerm(constans.ApolloDingding), dingdingController.Delete)
 
 		}
 
