@@ -65,9 +65,9 @@ func InitControllersFn(
 
 		//zeus接口使用
 		{
-			r.POST("/app_namespace/create_or_find", zServicecontroller.CreateOrFindAppNamespace)
-			r.POST("/item/create_or_update", zServicecontroller.CreateOrUpdateItem)
-			r.POST("/publish_namespace", zServicecontroller.PublishNamespace)
+			r.POST("/app_namespace/create_or_find", zServicecontroller.CreateOrFindAppNamespace) //zeus创建namespace或者发现namespaceID
+			r.POST("/item/create_or_update", zServicecontroller.CreateOrUpdateItem)              //zeus修改或者添加配置
+			r.POST("/publish_namespace", zServicecontroller.PublishNamespace)                    //zeus发布
 		}
 
 	}

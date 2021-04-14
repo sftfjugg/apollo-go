@@ -54,6 +54,7 @@ func (s releaseMessageService) Creates(releaseRequests []*models2.ReleaseRequest
 	return nil
 }
 
+//发布流程，查询需要发布的key，修改对应状态，删除以前发布配置，发布此次配置，发布最新版本号通知客户端，删除以往版本号，记录发布历史
 func (s releaseMessageService) Create(releaseRequest *models2.ReleaseRequest) error {
 	release := new(models.Release)
 	if releaseRequest.AppId == "" {

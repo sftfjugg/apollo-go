@@ -3,6 +3,10 @@ module go.didapinche.com/foundation/apollo-plus
 go 1.13
 
 require (
+	github.com/360EntSecGroup-Skylar/goreporter v0.0.0-20180902115603-df1b20f7c5d0 // indirect
+	github.com/facebookgo/inject v0.0.0-20180706035515-f23751cae28b // indirect
+	github.com/facebookgo/structtag v0.0.0-20150214074306-217e25fb9691 // indirect
+	github.com/fatih/color v1.10.0 // indirect
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-contrib/zap v0.0.1
@@ -13,9 +17,12 @@ require (
 	github.com/hashicorp/consul/api v1.2.0
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/jinzhu/gorm v1.9.16
+	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/lib/pq v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.2.1
+	github.com/reconquest/barely v0.0.0-20160729074550-0f12e3bb2e13 // indirect
+	github.com/reconquest/loreley v0.0.0-20200601121626-621c1cd37fd1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/objx v0.2.0 // indirect
@@ -33,9 +40,13 @@ require (
 	go.didapinche.com/uic v1.1.0
 	go.didapinche.com/zeus-go/v2 v2.0.1
 	go.uber.org/zap v1.12.0
-	golang.org/x/net v0.0.0-20201010224723-4f7140c49acb // indirect
-	golang.org/x/tools v0.0.0-20201015182029-a5d9e455e9c4 // indirect
+	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
+	golang.org/x/mod v0.4.2 // indirect
+	golang.org/x/sys v0.0.0-20210412220455-f1c623a9e750 // indirect
+	golang.org/x/term v0.0.0-20210406210042-72f3dc4e9b72 // indirect
+	golang.org/x/tools v0.1.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
+	mvdan.cc/lint v0.0.0-20170908181259-adc824a0674b // indirect
 )
 
 // replace qlang.io/qlang.v2 => github.com/qiniu/qlang v0.0.0-20160405103033-ad312e7743d8
