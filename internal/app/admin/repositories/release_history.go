@@ -33,10 +33,10 @@ func (r releaseHistoryRepository) Create(db *gorm.DB, releaseHistory *models.Rel
 
 func (r releaseHistoryRepository) Find(appId, namespaceName, cluster, key string, pageSize, pageNum int) ([]*models.ReleaseHistory, error) {
 	if key != "" {
-		key = "and OperationContext like '%" + key + "%'"
+		key = " and OperationContext like '%" + key + "%'"
 	}
 	releaseHistorys := make([]*models.ReleaseHistory, 0)
-	if err := r.db.Table(models.ReleaseHistoryTableName).Order("Id desc").Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&releaseHistorys, "AppId=? and NamespaceName=? and ClusterName=?"+key, appId, namespaceName, cluster).Error; err != nil {
+	if err := r.db.Table(models.ReleaseHistoryTableName).Order("Id desc").Limit(pageSize).Offset(pageSize*(pageNum-1)).Find(&releaseHistorys, "AppId=? and NamespaceName=? and ClusterName=? "+key, appId, namespaceName, cluster).Error; err != nil {
 		return nil, errors.Wrap(err, "find releaseHistory error")
 	}
 	return releaseHistorys, nil
