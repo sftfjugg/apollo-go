@@ -101,7 +101,9 @@ func (s releaseService) Create(env, userID string, c *gin.Context) (*models2.Res
 		return nil, errors.Wrap(err, "HttpClient HttpDo run failed")
 	}
 	if response.Code == 200 {
-		s.sendDingding(env, userID, release)
+		go func() {
+			s.sendDingding(env, userID, release)
+		}()
 	}
 	return response, nil
 }
