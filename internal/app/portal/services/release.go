@@ -3,6 +3,7 @@ package services
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"github.com/uber/tchannel-go"
@@ -109,6 +110,11 @@ func (s releaseService) Create(env, userID string, c *gin.Context) (*models2.Res
 }
 
 func (s releaseService) sendDingding(env, userID string, release *models.ReleaseRequest) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println(r)
+		}
+	}()
 	text := ""
 	title := ""
 	level := 1
