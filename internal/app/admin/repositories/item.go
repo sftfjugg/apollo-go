@@ -228,7 +228,7 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, comment, format strin
 func (r itemRepisitory) FindItemCountByKey(key string) (int, error) {
 
 	var count = new(models2.Count)
-	if err := r.db.Raw("Select count(*) as count  from `AppNamespace` A,`Item` I where (I.Key like ? or I.Value like ? or I.Describe like ?) and A.Id=I.NamespaceId and I.IsDeleted=0  like ?;", "%"+key+"%", "%"+key+"%", "%"+key+"%").Scan(&count).Error; err != nil {
+	if err := r.db.Raw("Select count(*) as count  from `AppNamespace` A,`Item` I where (I.Key like ? or I.Value like ? or I.Describe like ?) and A.Id=I.NamespaceId and I.IsDeleted=0;", "%"+key+"%", "%"+key+"%", "%"+key+"%").Scan(&count).Error; err != nil {
 		return 0, errors.Wrap(err, "ItemRepisitory.FindItemCountByKey failed")
 	}
 	return count.Count, nil
