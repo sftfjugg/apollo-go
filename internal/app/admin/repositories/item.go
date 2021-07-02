@@ -176,7 +176,7 @@ func (r itemRepisitory) FindItemByNamespaceIdOnRelease(namespaceID string) ([]*m
 
 func (r itemRepisitory) FindItemByNamespaceIdAndKey(namespaceId, key string) ([]*models.Item, error) {
 	items := make([]*models.Item, 0)
-	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId =? and `Key` like ? and IsDeleted=0", namespaceId, "%"+key+"%").Error; err != nil {
+	if err := r.db.Table(models.ItemTableName).Find(&items, "NamespaceId =? and (`Key` like ? or `Value` like ? or Describe like ?) and IsDeleted=0", namespaceId, "%"+key+"%", "%"+key+"%", "%"+key+"%").Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceIdAndKey failed")
 	}
 	return items, nil
@@ -201,7 +201,7 @@ func (r itemRepisitory) FindItemByAppIdAndKey(appId, cluster, key, format, comme
 	if cluster != "" {
 		cluster = "and A.ClusterName='" + cluster + "'  "
 	}
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.DeptName,A.IsDisplay,A.IsPublic,A.Format,A.IsOperate,I.Status,I.Comment,A.Comment NamespaceComment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+cluster+"", "%"+key+"%", appId).Scan(&items).Error; err != nil {
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.DeptName,A.IsDisplay,A.IsPublic,A.Format,A.IsOperate,I.Status,I.Comment,A.Comment NamespaceComment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime from `AppNamespace` A,`Item` I where （I.Key like ? and I.Value like ? and I.Describe like ?） and A.Id=I.NamespaceId and I.IsDeleted=0 and AppId=? "+format+comment+cluster+"", "%"+key+"%", "%"+key+"%", "%"+key+"%", appId).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByNamespaceId failed")
 	}
 	return items, nil
@@ -219,7 +219,7 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, comment, format strin
 		comment = "and I.Comment like '%" + comment + "%'  "
 	}
 
-	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.IsOperate,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+comment+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
+	if err := r.db.Raw("Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.IsOperate,A.ClusterName,A.LaneName,A.IsPublic,A.Format,I.Status,I.Comment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime,A.DeptName,A.IsDisplay from `AppNamespace` A,`Item` I where (I.Key like ? or I.Value like ? or I.Describe like ?) and A.Id=I.NamespaceId and I.IsDeleted=0 "+format+cluster+comment+" order by I.NamespaceId Limit ?,?;", "%"+key+"%", "%"+key+"%", "%"+key+"%", pageSize*(pageNum-1), pageSize).Scan(&items).Error; err != nil {
 		return nil, errors.Wrap(err, "ItemRepisitory.FindItemByKeyForPage failed")
 	}
 	return items, nil
@@ -228,7 +228,7 @@ func (r itemRepisitory) FindItemByKeyForPage(cluster, key, comment, format strin
 func (r itemRepisitory) FindItemCountByKey(key string) (int, error) {
 
 	var count = new(models2.Count)
-	if err := r.db.Raw("Select count(*) as count  from `AppNamespace` A,`Item` I where I.Key like ? and A.Id=I.NamespaceId and I.IsDeleted=0;", "%"+key+"%").Scan(&count).Error; err != nil {
+	if err := r.db.Raw("Select count(*) as count  from `AppNamespace` A,`Item` I where (I.Key like ? or I.Value like ? or I.Describe like ?) and A.Id=I.NamespaceId and I.IsDeleted=0  like ?;", "%"+key+"%", "%"+key+"%", "%"+key+"%").Scan(&count).Error; err != nil {
 		return 0, errors.Wrap(err, "ItemRepisitory.FindItemCountByKey failed")
 	}
 	return count.Count, nil

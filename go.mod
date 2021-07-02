@@ -10,8 +10,9 @@ require (
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/google/wire v0.4.0
 	github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e // indirect
-	github.com/hashicorp/consul/api v1.2.0
+	github.com/hashicorp/consul/api v1.3.0
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
+	github.com/hpifu/go-kit v1.8.8
 	github.com/jinzhu/gorm v1.9.16
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/lib/pq v1.2.0 // indirect
@@ -37,7 +38,7 @@ require (
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/mod v0.4.2 // indirect
 	golang.org/x/sys v0.0.0-20210412220455-f1c623a9e750 // indirect
-	golang.org/x/tools v0.1.0 // indirect
+	golang.org/x/tools v0.1.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 )
 

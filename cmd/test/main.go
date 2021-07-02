@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/hpifu/go-kit/hflag"
 	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -34,74 +36,94 @@ func test() {
 	}(ticker)
 }
 
-func main() {
-	//list:=make(map[string]string,0)
-	//list=nil
-	//for i,_:=range  list{
-	//	fmt.Print(i)
-	//}
+func lts(nums []int) {
+	bis := [10]int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+	for i, num1 := range nums {
+		for j, _ := range bis {
+			if nums[j] < num1 {
+				bis[i] = max(bis[i], bis[j]+1)
+			}
+		}
+	}
+}
+func max(i, j int) int {
+	if i > j {
+		return i
+	} else {
+		return j
+	}
+}
 
-	test()
-	time.Sleep(50 * time.Second)
-	//test:=make(chan models.App,10)
-	//go func() {
-	//	var app models.App
-	//	test <-app
-	//}()
-	//a:=<-test
-	//fmt.Println(a)
+var m map[string]int = make(map[string]int)
+
+func MaxString(s1, s2 string, i, j int) int {
+	if i == len(s1) {
+		return 0
+	}
+	if j == len(s2) {
+		return 0
+	}
+	if s1[i] == s2[j] {
+		key := strconv.Itoa(i) + ":" + strconv.Itoa(j)
+		if _, ok := m[key]; !ok {
+			m[key] = 1 + MaxString(s1, s2, i+1, j+1)
+		}
+		return m[key]
+	} else {
+		key1 := strconv.Itoa(i+1) + ":" + strconv.Itoa(j)
+		if _, ok := m[key1]; !ok {
+			m[key1] = MaxString(s1, s2, i+1, j)
+		}
+		key2 := strconv.Itoa(i) + ":" + strconv.Itoa(j+1)
+		if _, ok := m[key2]; !ok {
+			m[key2] = MaxString(s1, s2, i, j+1)
+		}
+		return max(m[key1], m[key2])
+	}
+}
+
+func sub(s1, s2 string, i, j int) int {
+	if i == len(s1) && j < len(s2) {
+		return len(s2) - j - 1
+	} else if j == len(s2) && i < len(s1) {
+		return len(s1) - i - 1
+	} else if j == len(s2) && i == len(s1) {
+		return 0
+	}
+	if s1[i] == s2[j] {
+		return sub(s1, s2, i+1, j+1)
+	} else {
+		return min(sub(s1, s2, i+1, j)+1, sub(s1, s2, i+1, j+1)+1, sub(s1, s2, i, j+1)+1)
+	}
 
 }
 
-//a := "  AP  P:123      4  1"
-//as := strings.Split(a, " ")
-//fmt.Println(as)
-//var i int64
-//i = time.Now().UnixNano() / 1e6
-//fmt.Println(int(i))
-//z, err := zeus.New("limos-app-name")
-//if err != nil {
-//panic(errors.Wrap(err, "failed to create zeus"))
-//}
-//// 2.构建客户端
-//cli, err := client.New(z, "ApolloThriftService")
-//if err != nil {
-//panic(errors.Wrap(err, "failed to create HelloService client"))
-//}
-//apollo := apollo_thrift_service.NewTChanApolloThriftServiceClient(cli)
-////查询namespaceId
-//appNamespce := new(apollo_thrift_service.AppNamespace)
-//appNamespce.Name = "application"
-//appNamespce.AppId = "apollo-test"
-//appNamespce.Env = "1"
-//appNamespce.Operator = "lihang"
-//appNamespce.LaneName = "default"
-//appNamespce.ClusterName = "default"
-//ctx, _ := tchannel.NewContextBuilder(time.Second).Build()
-//id, err := apollo.CreateOrFindAppNamespace(ctx, appNamespce)
-//if err != nil {
-//fmt.Println(err)
-//}
-////修改配置
-//item := new(apollo_thrift_service.Item)
-//item.NamespaceId = id
-//item.Key = "myName5"
-//item.Value = "test"
-//item.Env = "1"
-//item.Operator = "lihang"
-//ctx1, _ := tchannel.NewContextBuilder(time.Second).Build()
-//if err := apollo.CreateOrUpdateItem(ctx1, item); err != nil {
-//fmt.Println(err)
-//}
-////发布
-//release := new(apollo_thrift_service.Release)
-//release.NamespaceId = id
-//release.Env = "1"
-//keys := make([]string, 0)
-//keys = append(keys, item.Key)
-//release.Keys = keys
-//release.Operator = "lihang"
-//ctx2, _ := tchannel.NewContextBuilder(time.Second).Build()
-//if err := apollo.PublishNamespace(ctx2, release); err != nil {
-//fmt.Println(err)
-//}
+func min(i, j, k int) int {
+	if j > k && i > k {
+		return k
+	} else if i > j && k > j {
+		return j
+	} else {
+		return i
+	}
+}
+
+func main() {
+	hflag.AddFlag("project", "create project", hflag.Shorthand("p"), hflag.Type("string"))
+	hflag.AddFlag("module", "create module", hflag.Shorthand("m"))
+	hflag.AddFlag("o", "int slice flag", hflag.Type("[]int"), hflag.DefaultValue("1,2,3"))
+	hflag.AddFlag("ip", "ip flag", hflag.Type("ip"))
+	hflag.AddFlag("time", "time flag", hflag.Type("time"), hflag.DefaultValue("2019-11-27"))
+	hflag.AddPosFlag("pos", "pos flag")
+	if err := hflag.Parse(); err != nil {
+		panic(err)
+	}
+
+	fmt.Println("int =>", hflag.GetInt("i"))
+	fmt.Println("str =>", hflag.GetString("s"))
+	fmt.Println("int-slice =>", hflag.GetIntSlice("int-slice"))
+	fmt.Println("ip =>", hflag.GetIP("ip"))
+	fmt.Println("time =>", hflag.GetTime("time"))
+	fmt.Println("pos =>", hflag.GetString("pos"))
+
+}
