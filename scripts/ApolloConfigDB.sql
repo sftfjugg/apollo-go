@@ -179,3 +179,6 @@ select * from AppNamespace where LaneName != 'default';
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId
 select * from `Item`,`AppNamespace` where AppNamespace.AppId ='apollo-test' and Item.Key like '%sentinel.flow.rule.%' and AppNamespace.IsDeleted=0 and Item.IsDeleted=0 and AppNamespace.Id=Item.NamespaceId and AppNamespace.LaneName='default' and ClusterName='default';
 
+Select I.Id,I.Key,I.Value,I.NamespaceId,A.Name,A.AppId,A.AppName,A.ClusterName,A.LaneName,A.DeptName,A.IsDisplay,A.IsPublic,A.Format,A.IsOperate,I.Status,I.Comment,A.Comment NamespaceComment,I.Describe,I.DataChange_CreatedBy,I.DataChange_LastModifiedBy,I.DataChange_CreatedTime,I.DataChange_LastTime
+from `AppNamespace` A,`Item` I
+where (I.Key like '%21%' or I.Value like '%21%' or I.Describe like '%21%') and A.Id=I.NamespaceId and I.IsDeleted=0 and A.AppI 'apollo-test' and A.ClusterName='default'
