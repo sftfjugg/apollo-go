@@ -129,7 +129,7 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 	} else {
 		title += "公共配置"
 		tp = "公共配置"
-		text += "# [Apollo公共配置变动通知](http://pass.didapinche.com/apollo/public/list?env=" + env + "&cluster=" + release.ClusterName + "&app_name=public_global_config)  \n"
+		text += "# Apollo公共配置变动通知 \n"
 	}
 	text += " 环境:   *" + env + "*  \n"
 	text += " 集群:   *" + release.ClusterName + "*  \n"
@@ -141,6 +141,7 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 		text += "***" + k + " = " + release.Values[i] + "***  \n"
 	}
 	text += "\n ---  \n  "
+	text += "[查看详情](http://pass.didapinche.com/apollo/public/list?env=\" + env + \"&cluster=\" + release.ClusterName + \"&app_name=public_global_config)"
 	ctx, _ := tchannel.NewContextBuilder(time2.Second).Build()
 	node, err := s.uic.FindGroupsOfDevelopment(ctx)
 	if err == nil {
