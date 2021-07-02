@@ -136,12 +136,14 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 	text += " 命名空间:   *" + release.Name + "*  \n"
 	text += "  \n 操作人: *" + userID + "*"
 	text += "  \n 操作时间: *" + time.Now().String() + "*"
+	if release.AppId == "public_global_config" {
+		text += "[查看详情](http://pass.didapinche.com/apollo/public/list?env=" + env + "&cluster=" + release.ClusterName + "&app_name=public_global_config)"
+	}
 	text += "\n ---  \n  "
 	for i, k := range release.Keys {
 		text += "***" + k + " = " + release.Values[i] + "***  \n"
 	}
 	text += "\n ---  \n  "
-	text += "[查看详情](http://pass.didapinche.com/apollo/public/list?env=\" + env + \"&cluster=\" + release.ClusterName + \"&app_name=public_global_config)"
 	ctx, _ := tchannel.NewContextBuilder(time2.Second).Build()
 	node, err := s.uic.FindGroupsOfDevelopment(ctx)
 	if err == nil {
