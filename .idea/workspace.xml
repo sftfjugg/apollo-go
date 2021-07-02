@@ -37,14 +37,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-1105:增加钉钉报警防止panic代码">
+    <list default="true" id="c114516e-68ca-484b-b0a0-0337020cb512" name="Default Changelist" comment="PMOPP-1853:增加钉钉报警公共配置链接和key，value，描述的模糊搜索">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/admin/wire_gen.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/admin/repositories/item.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/portal/services/release.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/portal/services/release.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ApolloConfigDB.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +107,7 @@
       <recent name="$PROJECT_DIR$/internal/pkg" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/test">
+  <component name="RunManager" selected="Go Build.go build apollo-adminserivce/cmd/adminservice">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="apollo" />
       <working_directory value="$PROJECT_DIR$" />
@@ -216,9 +210,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build apollo-adminserivce/cmd/adminservice" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd/test" />
         <item itemvalue="Go Build.go build apollo-adminserivce/cmd/portal" />
-        <item itemvalue="Go Build.go build apollo-adminserivce/cmd/adminservice" />
         <item itemvalue="Go Build.go build apollo-adminserivce/cmd/configservice1" />
         <item itemvalue="Go Build.go build go.didapinche.com/foundation/apollo-plus/cmd" />
       </list>
@@ -232,13 +226,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601020210860</updated>
-    </task>
-    <task id="LOCAL-00124" summary="PMOPP-1105:添加&#9;2个recover()">
-      <created>1610535420598</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1610535420598</updated>
     </task>
     <task id="LOCAL-00125" summary="PMOPP-1105:添加&#9;RPC删除配置的方法">
       <created>1611206009533</created>
@@ -576,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621833070818</updated>
     </task>
-    <option name="localTasksCounter" value="173" />
+    <task id="LOCAL-00173" summary="PMOPP-1853:增加钉钉报警公共配置链接和key，value，描述的模糊搜索">
+      <created>1625213009676</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1625213009700</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -609,7 +603,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="PMOPP-599:增加发布之后删除以往配置功能" />
     <MESSAGE value="PMOPP-599:权限配置" />
     <MESSAGE value="PMOPP-599:ping,health" />
     <MESSAGE value="PMOPP-599:添加集群" />
@@ -634,7 +627,8 @@
     <MESSAGE value="PMOPP-1105:发布历史搜索bug修正" />
     <MESSAGE value="PMOPP-1105:修改钉钉报警失败不影响返回结果" />
     <MESSAGE value="PMOPP-1105:增加钉钉报警防止panic代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-1105:增加钉钉报警防止panic代码" />
+    <MESSAGE value="PMOPP-1853:增加钉钉报警公共配置链接和key，value，描述的模糊搜索" />
+    <option name="LAST_COMMIT_MESSAGE" value="PMOPP-1853:增加钉钉报警公共配置链接和key，value，描述的模糊搜索" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -718,12 +712,12 @@
     <state width="1398" height="174" key="GridCell.Tab.1.right/0.25.1440.785@0.25.1440.785" timestamp="1617003218382" />
     <state width="1398" height="171" key="GridCell.Tab.1.right/0.25.1440.788@0.25.1440.788" timestamp="1623309735176" />
     <state width="1398" height="171" key="GridCell.Tab.1.right/0.25.1440.791@0.25.1440.791" timestamp="1621593497780" />
-    <state x="320" y="172" key="Vcs.Push.Dialog.v2" timestamp="1623293246002">
+    <state x="320" y="172" key="Vcs.Push.Dialog.v2" timestamp="1625213061614">
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state x="320" y="171" key="Vcs.Push.Dialog.v2/0.25.1440.782@0.25.1440.782" timestamp="1618554066472" />
     <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.785@0.25.1440.785" timestamp="1618387120636" />
-    <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1623293246002" />
+    <state x="320" y="172" key="Vcs.Push.Dialog.v2/0.25.1440.788@0.25.1440.788" timestamp="1625213061614" />
     <state x="320" y="173" key="Vcs.Push.Dialog.v2/0.25.1440.791@0.25.1440.791" timestamp="1621940979657" />
     <state width="700" height="377" key="XDebugger.FullValuePopup" timestamp="1621593249429">
       <screen x="0" y="25" width="1440" height="791" />
