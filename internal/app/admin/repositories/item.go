@@ -8,6 +8,7 @@ import (
 	models2 "go.didapinche.com/foundation/apollo-plus/internal/app/admin/models"
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/models"
 	"go.didapinche.com/time"
+	"strings"
 )
 
 type ItemRepisitory interface {
@@ -102,6 +103,8 @@ func (r itemRepisitory) Saves(db *gorm.DB, items []*models.Item) error {
 		return errors.Wrap(err, "creates items error")
 	}
 	for i, r := range items {
+		r.Value = strings.ReplaceAll(r.Value, `''`, `\'`)
+
 		if i == len(items)-1 {
 			buffer.WriteString(fmt.Sprintf("('%v','%v','%s','%s','%s','%v','%s','%s','%s','%s','%s','%s');", r.Id, r.NamespaceId, r.Key, r.Value, r.ReleaseValue, r.Status, r.Comment, r.Describe, r.DataChange_CreatedBy, r.DataChange_LastModifiedBy, r.DataChange_CreatedTime, time.Now()))
 		} else {
