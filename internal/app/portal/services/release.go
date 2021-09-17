@@ -14,6 +14,7 @@ import (
 	"go.didapinche.com/foundation/apollo-plus/internal/pkg/dingding"
 	"go.didapinche.com/goapi/plat_limos_rpc"
 	"go.didapinche.com/goapi/uic_service_api"
+	"go.didapinche.com/goapi/user_department_service_api"
 	"go.didapinche.com/time"
 	"io/ioutil"
 	"net/http"
@@ -32,11 +33,25 @@ type releaseService struct {
 	dingding           dingding.DingDing
 	dingdingRepository repositories.DingdingRepository
 	uic                uic_service_api.TChanUicService
+	department         user_department_service_api.TChanDepartmentService
 	limos              plat_limos_rpc.TChanLimosService
+	user               user_department_service_api.TChanUserService
 }
 
-func NewReleaseService(httpClient *zclients.HttpClient, dingding dingding.DingDing, uic uic_service_api.TChanUicService, dingdingRepository repositories.DingdingRepository, limos plat_limos_rpc.TChanLimosService) ReleaseService {
-	return &releaseService{httpClient: httpClient, dingding: dingding, uic: uic, limos: limos, dingdingRepository: dingdingRepository}
+func NewReleaseService(httpClient *zclients.HttpClient,
+	dingding dingding.DingDing,
+	department user_department_service_api.TChanDepartmentService,
+	uic uic_service_api.TChanUicService,
+	dingdingRepository repositories.DingdingRepository,
+	limos plat_limos_rpc.TChanLimosService,
+	user user_department_service_api.TChanUserService) ReleaseService {
+	return &releaseService{httpClient: httpClient,
+		dingding:           dingding,
+		uic:                uic,
+		department:         department,
+		limos:              limos,
+		dingdingRepository: dingdingRepository,
+		user:               user}
 }
 
 //封装原writer 记录数据
@@ -145,7 +160,7 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 	}
 	text += "\n ---  \n  "
 	ctx, _ := tchannel.NewContextBuilder(time2.Second).Build()
-	node, err := s.uic.FindGroupsOfDevelopment(ctx)
+	node, err := s.department.FindAllNodes(ctx)
 	if err == nil {
 		m := s.getMap(node)
 
@@ -188,7 +203,7 @@ func (s releaseService) sendDingding(env, userID string, release *models.Release
 
 		for _, user := range userIDs {
 			ctx, _ := tchannel.NewContextBuilder(time2.Second).Build()
-			owner, err := s.uic.GetUserByID(ctx, user)
+			owner, err := s.user.FindByUid(ctx, user)
 			if err == nil {
 				owners[owner.Phone] = 1
 			}
@@ -225,8 +240,8 @@ func (s releaseService) ReleaseGrayTotal(env string, r *http.Request) (*models2.
 }
 
 //获得子对应父的层级关系
-func (s releaseService) getMap(node *uic_service_api.Node) map[string]string {
-	tmpMap := make(map[string]*uic_service_api.Node, 0)
+func (s releaseService) getMap(node *user_department_service_api.DepartmentTreeNode) map[string]string {
+	tmpMap := make(map[string]*user_department_service_api.DepartmentTreeNode, 0)
 	result := make(map[string]string)
 	//每层节点
 	tmpSlice := make([]string, 0)
@@ -238,7 +253,7 @@ func (s releaseService) getMap(node *uic_service_api.Node) map[string]string {
 	for len(tmpSlice) != 0 {
 		tmp := make([]string, 0)
 		for _, tmpNodeID := range tmpSlice {
-			nodes := tmpMap[tmpNodeID].Nodes
+			nodes := tmpMap[tmpNodeID].ChildrenNode
 			if nil != nodes && len(nodes) > 0 {
 				for _, tmpNode := range nodes {
 					tmp = append(tmp, tmpNode.Name)

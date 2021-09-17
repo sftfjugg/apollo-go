@@ -86,8 +86,16 @@ func CreateApp(cf string) (*app.Application, error) {
 	itemService := services.NewItemService(httpClient)
 	itemController := controllers.NewItemController(itemService)
 	dingDing := dingding.NewDingDing(client)
+	tChanDepartmentService, err := zclients.NewDepartmentService(zeusZeus)
+	if err != nil {
+		return nil, err
+	}
 	dingdingRepository := repositories.NewDingdingRepository(gormDB)
-	releaseService := services.NewReleaseService(httpClient, dingDing, tChanUicService, dingdingRepository, tChanLimosService)
+	tChanUserService, err := zclients.NewUserService(zeusZeus)
+	if err != nil {
+		return nil, err
+	}
+	releaseService := services.NewReleaseService(httpClient, dingDing, tChanDepartmentService, tChanUicService, dingdingRepository, tChanLimosService, tChanUserService)
 	releaseController := controllers.NewReleaseController(releaseService)
 	roleController := controllers.NewRoleController(roleService)
 	releaseHistoryService := services.NewReleaseHistoryService(httpClient)
