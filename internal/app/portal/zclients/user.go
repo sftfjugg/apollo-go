@@ -7,7 +7,7 @@ import (
 )
 
 func NewUserService(z *zeus.Zeus) (user_department_service_api.TChanUserService, error) {
-	c, err := client.New(z, "HostService")
+	c, err := client.New(z, "UserService")
 	if err != nil {
 		//return nil, errors.Wrap(err, "create zeus LimosService error")
 		return nil, nil
