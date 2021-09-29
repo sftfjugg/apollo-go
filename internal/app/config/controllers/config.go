@@ -23,7 +23,7 @@ func (ctl ConfigController) FindConfig(c *gin.Context) {
 		ReleaseKey  string `form:"releaseKey"`
 		Ip          string `form:"ip"`
 		Messages    string `form:"messages"`
-		Lane        string `form:"lane"`
+		Lane        string `form:"lane"` //泳道
 	})
 	if err := c.ShouldBindUri(param); err != nil {
 		c.String(http.StatusBadRequest, "bind params error:%v", err)
